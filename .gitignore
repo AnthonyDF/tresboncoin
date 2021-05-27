@@ -7,4 +7,10 @@ raw_data/
 .env
 .csv
 *.csv
+.jpg
+.jpeg
+.png
+.tiff
+.dng
+notebooks/victor/images/
 
