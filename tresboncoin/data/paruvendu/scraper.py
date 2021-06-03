@@ -88,6 +88,26 @@ class paruvendu_page_scraper():
         return url_list
 
 
+    def get_titles_from_pages(self):
+
+        # set empty title list
+        title_list = []
+
+        # extract title
+        step1 = self.page.select('div[class*="lazyload_bloc"]')
+        if len(step1)>0:
+            for k in step1:
+                step2 = k.find_all("h3")
+                if len(step2)>0:
+                    title_list.append(step2[0].text.replace("\n", "").replace("\t", "").replace("Moto ", "").strip())
+                else:
+                    title_list.append(np.nan)
+        else:
+            return None
+        #
+        return title_list
+
+
     ########################
     #### Announce scraper
     ########################
