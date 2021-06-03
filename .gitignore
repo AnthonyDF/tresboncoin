@@ -3,10 +3,8 @@
 .ipynb_checkpoints
 .DS_Store
 raw_data/
-**/__pycache__/
 __pycache__
 .env
-.csv
 *.csv
 *.jpg
 *.jpeg
@@ -14,4 +12,5 @@ __pycache__
 *.tiff
 *.dng
 *.html
+sandbox_notebook_victor
 *.ipynb
