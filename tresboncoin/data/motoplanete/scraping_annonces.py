@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import os
 import codecs
 from datetime import datetime
+import datetime
 import time
 import random
 import pandas as pd
@@ -27,7 +28,7 @@ def scraping_annonces():
     log_new = pd.DataFrame({'source': [source],
                             'step': ['scrap pages'],
                             'status': ['started'],
-                            'time': [datetime.now()],
+                            'time': [datetime.datetime.now()],
                             'details': [""]})
 
     # init log
@@ -54,7 +55,7 @@ def scraping_annonces():
         count = 0
 
         # Start time
-        start_time = datetime.now()
+        start_time = datetime.datetime.now()
 
         # iterate over html files in pages directory
         for html_file in [file for file in os.listdir(directory) if file.endswith(".html")]:
@@ -84,7 +85,7 @@ def scraping_annonces():
             os.remove(directory+"/"+html_file)
 
         # End time
-        end_time = datetime.now()
+        end_time = datetime.datetime.now()
         td = end_time - start_time
 
         # log update
@@ -92,7 +93,7 @@ def scraping_annonces():
         log_new = pd.DataFrame({'source': [source],
                                 'step': ['scrap annonces'],
                                 'status': ['completed'],
-                                'time': [datetime.now()],
+                                'time': [datetime.datetime.now()],
                                 'details': [f"{td.seconds/60} minutes elapsed, {count} annonces scrapped"]})
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv(csv_name, index=False)
@@ -103,7 +104,7 @@ def scraping_annonces():
         log_new = pd.DataFrame({'source': [source],
                                 'step': ['scrap annonces'],
                                 'status': ['error'],
-                                'time': [datetime.now()],
+                                'time': [datetime.datetime.now()],
                                 'details': [err]})
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv(csv_name, index=False)

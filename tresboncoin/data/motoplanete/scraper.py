@@ -240,7 +240,6 @@ class motoplanete_page_scraper():
 
         # extract
         step1 = self.announce.select('div[class*="description"]')
-        print(cleanhtml(step1[0].text.replace("\n", " ").replace("\t", " ").replace("  ", "").strip()))
         if len(step1)>0:
             try:
                 return cleanhtml(step1[0].text.replace("\n", " ").replace("\t", " ").replace("  ", "").strip())

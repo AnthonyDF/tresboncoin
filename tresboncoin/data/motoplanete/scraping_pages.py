@@ -1,6 +1,7 @@
 from parameters import *
 from utils import *
 from datetime import datetime
+import datetime
 from scraper import *
 import os
 import requests
@@ -26,7 +27,7 @@ def scraping_pages():
     log_new = pd.DataFrame({'source': [source],
                             'step': ['scrap pages'],
                             'status': ['started'],
-                            'time': [datetime.now()],
+                            'time': [datetime.datetime.now()],
                             'details': [""]})
 
     # init log
@@ -40,7 +41,7 @@ def scraping_pages():
 
     try:
         # Start time of the pages scrapping
-        start_time = datetime.now()
+        start_time = datetime.datetime.now()
 
         while scrap == True:
             html_file = get_source_selenium(motoplanete_page_url + str(page_number))
@@ -59,7 +60,7 @@ def scraping_pages():
                 scrap=False
 
         # End time
-        end_time = datetime.now()
+        end_time = datetime.datetime.now()
         td = end_time - start_time
 
         # log update
@@ -67,7 +68,7 @@ def scraping_pages():
         log_new = pd.DataFrame({'source': [source],
                                 'step': ['scrap pages'],
                                 'status': ['completed'],
-                                'time': [datetime.now()],
+                                'time': [datetime.datetime.now()],
                                 'details': [f"{td.seconds/60} minutes elapsed, {page_number} pages scrapped"]})
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv(csv_name, index=False)
@@ -78,7 +79,7 @@ def scraping_pages():
         log_new = pd.DataFrame({'source': [source],
                                 'step': ['scrap pages'],
                                 'status': ['error'],
-                                'time': [datetime.now()],
+                                'time': [datetime.datetime.now()],
                                 'details': [err]})
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv(csv_name, index=False)
