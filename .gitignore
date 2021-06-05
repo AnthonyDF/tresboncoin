@@ -6,7 +6,6 @@ raw_data/
 __pycache__
 .env
 *.csv
-*.jpg
 *.jpeg
 *.png
 *.tiff
@@ -14,3 +13,4 @@ __pycache__
 *.html
 sandbox_notebook_victor
 *.ipynb
+*.jpg
