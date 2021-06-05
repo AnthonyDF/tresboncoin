@@ -6,7 +6,6 @@ raw_data/
 __pycache__
 .env
 *.csv
-*.jpg
 *.jpeg
 *.png
 *.tiff
@@ -14,3 +13,8 @@ __pycache__
 *.html
 sandbox_notebook_victor
 *.ipynb
+notebooks/victor/lacentrale/images/
+notebooks/victor/motoplanete/
+notebooks/victor/paruvendu/images/
+tresboncoin/data/motoplanete/images/
+tresboncoin/data/paruvendu/images/
