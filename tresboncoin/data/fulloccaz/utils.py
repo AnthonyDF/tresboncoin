@@ -1,10 +1,10 @@
-import datetime
+from datetime import datetime
 import re
 from scraper import *
 
 
 def save_page_list(site_name, req, page=1):
-    datetime_1 = datetime.datetime.now().strftime("%Y-%m-%d_%Hh%M")
+    datetime_1 = datetime.now().strftime("%Y-%m-%d_%Hh%M")
     page_list_name = site_name + "-" + datetime_1 + "-" + str(page)
     with open("pages/" + page_list_name + ".html", "w") as file:
         file.write(req.text)
@@ -13,7 +13,7 @@ def save_page_list(site_name, req, page=1):
 
 
 def save_page_uniq(site_name, req, uniq_id):
-    datetime_1 = datetime.datetime.now().strftime("%Y-%m-%d_%Hh%M")
+    datetime_1 = datetime.now().strftime("%Y-%m-%d_%Hh%M")
     page_name = site_name + "-" + uniq_id + "-" + datetime_1
     with open("annonces/" + page_name + ".html", "w") as file:
         file.write(req.text)
