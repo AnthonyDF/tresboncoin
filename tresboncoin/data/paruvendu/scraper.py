@@ -88,6 +88,26 @@ class paruvendu_page_scraper():
         return url_list
 
 
+    def get_titles_from_pages(self):
+
+        # set empty title list
+        title_list = []
+
+        # extract title
+        step1 = self.page.select('div[class*="lazyload_bloc"]')
+        if len(step1)>0:
+            for k in step1:
+                step2 = k.find_all("h3")
+                if len(step2)>0:
+                    title_list.append(step2[0].text.replace("\n", "").replace("\t", "").replace("Moto ", "").strip())
+                else:
+                    title_list.append(np.nan)
+        else:
+            return None
+        #
+        return title_list
+
+
     ########################
     #### Announce scraper
     ########################
@@ -144,11 +164,13 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="nologo"]')
-            if len(step2)>0:
-                step3 = step2[0].select("span")
-                if len(step3)>0:
-                    return step3[0].text.replace("\n", "")
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Type") >= 0:
+                    try:
+                        return k.select("span")[0].text.replace("\n", "")
+                    except:
+                        return np.nan
         return None
 
 
@@ -167,11 +189,13 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="puiss"]')
-            if len(step2)>0:
-                for k in step2:
-                    if k.text.find("Couleur")>0:
-                        return k.select("span")[0].text.strip()
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Coul") >= 0:
+                    try:
+                        return k.select("span")[0].text.replace("\n", "")
+                    except:
+                        return np.nan
         return None
 
 
@@ -180,11 +204,13 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="puiss"]')
-            if len(step2)>0:
-                for k in step2:
-                    if k.text.find("Etat")>0:
-                        return k.select("span")[0].text.strip()
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Etat du") >= 0:
+                    try:
+                        return k.select("span")[0].text.replace("\n", "")
+                    except:
+                        return np.nan
         return None
 
 
@@ -193,23 +219,28 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="puiss"]')
-            if len(step2)>0:
-                for k in step2:
-                    if k.text.find("fiscale")>0:
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.replace("\n", " ").find("Puiss") >= 0:
+                    try:
                         return int(k.select("span")[0].text.strip())
+                    except:
+                        return np.nan
         return None
 
 
     def get_price(self):
 
         # extract
-        step1 = self.announce.select('div[id*="autoprix"]')
+        step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            try:
-                return float("".join(re.findall("[0-9]", step1[0].text)))
-            except:
-                return np.nan
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Pri") >= 0:
+                    try:
+                        return float("".join(re.findall(r'\d+', k.select("span")[0].text.replace("\n", ""))))
+                    except:
+                        return np.nan
         return None
 
 
@@ -236,11 +267,13 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="ann"]')
-            if len(step2)>0:
-                step3 = step2[0].select("span")
-                if len(step3)>0:
-                    return "".join(re.findall("[0-9]", step3[0].text))
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Année") >= 0:
+                    try:
+                        return int("".join(re.findall(r'\d+', k.select("span")[0].text.replace("\n", ""))))
+                    except:
+                        return np.nan
         return None
 
 
@@ -249,11 +282,13 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="kil"]')
-            if len(step2)>0:
-                step3 = step2[0].select("span")
-                if len(step3)>0:
-                    return "".join(re.findall("[0-9]", step3[0].text))
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Kilom") >= 0:
+                    try:
+                        return int("".join(re.findall(r'\d+', k.select("span")[0].text.replace("\n", ""))))
+                    except:
+                        return np.nan
         return None
 
 
@@ -262,11 +297,13 @@ class paruvendu_page_scraper():
         # extract
         step1 = self.announce.select('div[class*="im12_txt_ann"]')
         if len(step1)>0:
-            step2 = step1[0].select('li[class*="cyl"]')
-            if len(step2)>0:
-                step3 = step2[0].select("span")
-                if len(step3)>0:
-                    return "".join(re.findall("[0-9]", step3[0].text))
+            step2 = step1[0].select('li')
+            for k in step2:
+                if k.text.find("Cyl") >= 0:
+                    try:
+                        return int("".join(re.findall(r'\d+', k.select("span")[0].text.replace("\n", ""))))
+                    except:
+                        return np.nan
         return None
 
 
@@ -342,7 +379,7 @@ if __name__ == "__main__":
         with open(os.path.join("pages", pagelist[0]), 'r') as f:
             readable_html = f.read()
         soup_ = BeautifulSoup(readable_html, 'html.parser')
-        scrap = paruvendu_page_scaper(page=soup_)
+        scrap = paruvendu_page_scraper(page=soup_)
 
         for url, uniq_id, price in zip(scrap.get_urls_from_pages(), scrap.get_unique_IDs_from_page(), scrap.get_prices_from_page()):
             print(url, uniq_id, price)

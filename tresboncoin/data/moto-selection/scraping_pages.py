@@ -8,11 +8,11 @@ import pandas as pd
 
 def scraping_pages():
     try:
-        # Start time of the pages scrapping
+        # Start time
         start_time = datetime.now()
 
         # site to scrap
-        source = 'moto-occasion'
+        source = 'moto-selection'
 
         # log update
         log_import = pd.read_csv('../log.csv')
@@ -24,15 +24,21 @@ def scraping_pages():
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv('../log.csv', index=False)
 
-        # init scrap
-        page_number = 1
-        scrap = True
-        while scrap == True:
+        # Scrap the first page to find the max page number and save this page as html
+        url = 'http://www.moto-selection.com/moto-occasion/page-1.html'
+        response = requests.get(url)
+        file_name = source + "-" + str(1) + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
 
-            print("page number:", page_number)
+        with open(f"pages/{file_name}.html", "w") as file:
+            file.write(response.text)
+            file.close()
 
+        soup = BeautifulSoup(response.content, "html.parser")
+        max_page = int(soup.select('#announces_list > h2:nth-child(2) > span:nth-child(2)')[0].text.split(' / ')[-1])
+
+        for page_number in range(2, max_page+1):
             # url to scrap
-            url = f'http://moto-occasion.motorevue.com/motos?page={page_number}'
+            url = f'http://www.moto-selection.com/moto-occasion/page-{page_number}.html'
             response = requests.get(url)
             file_name = source + "-" + str(page_number) + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
 
@@ -40,14 +46,8 @@ def scraping_pages():
                 file.write(response.text)
                 file.close()
 
-            # check if page is empty, if yes stop scrapping
-            soup = BeautifulSoup(response.content, "html.parser")
-            warning = soup.find("div", class_="media-body").text.replace('\r', '').replace('\t', '').replace('\n', '').strip()
-            if warning == 'Aucune annonce trouvée.':
-                scrap = False
-
-            time.sleep(random.randint(1, 2))
-            page_number += 1
+            print('Page number: ', page_number)
+            time.sleep(random.randint(2, 3))
 
         # End time
         end_time = datetime.now()
@@ -75,5 +75,5 @@ def scraping_pages():
         log.to_csv('../log.csv', index=False)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     scraping_pages()

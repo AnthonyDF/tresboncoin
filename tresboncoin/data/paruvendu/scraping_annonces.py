@@ -41,6 +41,7 @@ def scraping_annonces():
 
     # load csv if exists or starting from template
     data_paruvendu = "../paruvendu.csv"
+    ad_datafilepath = "../paruvendu_ad.csv"
     #
     if os.path.isfile(data_paruvendu) is False:
         df = paruvendu_announce_template.copy()
@@ -72,10 +73,11 @@ def scraping_annonces():
             page_scrap = paruvendu_page_scraper(page=soup_)
 
             if page_scrap.get_urls_from_pages() != None:
-                for url_single, uniq_id, price_ in zip(page_scrap.get_urls_from_pages(), page_scrap.get_unique_IDs_from_page(), page_scrap.get_prices_from_page()):
+                for url_single, uniq_id, price_, title_ in zip(page_scrap.get_urls_from_pages(), page_scrap.get_unique_IDs_from_page(), page_scrap.get_prices_from_page(), page_scrap.get_titles_from_pages()):
                    if add_the_announce(data, uniq_id, price_):
                        req_uniq = requests.get(url_single, headers = headers)
                        save_page_uniq(source, req_uniq, uniq_id)
+                       save_temporary_data(ad_datafilepath, url_single, uniq_id, price_, title_)
                        time.sleep(1)
                        count += 1
 

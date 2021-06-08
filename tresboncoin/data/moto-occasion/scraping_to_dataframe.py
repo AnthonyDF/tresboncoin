@@ -56,7 +56,7 @@ def scraping_to_dataframe():
             f = codecs.open(f"{directory+'/'+filename}", 'r')
             bike_soup = BeautifulSoup(f, "html.parser")
             reference = filename.split("-")[2]
-            uniq_id = site_code+"-"+reference
+            uniq_id = source+"-"+reference
 
             # vendor contact soup & info
             vendor_info = bike_soup.find("div", class_="item-contact__content").find_all("div", class_="grid-5-8 phab-7-10")
@@ -167,29 +167,29 @@ def scraping_to_dataframe():
                                 'vendor_city',
                                 'vendor_country'])
 
-            df['source'] = site_code
+            df['source'] = source
             df['scrap_date'] = datetime.now()
 
             # merge dataframes
             df = df.merge(index_df, on='reference', how='left')
 
             # import history
-            history = pd.read_csv('moto-occasion.csv')
+            history = pd.read_csv(f"{source}.csv")
 
             # concatenate new and history
             final_df = history.append(df, ignore_index=True)
 
             # export to csv
-            final_df.to_csv('moto-occasion.csv', index=False)
+            final_df.to_csv(f"{source}.csv", index=False)
 
             # move file to vault after process
             # source path
-            source = f"annonces/{filename}"
+            source_folder = f"annonces/{filename}"
             # destination path
             destination = f"annonces/vault/{filename}"
             # Move the content of
             # source to destination
-            shutil.move(source, destination)
+            shutil.move(source_folder, destination)
 
             time.sleep(random.randint(1, 2))
 
@@ -206,6 +206,11 @@ def scraping_to_dataframe():
                                 'details': [f"{td.seconds/60} minutes elapsed"]})
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv('../log.csv', index=False)
+
+        # remove duplicates
+        df = pd.read_csv(f"{source}.csv")
+        df.drop_duplicates(subset=['reference', 'price'], inplace=True)
+        df.to_csv(f"{source}.csv", index=False)
 
     except (ValueError, TypeError, NameError, KeyError, RuntimeWarning) as err:
         # log update
