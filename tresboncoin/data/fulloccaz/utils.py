@@ -1,5 +1,6 @@
 import datetime
 import re
+from scraper import *
 
 
 def save_page_list(site_name, req, page=1):
@@ -29,6 +30,17 @@ def add_the_announce(df, uniq_id, price):
 
     # else, return true and add
     return True
+
+
+def good_soup_selector(res_soup1, res_soup2):
+
+    if res_soup1 is None:
+        if res_soup2 is None:
+            return None
+        else:
+            return res_soup2
+    else:
+        return res_soup1
 
 
 def cleanhtml(raw_html):

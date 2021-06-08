@@ -178,7 +178,7 @@ class fulloccaz_page_scraper():
             try:
                 return step1[0].text.split(re.findall("[0-9]{5}", step1[0].text)[0])[-1].strip()
             except:
-                return np.nan
+                return None
         return None
 
 
@@ -190,8 +190,8 @@ class fulloccaz_page_scraper():
             try:
                 return re.findall("[0-9]{5}", step1[0].text)[0]
             except:
-                return np.nan
-        return np.nan
+                return None
+        return None
 
 
     def get_seller(self):
