@@ -11,7 +11,7 @@ import pandas as pd
 def scraping_annonces():
     try:
         # website source name
-        source = 'moto-occasion'
+        source = 'moto-selection'
 
         # directory of html pages
         directory = 'pages'
@@ -20,7 +20,7 @@ def scraping_annonces():
         start_time = datetime.now()
 
         # import previously scrapped
-        df_import = pd.read_csv('moto-occasion.csv')
+        df_import = pd.read_csv('moto-selection.csv')
 
         # log update
         log_import = pd.read_csv('../log.csv')
@@ -40,30 +40,25 @@ def scraping_annonces():
             soup = BeautifulSoup(f, "html.parser")
 
             # find the url for bike and download as html file
-            for bike in soup.find_all("li", class_="list-items__item"):
-
-                # initialization for the dataframe
+            for bike in soup.find_all("div", class_="announces_list_item"):
                 url_bike_ls = []
                 reference_ls = []
 
                 # generate the bike url and reference
-                link = bike.find("a", class_="list-items__link").get('href')
-                url_site = 'http://moto-occasion.motorevue.com'
-                url_bike = url_site + link
-                reference = url_bike.split("/")[-1].replace('.html', '')
+                url_bike = bike.find("a", class_='title_link').get('href')
+                reference = str(url_bike.split("/")[-1].replace('.html', ''))
 
                 reference_ls.append(reference)
                 url_bike_ls.append(url_bike)
 
                 # find the price of the bike from the feed
-                price_soup = bike.find('div', class_='media-body').find('p', class_='list-items__price').find('span', class_='currency-price-wrap')
-                price = price_soup.text.replace("€", "").replace("TTC", "").replace("\t","").replace(" ", "")
-                price = float("".join(price.split()).replace(",", ".").replace('PrixNC','0'))
+                price = int(bike.find('span', itemprop='price').text.replace(' ', ''))
 
                 # test if the bike with the same price is already in the databse
-                test_rows = df_import.loc[(df_import['reference'] == reference) & (df_import['price'] == price)].shape[0]
+                test_rows = df_import.loc[(df_import['reference'].astype(str) == reference) & (df_import['price'] == price)].shape[0]
 
                 if test_rows == 0:
+
                     response = requests.get(url_bike)
                     file_name = source + "-" + reference + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
 
@@ -83,7 +78,7 @@ def scraping_annonces():
                     # export to csv
                     final_df.to_csv('index.csv', index=False)
 
-                    time.sleep(random.randint(1, 2))
+                    time.sleep(random.randint(2, 3))
                     count += 1
                     print(count)
 
@@ -116,5 +111,5 @@ def scraping_annonces():
         log.to_csv('../log.csv', index=False)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     scraping_annonces()
