@@ -1,6 +1,7 @@
 import requests
 from parameters import *
 from scraper import *
+from utils import *
 from bs4 import BeautifulSoup
 import requests
 from PIL import Image
