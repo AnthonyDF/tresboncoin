@@ -1,10 +1,10 @@
 # imports
 import argparse
+import pandas as pd
 import subprocess
 from termcolor import colored
-from tresboncoin.data import get_data
-from tresboncoin.data import clean_data
-from tresboncoin.parameters import *
+from data import *
+from parameters import *
 
 # pipelines
 from sklearn.pipeline import Pipeline
@@ -15,7 +15,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import cross_validate
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
 
 # mlflow
 from memoized_property import memoized_property
@@ -39,49 +39,32 @@ class Trainer():
         """
         self.pipeline = None
         self.model = None
-        self.X_test = None
         self.params = params
         self.X = X
         self.y = y
-        self.baseline_scores = None
-        self.optimized_scores = None
+        self.baseline_r2 = None
+        self.baseline_rmse = None
+        self.optimized_r2 = None
+        self.optimized_rmse = None
         self.experiment_name = EXPERIMENT_NAME
 
 
     def set_pipeline(self):
         """ setting pipelines """
 
-        # pipeline for numeric features
-        pipe_numeric = Pipeline([
-            ('imputer', SimpleImputer())
-        ])
-
         # pipeline for multiclass features
         pipe_multiclass = Pipeline([
-            ('imputer', SimpleImputer(strategy='most_frequent')),
             ('encoder', OneHotEncoder(sparse=False))
         ])
 
-        # pipeline for binary features
-        pipe_binary = Pipeline([
-            ('encoder', OneHotEncoder(sparse=False, drop='if_binary'))
-        ])
-
-        # scaling pipeline
-        scaler = Pipeline([
-            ('scaler', StandardScaler())
-        ])
-
-        # combining encoder pipelines
+        # applying encoder
         encoder = ColumnTransformer([
-            ('binary', pipe_binary, ["Sex"]),
-            ('numeric', pipe_numeric, ["Age", "Fare"]),
-            ('textual', pipe_multiclass, ["Pclass"])
-        ])
+            ('textual', pipe_multiclass, ["category_db"])
+        ], remainder='passthrough')
 
         # full preprocessor pipeline
         preprocessor = Pipeline([("encoder", encoder),
-                                 ("scaler", scaler)])
+                                 ('scaler', RobustScaler())])
         # Setting full pipeline
         self.pipeline = Pipeline([
                                   ("preprocessor", preprocessor),
@@ -89,20 +72,24 @@ class Trainer():
                                  ])
 
 
-    def cross_validate_baseline(self, cv=20):
-        """ compute model baseline accuracy """
+    def cross_validate_baseline(self, cv=50):
+        """ compute model baseline rmse and r2 scores """
 
         baseline = cross_validate(self.pipeline,
                                   self.X,
                                   self.y,
-                                  scoring="accuracy",
+                                  scoring={"rmse":rmse, "r2": "r2"},
                                   cv=cv)
-        self.baseline_accuracy = round(baseline["test_score"].mean(), 3)
-        print("Baseline " + type(self.params["model"]).__name__ + " model accuracy: " +
-              str(self.baseline_accuracy*100) + "%")
+        self.baseline_r2 = baseline['test_r2'].mean()
+        self.baseline_rmse = -baseline['test_rmse'].mean()
+        print("Baseline " + type(self.params["model"]).__name__ + " model r2 score: " +
+              str(self.baseline_r2))
+        print("Baseline " + type(self.params["model"]).__name__ + " model rmse score: " +
+              str(self.baseline_rmse))
 
         # ### MLFLOW RECORDS
-        self.mlflow_log_metric("Baseline accuracy", self.baseline_accuracy)
+        self.mlflow_log_metric("Baseline r2 score", self.baseline_r2)
+        self.mlflow_log_metric("Baseline rmse score", self.baseline_rmse)
         self.mlflow_log_param("Model", type(self.params["model"]).__name__)
 
 
@@ -177,22 +164,25 @@ if __name__ == "__main__":
     results = parser.parse_args()
 
     # get data
-    data_train, data_test = get_data()
-#
-    #  # clean data
-    #  data_train = clean_data(data_train)
-#
-    #  # set X and y
-    #  X = data_train.drop(["Survived"], axis=1)
-    #  y = data_train["Survived"]
-#
-    #  # define trainer
-    #  trainer = Trainer(X, y)
-    #  trainer.set_pipeline()
-#
-    #  # get best accuracy
-    #  trainer.cross_validate_baseline()
-    #  trainer.run()
+    data_train = get_data()
+
+    # clean data
+    data_train = clean_data(data_train)
+
+    # set X and y
+    X = data_train.drop(["price"], axis=1)
+    y = data_train["price"]
+
+
+    # define trainer
+    trainer = Trainer(X, y)
+    trainer.set_pipeline()
+
+    # get baseline scores
+    trainer.cross_validate_baseline()
+
+
+    #trainer.run()
 #
     #  # saving trained model and moving it to models folder
     #  trainer.save_model(model_name=results.modelname)
