@@ -43,8 +43,8 @@ class Trainer():
         self.params = params
         self.X = X
         self.y = y
-        self.baseline_accuracy = None
-        self.optimized_accuracy = None
+        self.baseline_scores = None
+        self.optimized_scores = None
         self.experiment_name = EXPERIMENT_NAME
 
 
@@ -166,7 +166,7 @@ class Trainer():
 
 
 # terminal parameter definition
-parser = argparse.ArgumentParser(description='Titanic trainer')
+parser = argparse.ArgumentParser(description='TresBonCoin trainer')
 parser.add_argument('-m', action="store",
                     dest="modelname",
                     help='.joblib model name - default: model',
@@ -178,22 +178,22 @@ if __name__ == "__main__":
 
     # get data
     data_train, data_test = get_data()
-
-    # clean data
-    data_train = clean_data(data_train)
-
-    # set X and y
-    X = data_train.drop(["Survived"], axis=1)
-    y = data_train["Survived"]
-
-    # define trainer
-    trainer = Trainer(X, y)
-    trainer.set_pipeline()
-
-    # get best accuracy
-    trainer.cross_validate_baseline()
-    trainer.run()
-
-    # saving trained model and moving it to models folder
-    trainer.save_model(model_name=results.modelname)
-    subprocess.run(["mv", results.modelname + ".joblib", "models"])
+#
+    #  # clean data
+    #  data_train = clean_data(data_train)
+#
+    #  # set X and y
+    #  X = data_train.drop(["Survived"], axis=1)
+    #  y = data_train["Survived"]
+#
+    #  # define trainer
+    #  trainer = Trainer(X, y)
+    #  trainer.set_pipeline()
+#
+    #  # get best accuracy
+    #  trainer.cross_validate_baseline()
+    #  trainer.run()
+#
+    #  # saving trained model and moving it to models folder
+    #  trainer.save_model(model_name=results.modelname)
+    #  subprocess.run(["mv", results.modelname + ".joblib", "models"])
