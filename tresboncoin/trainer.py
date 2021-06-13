@@ -1,9 +1,11 @@
 # imports
 import argparse
-import pandas as pd
 import subprocess
 from termcolor import colored
-from data import *
+from data import get_data
+from data import clean_data
+from utils import custom_rmse
+from sklearn.metrics import make_scorer
 from parameters import *
 
 # pipelines
@@ -37,6 +39,7 @@ class Trainer():
             y: pandas Series
         """
         self.pipeline = None
+        self.scorer = make_scorer(custom_rmse, greater_is_better=False)
         self.model = None
         self.params = params
         self.X = X
@@ -76,7 +79,7 @@ class Trainer():
         baseline = cross_validate(self.pipeline,
                                   self.X,
                                   self.y,
-                                  scoring={"rmse": rmse, "r2": "r2"},
+                                  scoring={"rmse": self.scorer, "r2": "r2"},
                                   cv=cv)
         self.baseline_r2 = baseline['test_r2'].mean()
         self.baseline_rmse = -baseline['test_rmse'].mean()
@@ -170,7 +173,6 @@ if __name__ == "__main__":
     # set X and y
     X = data_train.drop(["price"], axis=1)
     y = data_train["price"]
-
 
     # define trainer
     trainer = Trainer(X, y)

@@ -1,7 +1,5 @@
 import pandas as pd
-import numpy as np
-from datetime import datetime
-from sklearn.metrics import make_scorer
+from utils import km_per_year
 import os
 
 
@@ -12,12 +10,6 @@ def get_data():
     '''returns training set DataFrames'''
     df_train = pd.read_csv(train_set)
     return df_train
-
-
-def km_per_year(km, bike_year):
-    if (datetime.now().year - bike_year) == 0:
-        return km
-    return km / (datetime.now().year - bike_year)
 
 
 def clean_data(df):
@@ -33,12 +25,9 @@ def clean_data(df):
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
     return df
 
-def custom_rmse(y_true, y_pred):
-    return np.sqrt(np.mean(np.square(y_true - y_pred)))
-rmse = make_scorer(custom_rmse, greater_is_better=False)
-
 
 if __name__ == '__main__':
     df_train = get_data()
     df_train = clean_data(df_train)
     print("Train dataframe loaded. Shape:" + str(df_train.shape))
+    print("Train dataframe columns:" + str(list(df_train.columns)))
