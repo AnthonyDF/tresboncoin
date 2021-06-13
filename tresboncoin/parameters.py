@@ -16,13 +16,9 @@ EXPERIMENT_NAME = f"[FR] [Paris] [{myname}] TresBonCoin"
 ######################################################
 # Random Forest Classifier model
 ######################################################
-grid_ETR = {'model__n_estimators': stats.randint(1, 200),
-            'model__max_depth': stats.randint(1, 40),
+grid_ETR = {'model__max_depth': stats.randint(1, 1000),
             'model__min_samples_split': [2, 4, 6, 8, 10],
-            'model__criterion': ["gini", "entropy"],
-            "preprocessor__encoder__numeric__imputer__strategy": ["mean", "median"],
-            "preprocessor__scaler__scaler": [StandardScaler(), RobustScaler(), MinMaxScaler()]
-            # 'degree': stats.randint(2, 3)
+            "preprocessor__scaler": [StandardScaler(), RobustScaler(), MinMaxScaler()]
             }
 params_ETR = {"random_grid_search": grid_ETR,
               "model": ExtraTreesRegressor()}

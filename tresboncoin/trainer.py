@@ -12,7 +12,6 @@ from sklearn.compose import ColumnTransformer
 
 # sklearn
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.impute import SimpleImputer
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import cross_validate
 from sklearn.preprocessing import RobustScaler
@@ -45,7 +44,6 @@ class Trainer():
         self.baseline_r2 = None
         self.baseline_rmse = None
         self.optimized_r2 = None
-        self.optimized_rmse = None
         self.experiment_name = EXPERIMENT_NAME
 
 
@@ -72,13 +70,13 @@ class Trainer():
                                  ])
 
 
-    def cross_validate_baseline(self, cv=50):
+    def cross_validate_baseline(self, cv=20):
         """ compute model baseline rmse and r2 scores """
 
         baseline = cross_validate(self.pipeline,
                                   self.X,
                                   self.y,
-                                  scoring={"rmse":rmse, "r2": "r2"},
+                                  scoring={"rmse": rmse, "r2": "r2"},
                                   cv=cv)
         self.baseline_r2 = baseline['test_r2'].mean()
         self.baseline_rmse = -baseline['test_rmse'].mean()
@@ -88,8 +86,8 @@ class Trainer():
               str(self.baseline_rmse))
 
         # ### MLFLOW RECORDS
-        self.mlflow_log_metric("Baseline r2 score", self.baseline_r2)
-        self.mlflow_log_metric("Baseline rmse score", self.baseline_rmse)
+        self.mlflow_log_metric("Baseline r2", self.baseline_r2)
+        self.mlflow_log_metric("Baseline rmse", self.baseline_rmse)
         self.mlflow_log_param("Model", type(self.params["model"]).__name__)
 
 
@@ -99,26 +97,26 @@ class Trainer():
 
         self.model = RandomizedSearchCV(self.pipeline,
                                         self.params["random_grid_search"],
-                                        scoring='accuracy',
-                                        n_iter=500,
-                                        cv=5,
-                                        n_jobs=-1)
+                                        scoring="r2",
+                                        n_iter=10,
+                                        cv=70,
+                                        n_jobs=-1,
+                                        verbose=1)
         self.model.fit(self.X, self.y)
-        self.optimized_accuracy = round(self.model.best_score_, 3)
-        print("Tuned " + type(self.params["model"]).__name__ + " model best accuracy: " +
-              str(round(self.optimized_accuracy*100, 3)) + "%")
-
+        self.optimized_r2 = self.model.best_score_
+        print("Tuned " + type(self.params["model"]).__name__ + " model best r2: " +
+              str(round(self.optimized_r2*100, 3)) + "%")
+#
         # ### PRINT BEST PARAMETERS
         print("\n####################################\nBest parameters:")
         for k, v in self.model.best_params_.items():
             print(k, colored(v, "green"))
         print("####################################\n")
-
+#
         # ### MLFLOW RECORDS
-        self.mlflow_log_metric("Optimized accuracy", self.optimized_accuracy)
+        self.mlflow_log_metric("Optimized r2", self.optimized_r2)
         for k, v in self.model.best_params_.items():
             self.mlflow_log_param(k, v)
-
 
 
     @memoized_property
@@ -179,11 +177,10 @@ if __name__ == "__main__":
     trainer.set_pipeline()
 
     # get baseline scores
-    trainer.cross_validate_baseline()
+    #trainer.cross_validate_baseline()
 
-
-    #trainer.run()
+    trainer.run()
 #
-    #  # saving trained model and moving it to models folder
-    #  trainer.save_model(model_name=results.modelname)
-    #  subprocess.run(["mv", results.modelname + ".joblib", "models"])
+    # saving trained model and moving it to models folder
+    trainer.save_model(model_name=results.modelname)
+    subprocess.run(["mv", results.modelname + ".joblib", "models"])
