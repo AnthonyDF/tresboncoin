@@ -2,11 +2,12 @@
 import argparse
 import subprocess
 from termcolor import colored
-from data import get_data
-from data import clean_data
-from utils import custom_rmse
+from tresboncoin.data import get_data
+from tresboncoin.data import clean_data
+from tresboncoin.utils import custom_rmse
 from sklearn.metrics import make_scorer
-from parameters import *
+from tresboncoin.parameters import *
+import os
 
 # pipelines
 from sklearn.pipeline import Pipeline
@@ -29,6 +30,7 @@ import joblib
 
 # Update to change parameters to test
 params = params_ETR
+PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
 class Trainer():
@@ -185,4 +187,4 @@ if __name__ == "__main__":
 #
     # saving trained model and moving it to models folder
     trainer.save_model(model_name=results.modelname)
-    subprocess.run(["mv", results.modelname + ".joblib", "models"])
+    subprocess.run(["mv", results.modelname + ".joblib", PATH_TO_LOCAL_MODEL])

@@ -1,5 +1,5 @@
 import pandas as pd
-from utils import km_per_year
+from tresboncoin.utils import km_per_year
 import os
 
 

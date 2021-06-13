@@ -5,7 +5,7 @@ import numpy as np
 from termcolor import colored
 from datetime import datetime
 
-PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.abspath(__file__)) + "/models/"
+PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
 def get_model(model):

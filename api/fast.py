@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
-from utils import get_model
+from tresboncoin.utils import get_model
 
 
 app = FastAPI()
