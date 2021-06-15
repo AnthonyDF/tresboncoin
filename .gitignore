@@ -12,3 +12,5 @@ __pycache__
 *.dng
 *.html
 *.jpg
+*.yaml
+tresboncoin/mlruns/
