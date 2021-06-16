@@ -57,12 +57,12 @@ class Trainer():
 
         # pipeline for multiclass features
         pipe_multiclass = Pipeline([
-            ('encoder', OneHotEncoder(sparse=False))
+            ('encoder', OneHotEncoder(sparse=False, handle_unknown="ignore"))
         ])
 
         # applying encoder
         encoder = ColumnTransformer([
-            ('textual', pipe_multiclass, ["category_db"])
+            ('textual', pipe_multiclass, ["brand_db"])
         ], remainder='passthrough')
 
         # full preprocessor pipeline
@@ -104,7 +104,7 @@ class Trainer():
                                         self.params["random_grid_search"],
                                         scoring="r2",
                                         n_iter=10,
-                                        cv=70,
+                                        cv=10,
                                         n_jobs=-1,
                                         verbose=1)
         self.model.fit(self.X, self.y)

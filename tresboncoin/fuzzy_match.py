@@ -2,7 +2,9 @@ import pandas as pd
 import string
 from rapidfuzz import process
 import numpy as np
+import os
 
+PATH_TO_BIKES = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
 
 def fuzzy_match(X_pred):
     """
@@ -15,11 +17,8 @@ def fuzzy_match(X_pred):
         return text
 
     # remove punctuation
-    if X_pred.brand[0]!=None:
-        X_pred.brand = X_pred.brand.apply(remove_punctuations)
-
-    if X_pred.model[0]!=None:
-        X_pred.model = X_pred.model.apply(remove_punctuations)
+    X_pred.brand = X_pred.brand.apply(remove_punctuations)
+    X_pred.model = X_pred.model.apply(remove_punctuations)
 
     def create_title_is_missing(brand, model, title):
         if title == None:
@@ -28,11 +27,10 @@ def fuzzy_match(X_pred):
     X_pred.title = X_pred.apply(lambda x: create_title_is_missing(x.brand, x.model, x.title), axis=1)
 
     # import motorcycle databse
-    motorcycle_database = pd.read_csv('data/master_vehicule_list/bikez.csv')
+    motorcycle_database = pd.read_csv(PATH_TO_BIKES)
 
     motorcycle_database.drop(
-        columns=[
-        'Unnamed: 0', 'model_inv_db', 'model_submodel_inv_db','engine_type_db', 'torque_db',
+        columns=[ 'model_inv_db', 'model_submodel_inv_db','engine_type_db', 'torque_db',
         'compression_db', 'cooling_system_db', 'dry_weight_db',
         'power/weight_ratio_db', 'model_size_db', 'model_size_inv_db'], inplace=True)
 
@@ -88,4 +86,4 @@ if __name__ == '__main__':
          'bike_year': [2010],
          'engine_size': [None]})
 
-    fuzzy_match(X_pred)
+    print(fuzzy_match(X_pred))
