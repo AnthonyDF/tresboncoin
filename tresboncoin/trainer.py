@@ -27,9 +27,23 @@ import mlflow
 # joblib
 import joblib
 
+######################################################
+# KNeighborsRegressor Classifier model
+######################################################
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor
+import numpy as np
+
+grid_KNR = {'model__p': [1, 2],
+            "preprocessor__scaler": [StandardScaler(), RobustScaler(), MinMaxScaler()]
+            }
+params_KNR = {"random_grid_search": grid_KNR,
+              "model": KNeighborsRegressor()}
+######################################################
 
 # Update to change parameters to test
-params = params_ETR
+params = params_KNR
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
