@@ -1,4 +1,4 @@
-# from tresboncoin.utils import km_per_year
+from tresboncoin.utils import km_per_year
 import string
 from rapidfuzz import process
 import numpy as np
@@ -292,15 +292,15 @@ def append(new_data_matched, history_data):
 
 
 def clean_data(df):
-
     ''' return clean dataframe '''
+    df = df.drop_duplicates()
     df = df[~df["brand_db"].isnull()]
-    df = df[~df["model_db"].isnull()]
-    df = df[~df["category_db"].isnull()]
-    #df.drop(['url', 'uniq_id', 'model_db', 'brand', "model", "brand_db"], axis= 1, inplace=True)
-    #df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
-
-    return df
+    df = df[~df["engine_size"].isnull()]
+    df = df[(df["bike_year"]>=1970) & (df["bike_year"]<=2022)]
+    df = df[(df["mileage"]>=1000) & (df["mileage"]<=80000)]
+    df = df[(df["price"]>=1000) & (df["price"]<40000)]
+    df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
+    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price"]]
 
 
 if __name__ == '__main__':
