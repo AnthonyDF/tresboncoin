@@ -17,8 +17,11 @@ def fuzzy_match(X_pred):
         return text
 
     # remove punctuation
-    X_pred.brand = X_pred.brand.apply(remove_punctuations)
-    X_pred.model = X_pred.model.apply(remove_punctuations)
+    if X_pred.brand[0] != None:
+        X_pred.brand = X_pred.brand.apply(remove_punctuations)
+
+    if X_pred.model[0] != None:
+        X_pred.model = X_pred.model.apply(remove_punctuations)
 
     def create_title_is_missing(brand, model, title):
         if title == None:
@@ -40,21 +43,33 @@ def fuzzy_match(X_pred):
     motorcycle_database['brand_submodel_db'] = motorcycle_database.apply(lambda x: concat(x.brand_db, x.model_submodel_db), axis=1)
 
     def choices(year):
+      '''
+      function to return a list of models according to bike year
+      '''
         choices = motorcycle_database[motorcycle_database.year_db == year].brand_submodel_db.unique().tolist()
         return [str(x) for x in choices]
 
     def match_model(choices, to_match):
+      """
+      function to match model
+      """
         return process.extractOne(to_match, choices)
 
     X_pred["fuzzy_result"] = X_pred.apply(lambda x: match_model(choices(x.bike_year), x.title), axis=1)
 
     def unpack_tuple_name(result):
+      '''
+      function to unpack results from fuzzy matching
+      '''
         try:
             return result[0]
         except:
             return np.nan
 
     def unpack_tuple_score(result):
+      '''
+      function to unpack results from fuzzy matching
+      '''
         try:
             return result[1]
         except:
