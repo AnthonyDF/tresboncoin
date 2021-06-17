@@ -306,7 +306,7 @@ def fuzzy_match_one(X_pred):
     X_pred.drop(columns=['fuzzy_brand'], inplace=True)
 
     X_pred = X_pred.merge(motorcycle_database, how='left', left_on=['brand', 'model', 'bike_year'], right_on=['brand_db', 'model_submodel_db', 'year_db'])
-    X_pred.drop(columns=['brand_db', 'model_db',  'model_submodel_db', 'year_db', 'brand_submodel_db', 'fuzzy_score'], inplace=True)
+    X_pred.drop(columns=['model_submodel_db', 'year_db', 'brand_submodel_db', 'fuzzy_score'], inplace=True)
 
     return X_pred
 

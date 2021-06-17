@@ -73,7 +73,7 @@ def clean_data(df):
     drop_category.append('unspecified category')
 
     # remove brands with low count of bikes
-    brand_count_threshold = 10
+    brand_count_threshold = 50
     groupby_brand = df.groupby('brand_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
     drop_brand = groupby_brand[groupby_brand.Count < brand_count_threshold].index.to_list()
     df = df[df.brand_db.isin(drop_brand) == False]

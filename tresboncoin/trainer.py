@@ -103,7 +103,7 @@ class Trainer():
         self.model = RandomizedSearchCV(self.pipeline,
                                         self.params["random_grid_search"],
                                         scoring="r2",
-                                        n_iter=10,
+                                        n_iter=50,
                                         cv=10,
                                         n_jobs=-1,
                                         verbose=1)

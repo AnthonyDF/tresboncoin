@@ -44,6 +44,8 @@ def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_
 
     X_fuzzy_matched = fuzzy_match_one(X_input)
 
+    print(X_fuzzy_matched.columns)
+
     if cc_ == "0":
         cc_ = X_fuzzy_matched.iloc[0]["engine_size_db"]
 
@@ -67,7 +69,10 @@ def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_
         deal = "OK"
     return {"predicted_price": y_pred[0],
             "deal": deal,
-            "brand": X_pred["brand_db"],
-            "bike_year": X_pred["bike_year"],
-            "engine_size": X_pred["engine_size"],
-            "km/year": X_pred["km/year"]}
+            "bike_year": X_fuzzy_matched["bike_year"].iloc[0],
+            "engine_size": X_fuzzy_matched["engine_size"].iloc[0],
+            "km/year": X_pred["km/year"].iloc[0],
+            "mileage": X_pred["mileage"].iloc[0],
+            "engine_size_db": X_fuzzy_matched["engine_size_db"].iloc[0],
+            "brand_db": X_fuzzy_matched["brand_db"].iloc[0],
+            "model_db": X_fuzzy_matched["model_db"].iloc[0]}
