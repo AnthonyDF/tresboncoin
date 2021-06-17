@@ -296,9 +296,6 @@ def clean_data(df):
     df = df.drop_duplicates()
     df = df[~df["brand_db"].isnull()]
     df = df[~df["engine_size"].isnull()]
-    df = df[(df["bike_year"]>=1970) & (df["bike_year"]<=2022)]
-    df = df[(df["mileage"]>=1000) & (df["mileage"]<=80000)]
-    df = df[(df["price"]>=1000) & (df["price"]<40000)]
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
     return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price"]]
 
