@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
 from tresboncoin.utils import get_model
-from tresboncoin.fuzzy_match import fuzzy_match
+from tresboncoin.fuzzy_match import fuzzy_match_one
 from tresboncoin.utils import km_per_year
 
 
