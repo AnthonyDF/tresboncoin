@@ -46,14 +46,14 @@ def fuzzy_match(X_pred):
       '''
       function to return a list of models according to bike year
       '''
-        choices = motorcycle_database[motorcycle_database.year_db == year].brand_submodel_db.unique().tolist()
-        return [str(x) for x in choices]
+      choices = motorcycle_database[motorcycle_database.year_db == year].brand_submodel_db.unique().tolist()
+      return [str(x) for x in choices]
 
     def match_model(choices, to_match):
       """
       function to match model
       """
-        return process.extractOne(to_match, choices)
+      return process.extractOne(to_match, choices)
 
     X_pred["fuzzy_result"] = X_pred.apply(lambda x: match_model(choices(x.bike_year), x.title), axis=1)
 
@@ -61,19 +61,19 @@ def fuzzy_match(X_pred):
       '''
       function to unpack results from fuzzy matching
       '''
-        try:
-            return result[0]
-        except:
-            return np.nan
+      try:
+          return result[0]
+      except:
+          return np.nan
 
     def unpack_tuple_score(result):
       '''
       function to unpack results from fuzzy matching
       '''
-        try:
-            return result[1]
-        except:
-            return np.nan
+      try:
+          return result[1]
+      except:
+          return np.nan
 
     X_pred['fuzzy_score'] = X_pred['fuzzy_result'].apply(unpack_tuple_score)
     X_pred['fuzzy_brand'] = X_pred['fuzzy_result'].apply(unpack_tuple_name)
