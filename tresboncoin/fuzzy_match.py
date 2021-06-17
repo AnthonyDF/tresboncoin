@@ -15,10 +15,10 @@ def fuzzy_match(X_pred):
         return text
 
     # remove punctuation
-    if X_pred.brand[0]!=None:
+    if X_pred.brand[0] != None:
         X_pred.brand = X_pred.brand.apply(remove_punctuations)
 
-    if X_pred.model[0]!=None:
+    if X_pred.model[0] != None:
         X_pred.model = X_pred.model.apply(remove_punctuations)
 
     def create_title_is_missing(brand, model, title):
