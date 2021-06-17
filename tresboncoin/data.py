@@ -1,4 +1,4 @@
-# from tresboncoin.utils import km_per_year
+from tresboncoin.utils import km_per_year
 import string
 from rapidfuzz import process
 import numpy as np
@@ -293,11 +293,11 @@ def append(new_data_matched, history_data):
 
 
 def clean_data(df):
-
     ''' return clean dataframe '''
     df = df[~df["brand_db"].isnull()]
     df = df[~df["model_db"].isnull()]
     df = df[~df["category_db"].isnull()]
+    df = df[~df["engine_size"].isnull()]
     df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'engine_size', 'mileage', 'bike_year'], inplace=True)
 
     # remove categories with low count of bikes
@@ -318,10 +318,10 @@ def clean_data(df):
     #drop_model = groupby_model[groupby_model.Count < model_count_threshold].index.to_list()
     #df = df[df.model_db.isin(drop_model) == False]
 
-    #df.drop(['url', 'uniq_id', 'model_db', 'brand', "model", "brand_db"], axis= 1, inplace=True)
-    #df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
-
-    return df
+    # feature engineering
+    df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
+    
+    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price"]]
 
 
 if __name__ == '__main__':

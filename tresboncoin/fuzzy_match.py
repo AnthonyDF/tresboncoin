@@ -2,7 +2,9 @@ import pandas as pd
 import string
 from rapidfuzz import process
 import numpy as np
+import os
 
+PATH_TO_BIKES = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
 
 def fuzzy_match(X_pred):
     """
@@ -28,11 +30,10 @@ def fuzzy_match(X_pred):
     X_pred.title = X_pred.apply(lambda x: create_title_is_missing(x.brand, x.model, x.title), axis=1)
 
     # import motorcycle databse
-    motorcycle_database = pd.read_csv('data/master_vehicule_list/bikez.csv')
+    motorcycle_database = pd.read_csv(PATH_TO_BIKES)
 
     motorcycle_database.drop(
-        columns=[
-        'Unnamed: 0', 'model_inv_db', 'model_submodel_inv_db','engine_type_db', 'torque_db',
+        columns=[ 'model_inv_db', 'model_submodel_inv_db','engine_type_db', 'torque_db',
         'compression_db', 'cooling_system_db', 'dry_weight_db',
         'power/weight_ratio_db', 'model_size_db', 'model_size_inv_db'], inplace=True)
 
@@ -42,21 +43,33 @@ def fuzzy_match(X_pred):
     motorcycle_database['brand_submodel_db'] = motorcycle_database.apply(lambda x: concat(x.brand_db, x.model_submodel_db), axis=1)
 
     def choices(year):
+      '''
+      function to return a list of models according to bike year
+      '''
         choices = motorcycle_database[motorcycle_database.year_db == year].brand_submodel_db.unique().tolist()
         return [str(x) for x in choices]
 
     def match_model(choices, to_match):
+      """
+      function to match model
+      """
         return process.extractOne(to_match, choices)
 
     X_pred["fuzzy_result"] = X_pred.apply(lambda x: match_model(choices(x.bike_year), x.title), axis=1)
 
     def unpack_tuple_name(result):
+      '''
+      function to unpack results from fuzzy matching
+      '''
         try:
             return result[0]
         except:
             return np.nan
 
     def unpack_tuple_score(result):
+      '''
+      function to unpack results from fuzzy matching
+      '''
         try:
             return result[1]
         except:
@@ -88,4 +101,4 @@ if __name__ == '__main__':
          'bike_year': [2010],
          'engine_size': [None]})
 
-    fuzzy_match(X_pred)
+    print(fuzzy_match(X_pred))
