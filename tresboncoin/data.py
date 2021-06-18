@@ -9,12 +9,12 @@ history_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master
 moto_database = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
 ebay_db = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/ebay_db.csv"
 #
-motoplanete_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/motoplanete.csv"
-fulloccaz_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/fulloccaz.csv"
-motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/moto-occasion.csv"
-motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/moto-selection.csv"
-as_24_FR_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/as_24_FR.csv"
-as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/as_24_BE.csv"
+motoplanete_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motoplanete.csv"
+fulloccaz_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/fulloccaz.csv"
+motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-occasion.csv"
+motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-selection.csv"
+as_24_FR_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_FR.csv"
+as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_BE.csv"
 
 
 def concat_df():
