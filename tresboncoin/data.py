@@ -7,6 +7,63 @@ import os
 raw_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
 history_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
 moto_database = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
+ebay_db = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/ebay_db.csv"
+#
+motoplanete_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/motoplanete.csv"
+fulloccaz_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/fulloccaz.csv"
+motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/moto-occasion.csv"
+motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/moto-selection.csv"
+as_24_FR_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/as_24_FR.csv"
+as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/website_scraping_outputs/as_24_BE.csv"
+
+
+def concat_df():
+    ''' concatenate scrapped datasets from:
+            fulloccaz
+            motoplanete
+            autoscout24
+            moto-selection
+            moto-occasion
+    '''
+
+    # ebay brand list
+    ebay_brands = pd.read_csv(ebay_db)
+    ebay_brands = ebay_brands["Make"].apply(lambda x: str(x).lower())
+    ebay_brands = pd.DataFrame(ebay_brands).drop_duplicates().reset_index(drop=True)
+
+    # motoplanete brand list
+    mp_brands = ["Aprilia", "Benelli", "Beta", "Bimota", "BMW", "Buell", "CF MOTO", "Daelim", "Ducati", "Fantic",
+                 "FB Mondial", "Gas Gas", "Gilera", "Harley-Davidson", "Honda", "Husqvarna", "Hyosung", "Indian",
+                 "Kawasaki", "KTM", "Kymco", "Magpower", "Malaguti", "Mash", "Moto-Guzzi", "MV-Agusta", "Orcal",
+                 "Rieju", "Royal-Enfield", "Sherco", "Suzuki", "SWM", "Sym", "Triumph", "Voxan", "Yamaha"]
+
+    # fulloccaz brand list
+    fo_brands = ["AC EMOTION", "ACCESS MOTOR", "APRILIA", "ARCTIC CAT", "BENELLI", "BETA", "BIMOTA", "BMW",
+                 "BUELL", "CAN-AM", "CF MOTO", "DAELIM", "DERBI", "DUCATI", "FANTIC", "FB MONDIAL", "GAS GAS",
+                 "GENERIC", "GILERA", "HARLEY DAVIDSON", "HARLEY-DAVIDSON", "HER CHEE", "HM", "HONDA", "HONGYI",
+                 "HUSQVARNA", "HYOSUNG", "HYTRACK", "IMF scooter", "INDIAN", "IRBIT", "JM MOTORS", "JORDON", "JOTAGAS",
+                 "KAWASAKI", "KEEWAY", "KSR MOTO", "KTM", "KYMCO", "LAMBRETTA", "LAZIO", "LIGIER", "LINHAI", "LONGJIA",
+                 "Magnum", "MAGPOWER", "MALAGUTI", "MARTIN", "MASAI", "MASH", "MBK", "MOTO MORINI", "MOTO-GUZZI",
+                 "MOTOCONFORT", "MOTRAC", "MV AGUSTA", "NECO", "NIU", "NORTON", "ORCAL", "PEUGEOT", "PIAGGIO", "POLARIS",
+                 "QUADDY", "QUADRO", "RIEJU", "RIVAL MOTORS", "RIYA", "ROYAL ENFIELD", "SHERCO", "SUPER SOCO", "SUZUKI",
+                 "SVM (SWM)", "SWM", "SYM", "TGB", "TNT MOTOR", "TRIUMPH", "VASTRO", "VESPA", "Victory Motorcycle",
+                 "VOGE", "VOXAN", "WANGYE", "XINGYUE", "YAMAHA", "ZERO MOTORCYCLES"]
+
+    # full brand list
+    full_brand_list = [k.lower() for k in fo_brands] + \
+                      [k.lower() for k in mp_brands] + \
+                      list(ebay_brands.Make)
+
+    # loading datasets
+    data_motoplanete = pd.read_csv(motoplanete_csv)
+    data_fulloccaz = pd.read_csv(fulloccaz_csv)
+    data_motooccasion = pd.read_csv(motooccasion_csv)
+    data_motoselection = pd.read_csv(motoselection_csv)
+    data_as_24_FR = pd.read_csv(as_24_FR_csv)
+    data_as_24_BE = pd.read_csv(as_24_BE_csv)
+
+
+    return len(full_brand_list)
 
 
 def get_raw_data():
@@ -105,3 +162,4 @@ if __name__ == '__main__':
     df_train = clean_data(df_train)
     print("Train dataframe loaded. Shape:" + str(df_train.shape))
     print("Train dataframe columns:" + str(list(df_train.columns)))
+    print(concat_df())
