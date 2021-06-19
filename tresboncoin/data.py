@@ -1,8 +1,13 @@
 from tresboncoin.utils import km_per_year
+from tresboncoin.utils import set_brand_and_model
+from tresboncoin.utils import set_colums
+from tresboncoin.parameters import concatenation_map
+from tresboncoin.parameters import columns_to_keep
 from datetime import datetime
 from tresboncoin.fuzzy_match import fuzzy_match
 import pandas as pd
 import os
+from termcolor import colored
 
 raw_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
 history_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
@@ -62,8 +67,60 @@ def concat_df():
     data_as_24_FR = pd.read_csv(as_24_FR_csv)
     data_as_24_BE = pd.read_csv(as_24_BE_csv)
 
+    # Cleaning datasets
+    # MOTOPLANETE
+    data_motoplanete["vehicle release date"] = pd.to_datetime(data_motoplanete["vehicle release date"])
+    data_motoplanete["vehicle release date"] = data_motoplanete["vehicle release date"].apply(lambda x: int(x.strftime("%Y")))
+    data_motoplanete["vehicle brand"] = data_motoplanete["vehicle brand"].apply(lambda x: str(x).lower())
+    data_motoplanete = set_brand_and_model(data_motoplanete, "vehicle brand", r=full_brand_list)
+    data_motoplanete["uniq_id"] = data_motoplanete["unique id"].apply(lambda x: "motoplanete-" + str(x))
 
-    return len(full_brand_list)
+    # FULLOCCAZ
+    data_fulloccaz = data_fulloccaz[~data_fulloccaz["vehicle release date"].isnull()]
+    data_fulloccaz["vehicle release date"] = pd.to_datetime(data_fulloccaz["vehicle release date"])
+    data_fulloccaz["vehicle release date"] = data_fulloccaz["vehicle release date"].apply(lambda x: int(x.strftime("%Y")))
+    data_fulloccaz["vehicle brand"] = data_fulloccaz["vehicle brand"].apply(lambda x: str(x).lower())
+    data_fulloccaz = set_brand_and_model(data_fulloccaz, "vehicle brand", r=full_brand_list)
+    data_fulloccaz["uniq_id"] = data_fulloccaz["unique id"].apply(lambda x: "fulloccaz-" + str(x))
+
+    # AUTOSCOUT24
+    data_as_24_FR["model"] = data_as_24_FR["model"].apply(lambda x: str(x).lower())
+    data_as_24_FR = set_brand_and_model(data_as_24_FR, "model", r=full_brand_list)
+    data_as_24_FR["uniq_id"] = data_as_24_FR["reference"].apply(lambda x: "autoscout24-" + str(x))
+    data_as_24_FR["cylindree"] = data_as_24_FR["cylindree"].apply(lambda x: float(str(x).replace(" cm³", "").replace(".", "")))
+    data_as_24_FR["date_scrapped"] = datetime.now()
+    data_as_24_FR.rename(columns={"model": "old_model"}, inplace=True)
+
+    # AUTOSCOUT24 BE
+    data_as_24_BE["model"] = data_as_24_BE["model"].apply(lambda x: str(x).lower())
+    data_as_24_BE = set_brand_and_model(data_as_24_BE, "model", r=full_brand_list)
+    data_as_24_BE["uniq_id"] = data_as_24_BE["reference"].apply(lambda x: "autoscout24-BE-" + str(x))
+    data_as_24_BE["cylindree"] = data_as_24_BE["cylindree"].apply(lambda x: float(str(x).replace(" cm³", "").replace(".", "")))
+    data_as_24_BE["date_scrapped"] = datetime.now()
+    data_as_24_BE.rename(columns={"model": "old_model"}, inplace=True)
+
+    # Dataset concatenation
+    data_motoplanete.columns = set_colums(data_motoplanete, concatenation_map, "motoplanete")
+    data_fulloccaz.columns = set_colums(data_fulloccaz, concatenation_map, "fulloccaz")
+    data_motooccasion.columns = set_colums(data_motooccasion, concatenation_map, "moto-occasion")
+    data_motoselection.columns = set_colums(data_motoselection, concatenation_map, "moto-selection")
+    data_as_24_FR.columns = set_colums(data_as_24_FR, concatenation_map, "autoscout24")
+    data_as_24_BE.columns = set_colums(data_as_24_BE, concatenation_map, "autoscout24_de")
+
+    # Concatenation
+    data = pd.concat([data_motoplanete[columns_to_keep],
+                      data_fulloccaz[columns_to_keep],
+                      data_motooccasion[columns_to_keep],
+                      data_motoselection[columns_to_keep],
+                      data_as_24_FR[columns_to_keep]
+                      #data_as_24_BE[columns_to_keep]
+                     ], axis=0, ignore_index=True)
+
+    data.to_csv(raw_data, index=False)
+
+    print(colored("Concat dataset saved as master/master_data.csv. Shape: " + str(data.shape), "green"))
+
+    return data
 
 
 def get_raw_data():
@@ -98,6 +155,8 @@ def clean_raw_data(df):
     ''' return clean dataframe '''
     df = df[~df["brand"].isnull()]
     df = df[~df["model"].isnull()]
+    df = df[df["bike_year"] != "['']"]
+    df["bike_year"] = df["bike_year"].apply(lambda x: int(x))
     df = df[(df["bike_year"] >= 1900) & (df["bike_year"] <= datetime.now().year)]
     df = df[(df["mileage"] >= 100) & (df["mileage"] <= 150000)]
     df = df[(df["price"] >= 100) & (df["price"] < 40000)]
@@ -162,4 +221,4 @@ if __name__ == '__main__':
     df_train = clean_data(df_train)
     print("Train dataframe loaded. Shape:" + str(df_train.shape))
     print("Train dataframe columns:" + str(list(df_train.columns)))
-    print(concat_df())
+    concat_df()
