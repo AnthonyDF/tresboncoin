@@ -75,7 +75,7 @@ class Trainer():
                                  ])
 
 
-    def cross_validate_baseline(self, cv=20):
+    def cross_validate_baseline(self, cv=3):
         """ compute model baseline rmse and r2 scores """
 
         baseline = cross_validate(self.pipeline,
@@ -83,7 +83,7 @@ class Trainer():
                                   self.y,
                                   scoring={"rmse": self.scorer, "r2": "r2"},
                                   cv=cv)
-        self.baseline_r2 = baseline['test_r2'].mean()
+        self.baseline_r2 = baseline['test_r2']#.mean()
         self.baseline_rmse = -baseline['test_rmse'].mean()
         print("Baseline " + type(self.params["model"]).__name__ + " model r2 score: " +
               str(self.baseline_r2))
@@ -103,8 +103,8 @@ class Trainer():
         self.model = RandomizedSearchCV(self.pipeline,
                                         self.params["random_grid_search"],
                                         scoring="r2",
-                                        n_iter=100,
-                                        cv=10,
+                                        n_iter=30,
+                                        cv=3,
                                         n_jobs=-1,
                                         verbose=1)
         self.model.fit(self.X, self.y)
