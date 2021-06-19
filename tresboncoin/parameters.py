@@ -33,8 +33,9 @@ params_ETR = {"random_grid_search": grid_ETR,
 ######################################################
 grid_KNR = {'model__weights': ['distance', 'uniform'],
             'model__algorithm': ['ball_tree', 'kd_tree'],
-            'model__leaf_size': np.linspace(25, 40, 15),
-            'model__p': [1, 2],
+            'model__n_neighbors': np.arange(5, 15, 1),
+            'model__leaf_size': np.linspace(1, 40, 10),
+            'model__metric': ["manhattan", "euclidean"],
             "preprocessor__scaler": [StandardScaler(), RobustScaler(), MinMaxScaler()]
             }
 params_KNR = {"random_grid_search": grid_KNR,

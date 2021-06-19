@@ -67,12 +67,17 @@ def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_
         deal = "Bad"
     else:
         deal = "OK"
-    return {"predicted_price": y_pred[0],
-            "deal": deal,
-            "bike_year": X_fuzzy_matched["bike_year"].iloc[0],
-            "engine_size": X_fuzzy_matched["engine_size"].iloc[0],
-            "km/year": X_pred["km/year"].iloc[0],
-            "mileage": X_pred["mileage"].iloc[0],
-            "engine_size_db": X_fuzzy_matched["engine_size_db"].iloc[0],
-            "brand_db": X_fuzzy_matched["brand_db"].iloc[0],
-            "model_db": X_fuzzy_matched["model_db"].iloc[0]}
+    # return {"predicted_price": y_pred[0],
+    #         "deal": deal,
+    #         "bike_year": X_fuzzy_matched["bike_year"].iloc[0],
+    #         "engine_size": X_fuzzy_matched["engine_size"].iloc[0],
+    #         "km/year": X_pred["km/year"].iloc[0],
+    #         "mileage": X_pred["mileage"].iloc[0],
+    #         "engine_size_db": X_fuzzy_matched["engine_size_db"].iloc[0],
+    #         "brand_db": X_fuzzy_matched["brand_db"].iloc[0],
+    #         "model_db": X_fuzzy_matched["model_db"].iloc[0]}
+    return {"predicted_price": 123,
+            "deal": 123,
+            "bike_year": 123,
+            "engine_size": 123,
+            "km/year": 123}
