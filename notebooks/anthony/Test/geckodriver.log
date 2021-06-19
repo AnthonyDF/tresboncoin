@@ -1,0 +1,20 @@
+1623958652924	geckodriver	INFO	Listening on 127.0.0.1:60920
+1623958653831	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/xv/rpn7bw656699zg3_4g87kc9c0000gn/T/rust_mozprofileaHnfC3"
+1623958657496	Marionette	INFO	Marionette enabled
+2021-06-17 21:37:38.194 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSButton: 0x13592ac00>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2021-06-17 21:37:38.194 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSButton: 0x135b91c00>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2021-06-17 21:37:38.195 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSButton: 0x135b95400>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2021-06-17 21:37:38.195 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSButton: 0x135b94c00>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2021-06-17 21:37:38.196 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSButton: 0x135b92000>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2021-06-17 21:37:38.196 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSPopoverTouchBarItemButton: 0x135b95000>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2021-06-17 21:37:38.197 firefox-bin[39107:666711] Warning: Expected min height of view: (<NSPopoverTouchBarItemButton: 0x135b98000>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/xv/rpn7bw656699zg3_4g87kc9c0000gn/T/rust_mozprofileaHnfC3/search.json.mozlz4", (void 0)))
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 419))
+1623958659218	Marionette	INFO	Listening on port 60934
+console.error: Region.jsm: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 419))
+1623960735826	Marionette	INFO	Stopped listening on port 60934
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
