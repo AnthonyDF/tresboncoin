@@ -2,8 +2,10 @@
 import os
 import joblib
 import numpy as np
+import pandas as pd
 from termcolor import colored
 from datetime import datetime
+from tresboncoin.parameters import df_ids
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
@@ -20,6 +22,44 @@ def km_per_year(km, bike_year):
     if (datetime.now().year - bike_year) == 0:
         return km
     return km / (datetime.now().year - bike_year)
+
+
+def set_brand_and_model(df, feature_name, r=None):
+
+    # init var
+    brand_list = [np.nan] * df.shape[0]
+    model_list = [np.nan] * df.shape[0]
+
+    # set brands to lower
+    df[feature_name] = df[feature_name].apply(lambda x: x.lower())
+
+    # find brand
+    for k in range(df.shape[0]):
+        val = df[feature_name].iloc[k]
+        for brand in r:
+            if val.find(brand) >= 0:
+                brand_list[k] = brand.strip()
+                model_list[k] = val.replace(brand.strip(), "").strip()
+    df["Brand"] = pd.Series(brand_list)
+    df["Model"] = pd.Series(model_list)
+
+    return df
+
+
+def set_colums(df_, dict_, sitename_):
+    site_id = df_ids[sitename_]
+    old_columns = list(dict_.iloc[site_id])
+    new_columns = list(dict_.iloc[site_id].index)
+
+    fd_new_columns = []
+
+    for k in df_.columns:
+        if k in old_columns:
+            line_id = old_columns.index(k)
+            fd_new_columns.append(new_columns[line_id])
+        else:
+            fd_new_columns.append(k)
+    return fd_new_columns
 
 
 if __name__ == "__main__":
