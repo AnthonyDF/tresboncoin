@@ -29,7 +29,7 @@ import joblib
 
 
 # Update to change parameters to test
-params = params_ETR
+params = params_KNR
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
@@ -103,7 +103,7 @@ class Trainer():
         self.model = RandomizedSearchCV(self.pipeline,
                                         self.params["random_grid_search"],
                                         scoring="r2",
-                                        n_iter=50,
+                                        n_iter=100,
                                         cv=10,
                                         n_jobs=-1,
                                         verbose=1)
