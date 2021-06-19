@@ -207,6 +207,11 @@ def clean_data(df):
 
 
 if __name__ == '__main__':
+
+    # concatenate scraping outputs
+    concat_df()
+
+    # fuzzy match
     new_data = get_new_data(clean_raw_data(get_raw_data()), get_data())
     print("New data to be matched. Shape:" + str(new_data.shape))
     if not new_data.empty:
@@ -221,4 +226,3 @@ if __name__ == '__main__':
     df_train = clean_data(df_train)
     print("Train dataframe loaded. Shape:" + str(df_train.shape))
     print("Train dataframe columns:" + str(list(df_train.columns)))
-    concat_df()
