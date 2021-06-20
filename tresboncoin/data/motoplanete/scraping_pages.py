@@ -10,11 +10,16 @@ import time
 import random
 import pandas as pd
 
+PATH_TO_CSV = os.path.dirname(os.path.abspath(__file__)).replace('/motoplante', '') + '/scraping_outputs/motoplante.csv'
+PATH_TO_LOG = os.path.dirname(os.path.abspath(__file__)).replace('/motoplante', '') + "/log.csv"
+PATH_TO_FOLDER = os.path.dirname(os.path.abspath(__file__))
+PATH_TO_IMG_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/img'
+PATH_TO_PAGES_FOLDER = os.path.dirname(os.path.abspath(__file__)) + ('/pages')
+PATH_TO_ANNONCES_FOLDER = os.path.dirname(os.path.abspath(__file__)) + ('/annonces')
+PATH_TO_INDEX = os.path.dirname(os.path.abspath(__file__)) + '/index.csv'
+
 
 def scraping_pages():
-
-    # log file name
-    csv_name = "../log_motoplanete.csv"
 
     # init scrap
     page_number = 1
@@ -23,20 +28,18 @@ def scraping_pages():
     # site to scrap
     source = 'motoplanete'
 
-    # log update
-    log_new = pd.DataFrame({'source': [source],
-                            'step': ['scrap pages'],
-                            'status': ['started'],
-                            'time': [datetime.datetime.now()],
-                            'details': [""]})
+    # Start time
+    start_time = datetime.now()
 
-    # init log
-    if os.path.isfile(csv_name) is False:
-        log_new.to_csv(csv_name, index=False)
-    else:
-        log_import = pd.read_csv(csv_name)
-        log = log_import.append(log_new, ignore_index=True)
-        log.to_csv(csv_name, index=False)
+    # log update
+    log_import = pd.read_csv(PATH_TO_LOG)
+    log_new = pd.DataFrame({'source': [source],
+                            'step': ['scrap annonces'],
+                            'status': ['started'],
+                            'time': [datetime.now()],
+                            'details': [""]})
+    log = log_import.append(log_new, ignore_index=True)
+    log.to_csv(PATH_TO_LOG, index=False)
 
 
     try:
@@ -60,29 +63,28 @@ def scraping_pages():
                 scrap=False
 
         # End time
-        end_time = datetime.datetime.now()
+        end_time = datetime.now()
         td = end_time - start_time
 
         # log update
-        log_import = pd.read_csv(csv_name)
+        log_import = pd.read_csv(PATH_TO_LOG)
         log_new = pd.DataFrame({'source': [source],
                                 'step': ['scrap pages'],
                                 'status': ['completed'],
-                                'time': [datetime.datetime.now()],
-                                'details': [f"{td.seconds/60} minutes elapsed, {page_number} pages scrapped"]})
+                                'time': [datetime.now()],
+                                'details': [f"{td.seconds/60} minutes elapsed"]})
         log = log_import.append(log_new, ignore_index=True)
-        log.to_csv(csv_name, index=False)
+        log.to_csv(PATH_TO_LOG, index=False)
 
     except (ValueError, TypeError, NameError, KeyError, RuntimeWarning) as err:
         # log update
-        log_import = pd.read_csv(csv_name)
+        log_import = pd.read_csv(PATH_TO_LOG)
         log_new = pd.DataFrame({'source': [source],
-                                'step': ['scrap pages'],
-                                'status': ['error'],
-                                'time': [datetime.datetime.now()],
+                               'status': ['error'],
+                                'time': [datetime.now()],
                                 'details': [err]})
         log = log_import.append(log_new, ignore_index=True)
-        log.to_csv(csv_name, index=False)
+        log.to_csv(PATH_TO_LOG, index=False)
 
 
 if __name__ == "__main__":

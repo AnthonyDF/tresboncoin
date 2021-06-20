@@ -1,0 +1,332 @@
+source,step,status,time,details
+moto-occasion,scrap pages,started,2021-05-31 22:32:59.471519,
+moto-occasion,scrap pages,completed,2021-05-31 22:34:37.300255,"1.6166666666666667 minutes elapsed, 148 pages scrapped"
+moto-occasion,scrap annonces,started,2021-05-31 22:36:14.636114,
+moto-occasion,scrap annonces,completed,2021-05-31 22:37:30.088782,"1.25 minutes elapsed, 9 annonces scrapped"
+moto-occasion,to dataframe,started,2021-05-31 22:43:55.826930,
+annonces/moto-occasion-WT140666-2021-05-31_22h36.html,to dataframe,error,2021-05-31 22:44:16.016510,name 'td' is not defined
+moto-occasion,scrap pages,started,2021-06-01 14:09:47.394105,
+moto-occasion,scrap pages,completed,2021-06-01 14:11:00.002043,"1.2 minutes elapsed, 148 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-01 14:11:24.884528,
+moto-occasion,scrap annonces,completed,2021-06-01 14:15:42.449822,"4.283333333333333 minutes elapsed, 40 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-01 14:17:45.033270,
+annonces/moto-occasion-WT140672-2021-06-01_14h11.html,to dataframe,error,2021-06-01 14:19:22.913656,name 'td' is not defined
+moto-occasion,scrap pages,started,2021-06-01 14:47:58.668113,
+moto-occasion,scrap pages,started,2021-06-01 19:06:44.396512,
+moto-occasion,scrap pages,started,2021-06-02 12:04:50.125894,
+moto-occasion,scrap pages,completed,2021-06-02 12:22:55.196843,"18.083333333333332 minutes elapsed, 145 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-02 12:22:55.238639,
+moto-occasion,scrap annonces,completed,2021-06-02 12:30:28.882183,"7.55 minutes elapsed, 67 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-02 12:30:28.886158,
+moto-occasion,to dataframe,error,2021-06-02 12:30:28.923246,name 'site_code' is not defined
+moto-occasion,scrap pages,started,2021-06-03 18:39:32.059266,
+moto-occasion,scrap pages,completed,2021-06-03 18:58:28.809528,"18.933333333333334 minutes elapsed, 148 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-03 18:58:28.853878,
+moto-occasion,scrap annonces,completed,2021-06-03 19:18:39.817329,"20.183333333333334 minutes elapsed, 187 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-03 19:18:39.822874,
+moto-occasion,to dataframe,error,2021-06-03 19:18:39.863874,name 'site_code' is not defined
+moto-occasion,scrap pages,started,2021-06-04 17:00:45.774652,
+moto-occasion,scrap pages,started,2021-06-04 17:17:14.801515,
+moto-occasion,scrap pages,completed,2021-06-04 17:36:35.326461,"19.333333333333332 minutes elapsed, 146 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-04 17:36:35.364222,
+moto-occasion,scrap pages,started,2021-06-04 18:51:06.074824,
+moto-occasion,scrap pages,started,2021-06-04 19:00:28.388595,
+moto-occasion,scrap pages,completed,2021-06-04 19:19:27.238673,"18.966666666666665 minutes elapsed, 146 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-04 19:19:27.274540,
+moto-occasion,scrap annonces,completed,2021-06-04 19:45:38.623230,"26.183333333333334 minutes elapsed, 257 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-04 19:45:38.627941,
+moto-occasion,to dataframe,error,2021-06-04 19:45:38.669023,name 'site_code' is not defined
+moto-occasion,scrap pages,started,2021-06-04 19:50:54.058067,
+moto-occasion,scrap pages,completed,2021-06-04 20:09:16.852552,"18.366666666666667 minutes elapsed, 146 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-04 20:09:16.883150,
+moto-occasion,scrap annonces,completed,2021-06-04 20:35:48.876536,"26.533333333333335 minutes elapsed, 257 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-04 20:35:48.881690,
+moto-occasion,to dataframe,error,2021-06-04 20:35:48.925730,name 'site_code' is not defined
+moto-occasion,scrap pages,started,2021-06-05 09:42:12.390191,
+moto-occasion,scrap pages,completed,2021-06-05 10:02:01.765339,"19.816666666666666 minutes elapsed, 151 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-05 10:02:01.794085,
+moto-occasion,scrap annonces,completed,2021-06-05 10:36:37.678122,"34.583333333333336 minutes elapsed, 329 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-05 10:36:37.683244,
+moto-selection,scrap pages,started,2021-06-05 11:23:41.379493,
+moto-selection,scrap annonces,started,2021-06-05 11:25:08.944819,
+moto-selection,scrap annonces,completed,2021-06-05 11:26:00.623822,"0.85 minutes elapsed, 30 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-05 11:26:34.950966,
+moto-selection,to dataframe,error,2021-06-05 11:28:51.698744,name 'page_number' is not defined
+moto-selection,scrap pages,started,2021-06-05 11:29:27.898987,
+moto-selection,scrap annonces,started,2021-06-05 11:29:50.339249,
+moto-selection,scrap annonces,completed,2021-06-05 11:30:17.417070,"0.45 minutes elapsed, 15 annonces scrapped"
+moto-selection,scrap pages,started,2021-06-05 11:33:49.542541,
+moto-selection,scrap annonces,started,2021-06-05 11:34:00.697300,
+moto-selection,scrap annonces,started,2021-06-05 11:35:28.115630,
+moto-selection,scrap annonces,started,2021-06-05 11:36:22.207107,
+moto-selection,scrap annonces,started,2021-06-05 11:40:47.781470,
+moto-selection,scrap annonces,started,2021-06-05 11:41:43.787779,
+moto-selection,scrap annonces,completed,2021-06-05 11:41:43.869200,"0.0 minutes elapsed, 0 annonces scrapped"
+moto-selection,scrap annonces,started,2021-06-05 11:43:27.790377,
+moto-selection,scrap annonces,completed,2021-06-05 11:43:27.795381,"0.0 minutes elapsed, 0 annonces scrapped"
+moto-selection,scrap pages,started,2021-06-05 11:45:03.572079,
+moto-selection,scrap pages,started,2021-06-05 11:46:51.772803,
+moto-occasion,scrap pages,started,2021-06-05 11:54:08.609492,
+moto-occasion,scrap annonces,started,2021-06-05 11:54:40.396834,
+moto-occasion,scrap annonces,completed,2021-06-05 11:56:22.013675,"1.6833333333333333 minutes elapsed, 15 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-05 11:57:56.316522,
+moto-occasion,to dataframe,completed,2021-06-05 11:58:37.089122,0.6666666666666666 minutes elapsed
+moto-occasion,scrap pages,started,2021-06-05 11:58:45.571610,
+moto-occasion,scrap annonces,started,2021-06-05 11:59:07.403386,
+moto-occasion,scrap annonces,completed,2021-06-05 11:59:07.512043,"0.0 minutes elapsed, 0 annonces scrapped"
+moto-selection,scrap pages,completed,2021-06-05 12:00:02.868203,"13.183333333333334 minutes elapsed, 243 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-05 12:00:02.877679,
+moto-selection,scrap annonces,completed,2021-06-05 14:46:11.913170,"166.15 minutes elapsed, 3613 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-05 14:46:11.917267,
+moto-occasion,scrap pages,started,2021-06-05 15:24:03.974873,
+moto-occasion,scrap pages,started,2021-06-05 15:25:06.889780,
+moto-occasion,scrap pages,started,2021-06-05 15:25:37.960810,
+moto-occasion,scrap pages,completed,2021-06-05 15:30:46.068040,"5.133333333333334 minutes elapsed, 145 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-05 15:30:46.101216,
+moto-occasion,scrap annonces,completed,2021-06-05 15:39:24.542858,"8.633333333333333 minutes elapsed, 300 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-05 15:39:24.547243,
+moto-occasion,to dataframe,completed,2021-06-05 15:53:00.686407,13.6 minutes elapsed
+moto-selection,to dataframe,started,2021-06-05 19:14:48.109964,
+moto-selection,to dataframe,error,2021-06-05 20:28:40.459800,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-06 20:25:10.140348,
+moto-selection,scrap pages,started,2021-06-06 20:25:29.075599,
+moto-occasion,scrap pages,completed,2021-06-06 20:29:47.799487,"4.616666666666666 minutes elapsed, 143 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-06 20:29:47.838780,
+moto-occasion,scrap annonces,completed,2021-06-06 20:32:11.482323,"2.3833333333333333 minutes elapsed, 73 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-06 20:32:11.487063,
+moto-occasion,to dataframe,completed,2021-06-06 20:35:02.203295,2.8333333333333335 minutes elapsed
+moto-selection,scrap pages,completed,2021-06-06 20:38:19.242690,"12.833333333333334 minutes elapsed, 242 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-06 20:38:19.290599,
+moto-selection,scrap annonces,completed,2021-06-06 20:48:31.684850,"10.2 minutes elapsed, 211 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-06 20:48:31.690300,
+moto-selection,to dataframe,error,2021-06-06 20:59:34.896996,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-07 23:15:26.410595,
+moto-selection,scrap pages,started,2021-06-07 23:15:41.872419,
+moto-occasion,scrap pages,completed,2021-06-07 23:21:21.417864,"5.916666666666667 minutes elapsed, 143 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-07 23:21:21.458611,
+moto-occasion,scrap annonces,completed,2021-06-07 23:22:05.951836,"0.7333333333333333 minutes elapsed, 16 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-07 23:22:05.956597,
+moto-occasion,to dataframe,completed,2021-06-07 23:22:53.236002,0.7833333333333333 minutes elapsed
+moto-selection,scrap pages,completed,2021-06-07 23:29:40.964901,"13.983333333333333 minutes elapsed, 241 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-07 23:29:41.015215,
+moto-selection,scrap annonces,completed,2021-06-07 23:38:21.343668,"8.666666666666666 minutes elapsed, 161 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-07 23:38:21.348209,
+moto-selection,to dataframe,error,2021-06-07 23:48:17.488225,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-10 11:25:36.518853,
+moto-selection,scrap pages,started,2021-06-10 11:25:51.214460,
+moto-occasion,scrap pages,completed,2021-06-10 11:31:07.243261,"5.5 minutes elapsed, 142 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-10 11:31:07.280063,
+moto-occasion,scrap annonces,completed,2021-06-10 11:37:08.704701,"6.016666666666667 minutes elapsed, 182 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-10 11:37:08.710434,
+moto-selection,scrap pages,completed,2021-06-10 11:39:35.459868,"13.733333333333333 minutes elapsed, 238 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-10 11:39:35.506668,
+moto-occasion,to dataframe,completed,2021-06-10 11:47:13.154087,10.066666666666666 minutes elapsed
+moto-selection,scrap annonces,completed,2021-06-10 11:52:10.174737,"12.566666666666666 minutes elapsed, 252 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-10 11:52:10.179741,
+moto-selection,to dataframe,error,2021-06-10 12:10:00.010443,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-11 18:26:25.520587,
+moto-selection,scrap pages,started,2021-06-11 18:26:36.537803,
+moto-occasion,scrap pages,completed,2021-06-11 18:31:52.894460,"5.45 minutes elapsed, 144 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-11 18:31:52.941894,
+moto-occasion,scrap annonces,completed,2021-06-11 18:35:41.787122,"3.8 minutes elapsed, 111 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-11 18:35:41.792850,
+moto-selection,scrap pages,completed,2021-06-11 18:39:57.067991,"13.333333333333334 minutes elapsed, 238 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-11 18:39:57.117603,
+moto-occasion,to dataframe,completed,2021-06-11 18:41:08.978114,5.45 minutes elapsed
+moto-selection,scrap annonces,completed,2021-06-11 18:49:53.849723,"9.933333333333334 minutes elapsed, 195 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-11 18:49:53.856540,
+moto-selection,to dataframe,started,2021-06-11 19:24:51.773269,
+moto-selection,to dataframe,error,2021-06-11 19:35:52.227016,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-12 10:03:20.317432,
+moto-selection,scrap pages,started,2021-06-12 10:03:46.885247,
+moto-occasion,scrap pages,completed,2021-06-12 10:08:10.441740,"4.833333333333333 minutes elapsed, 144 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-12 10:08:10.484439,
+moto-occasion,scrap annonces,completed,2021-06-12 10:11:25.586439,"3.25 minutes elapsed, 105 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-12 10:11:25.591652,
+moto-selection,scrap pages,completed,2021-06-12 10:16:31.992470,"12.75 minutes elapsed, 241 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-12 10:16:32.044228,
+moto-occasion,to dataframe,completed,2021-06-12 10:16:35.190024,5.15 minutes elapsed
+moto-selection,scrap annonces,completed,2021-06-12 10:26:58.271290,"10.433333333333334 minutes elapsed, 219 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-12 10:26:58.279029,
+moto-selection,to dataframe,error,2021-06-12 10:39:56.102306,name 'page_number' is not defined
+moto-selection,to dataframe,started,2021-06-12 10:39:56.125840,
+moto-selection,to dataframe,error,2021-06-12 10:39:56.139636,name 'page_number' is not defined
+moto-selection,scrap pages,started,2021-06-15 09:15:48.060020,
+moto-occasion,scrap pages,started,2021-06-15 09:15:57.403092,
+moto-occasion,scrap pages,completed,2021-06-15 09:21:09.588843,"5.2 minutes elapsed, 143 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-15 09:21:09.633035,
+moto-occasion,scrap annonces,completed,2021-06-15 09:23:42.434799,"2.533333333333333 minutes elapsed, 71 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-15 09:23:42.439571,
+moto-occasion,to dataframe,completed,2021-06-15 09:27:41.893516,3.9833333333333334 minutes elapsed
+moto-selection,scrap pages,completed,2021-06-15 09:29:36.903054,"13.8 minutes elapsed, 240 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-15 09:29:36.954997,
+moto-selection,scrap annonces,completed,2021-06-15 10:21:58.089200,"52.35 minutes elapsed, 315 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-15 10:21:58.096029,
+moto-selection,to dataframe,started,2021-06-15 11:14:21.633192,
+moto-selection,to dataframe,error,2021-06-15 11:42:00.275366,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-17 15:37:04.021578,
+moto-selection,scrap pages,started,2021-06-17 15:37:24.998759,
+moto-occasion,scrap pages,completed,2021-06-17 15:42:06.649752,"5.033333333333333 minutes elapsed, 143 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-17 15:42:06.683915,
+moto-occasion,scrap annonces,completed,2021-06-17 15:48:26.327297,"6.316666666666666 minutes elapsed, 205 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-17 15:48:26.333338,
+moto-selection,scrap pages,completed,2021-06-17 15:50:46.253203,"13.35 minutes elapsed, 236 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-17 15:50:46.307566,
+moto-occasion,to dataframe,completed,2021-06-17 15:59:09.799867,10.716666666666667 minutes elapsed
+moto-selection,scrap annonces,completed,2021-06-17 16:01:35.356500,"10.816666666666666 minutes elapsed, 213 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-17 16:01:35.361812,
+moto-selection,to dataframe,error,2021-06-17 16:16:42.745638,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-19 11:31:40.257611,
+moto-selection,scrap pages,started,2021-06-19 11:31:52.792432,
+moto-occasion,scrap pages,completed,2021-06-19 11:36:24.692000,"4.733333333333333 minutes elapsed, 145 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-19 11:36:24.735109,
+moto-occasion,scrap annonces,completed,2021-06-19 11:42:23.080372,"5.966666666666667 minutes elapsed, 197 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-19 11:42:23.085745,
+moto-selection,scrap pages,completed,2021-06-19 11:44:40.033132,"12.783333333333333 minutes elapsed, 242 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-19 11:44:40.090307,
+moto-occasion,to dataframe,completed,2021-06-19 11:51:00.274388,8.616666666666667 minutes elapsed
+moto-selection,scrap annonces,completed,2021-06-19 12:04:13.633157,"19.55 minutes elapsed, 410 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-19 12:04:13.638807,
+moto-selection,to dataframe,error,2021-06-19 12:31:42.708497,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-20 13:17:29.507881,
+moto-selection,scrap pages,started,2021-06-20 13:20:00.628719,
+moto-occasion,scrap pages,completed,2021-06-20 13:22:08.569200,"4.65 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 13:22:08.610480,
+moto-occasion,scrap annonces,completed,2021-06-20 13:24:51.603511,"2.716666666666667 minutes elapsed, 88 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 13:24:51.608755,
+moto-occasion,to dataframe,completed,2021-06-20 13:27:15.907207,2.4 minutes elapsed
+moto-selection,scrap pages,completed,2021-06-20 13:33:02.558099,"13.016666666666667 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 13:33:02.615016,
+moto-selection,scrap annonces,completed,2021-06-20 13:42:58.099838,"9.916666666666666 minutes elapsed, 209 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 13:42:58.105542,
+moto-selection,to dataframe,error,2021-06-20 13:43:43.666888,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-20 14:00:37.942737,
+moto-selection,scrap pages,started,2021-06-20 14:01:00.653521,
+moto-selection,scrap pages,started,2021-06-20 14:06:18.377089,
+moto-selection,scrap pages,started,2021-06-20 14:07:45.429270,
+moto-selection,scrap pages,started,2021-06-20 14:08:08.321616,
+moto-selection,scrap pages,started,2021-06-20 14:09:18.605970,
+moto-selection,scrap pages,started,2021-06-20 14:12:09.788836,
+moto-selection,scrap pages,started,2021-06-20 14:12:43.947474,
+moto-selection,scrap pages,started,2021-06-20 14:13:29.210931,
+moto-selection,scrap pages,completed,2021-06-20 14:16:24.409901,"2.9166666666666665 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 14:16:24.465714,
+moto-selection,scrap annonces,error,2021-06-20 14:16:24.471000,bad operand type for unary +: 'str'
+moto-selection,to dataframe,started,2021-06-20 14:16:24.475261,
+moto-selection,to dataframe,error,2021-06-20 14:16:24.489352,name 'page_number' is not defined
+moto-occasion,scrap pages,started,2021-06-20 14:16:29.795106,
+moto-occasion,scrap pages,completed,2021-06-20 14:17:41.515532,"1.1833333333333333 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 14:17:41.558332,
+moto-occasion,scrap annonces,completed,2021-06-20 14:17:57.855300,"0.26666666666666666 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 14:17:57.860525,
+moto-occasion,to dataframe,completed,2021-06-20 14:17:57.875730,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 14:28:29.353245,
+moto-selection,scrap pages,completed,2021-06-20 14:31:26.446462,"2.95 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 14:31:26.500857,
+moto-selection,scrap annonces,error,2021-06-20 14:31:26.505684,bad operand type for unary +: 'str'
+moto-selection,to dataframe,started,2021-06-20 14:31:26.510590,
+moto-selection,to dataframe,error,2021-06-20 14:31:26.523899,name 'page_number' is not defined
+moto-selection,scrap pages,started,2021-06-20 14:35:54.288868,
+moto-selection,scrap pages,completed,2021-06-20 14:38:49.160535,"2.9 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 14:38:49.212902,
+moto-selection,scrap annonces,error,2021-06-20 14:38:49.218502,bad operand type for unary +: 'str'
+moto-selection,to dataframe,started,2021-06-20 14:38:49.222812,
+moto-selection,scrap pages,completed,2021-06-20 14:38:49.234151,"0.0 minutes elapsed, 1 pages scrapped"
+moto-selection,scrap pages,started,2021-06-20 14:43:08.637199,
+moto-selection,scrap pages,completed,2021-06-20 14:46:01.069502,"2.8666666666666667 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 14:46:01.124402,
+moto-selection,scrap pages,started,2021-06-20 14:47:21.214904,
+moto-selection,scrap pages,completed,2021-06-20 14:50:15.658556,"2.9 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 14:50:15.710318,
+moto-selection,scrap annonces,completed,2021-06-20 15:04:19.038286,"14.05 minutes elapsed, 260 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 15:04:19.044325,
+moto-selection,scrap pages,completed,2021-06-20 15:04:21.468430,"0.03333333333333333 minutes elapsed, 53 pages scrapped"
+moto-occasion,scrap pages,started,2021-06-20 16:10:56.233784,
+moto-occasion,scrap pages,completed,2021-06-20 16:12:08.283445,"1.2 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 16:12:08.320669,
+moto-occasion,scrap annonces,completed,2021-06-20 16:12:23.937752,"0.25 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 16:12:23.942838,
+moto-occasion,to dataframe,completed,2021-06-20 16:12:23.956454,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 16:12:24.065468,
+moto-selection,scrap pages,completed,2021-06-20 16:15:24.415433,"3.0 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 16:15:24.464522,
+moto-selection,scrap annonces,completed,2021-06-20 16:18:16.267823,"2.85 minutes elapsed, 52 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 16:18:16.274072,
+moto-occasion,scrap pages,started,2021-06-20 16:20:48.004027,
+moto-occasion,scrap pages,completed,2021-06-20 16:21:59.307435,"1.1833333333333333 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 16:21:59.345036,
+moto-occasion,scrap annonces,completed,2021-06-20 16:22:15.111409,"0.25 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 16:22:15.116581,
+moto-occasion,to dataframe,completed,2021-06-20 16:22:15.128246,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 16:22:15.242585,
+moto-selection,scrap pages,completed,2021-06-20 16:25:13.971336,"2.966666666666667 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 16:25:14.029126,
+moto-selection,scrap annonces,completed,2021-06-20 16:28:07.072088,"2.8833333333333333 minutes elapsed, 52 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 16:28:07.079086,
+moto-selection,scrap pages,completed,2021-06-20 16:28:12.278665,"0.08333333333333333 minutes elapsed, 105 pages scrapped"
+motomag,scrap pages,started,2021-06-20 16:30:32.426627,
+motomag,scrap pages,started,2021-06-20 16:31:26.895974,
+motomag,scrap pages,completed,2021-06-20 16:34:35.017957,"3.1333333333333333 minutes elapsed, 127 pages scrapped"
+motomag,scrap pages,started,2021-06-20 16:56:47.625303,
+motomag,scrap pages,completed,2021-06-20 16:57:56.512359,"1.1333333333333333 minutes elapsed, 127 pages scrapped"
+motomag,scrap pages,started,2021-06-20 17:08:06.605038,
+moto-occasion,scrap pages,started,2021-06-20 18:07:23.665852,
+moto-occasion,scrap pages,completed,2021-06-20 18:08:35.311756,"1.1833333333333333 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 18:08:35.351410,
+moto-occasion,scrap annonces,completed,2021-06-20 18:08:50.832578,"0.25 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 18:08:50.837778,
+moto-occasion,to dataframe,completed,2021-06-20 18:08:50.849575,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 18:08:50.962523,
+moto-selection,scrap pages,completed,2021-06-20 18:11:46.283854,"2.9166666666666665 minutes elapsed, 244 pages scrapped"
+moto-occasion,scrap pages,started,2021-06-20 18:15:41.543436,
+moto-occasion,scrap pages,completed,2021-06-20 18:16:53.584171,"1.2 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 18:16:53.621044,
+moto-occasion,scrap annonces,completed,2021-06-20 18:17:08.440128,"0.23333333333333334 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 18:17:08.444613,
+moto-occasion,to dataframe,completed,2021-06-20 18:17:08.455433,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 18:17:08.554736,
+moto-selection,scrap pages,completed,2021-06-20 18:20:06.630495,"2.966666666666667 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 18:20:06.686842,
+moto-selection,scrap annonces,completed,2021-06-20 18:25:59.401792,"5.866666666666666 minutes elapsed, 104 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 18:25:59.408409,
+moto-selection,scrap pages,completed,2021-06-20 18:26:03.017545,"0.05 minutes elapsed, 53 pages scrapped"
+motomag,scrap pages,started,2021-06-20 18:26:03.296173,
+motomag,scrap pages,completed,2021-06-20 18:29:28.434882,"3.4166666666666665 minutes elapsed, 127 pages scrapped"
+moto-occasion,scrap pages,started,2021-06-20 18:54:43.278422,
+moto-occasion,scrap pages,completed,2021-06-20 18:55:56.760430,"1.2166666666666666 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 18:55:56.798894,
+moto-occasion,scrap annonces,completed,2021-06-20 18:56:12.313841,"0.25 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 18:56:12.319590,
+moto-occasion,to dataframe,completed,2021-06-20 18:56:12.335185,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 18:56:12.454614,
+moto-selection,scrap pages,completed,2021-06-20 18:59:05.127264,"2.8666666666666667 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 18:59:05.173132,
+moto-selection,scrap annonces,completed,2021-06-20 19:01:58.794496,"2.8833333333333333 minutes elapsed, 52 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 19:01:58.800261,
+moto-selection,scrap pages,completed,2021-06-20 19:02:01.507267,"0.03333333333333333 minutes elapsed, 53 pages scrapped"
+motomag,scrap pages,started,2021-06-20 19:02:01.666534,
+motomag,scrap pages,completed,2021-06-20 19:03:18.377739,"1.2666666666666666 minutes elapsed, 127 pages scrapped"
+paruvendu,scrap annonces,started,2021-06-20 19:03:18.383588,
+paruvendu,,error,2021-06-20 19:03:18.388177,name 'paruvendu_page_url' is not defined
+paruvendu,scrap annonces,started,2021-06-20 19:03:18.392952,
+paruvendu,scrap annonces,started,2021-06-20 19:27:01.244135,
+paruvendu,,error,2021-06-20 19:27:01.250968,name 'paruvendu_page_url' is not defined
+paruvendu,scrap annonces,started,2021-06-20 19:27:01.256694,
+paruvendu,scrap annonces,started,2021-06-20 19:27:19.113895,
+paruvendu,,error,2021-06-20 19:27:19.120802,name 'paruvendu_page_url' is not defined
+paruvendu,scrap annonces,started,2021-06-20 19:27:19.126442,
+moto-occasion,scrap pages,started,2021-06-20 19:43:12.515846,
+moto-occasion,scrap pages,completed,2021-06-20 19:44:26.589157,"1.2333333333333334 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 19:44:26.628755,
+moto-occasion,scrap annonces,completed,2021-06-20 19:44:44.203480,"0.2833333333333333 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 19:44:44.211464,
+moto-occasion,to dataframe,completed,2021-06-20 19:44:44.229972,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 19:44:44.374860,
+moto-selection,scrap pages,completed,2021-06-20 19:47:41.547906,"2.95 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 19:47:41.554631,
+moto-selection,scrap annonces,completed,2021-06-20 19:57:34.248630,"9.866666666666667 minutes elapsed, 52 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 19:57:34.254501,
+moto-selection,scrap pages,completed,2021-06-20 19:57:36.576362,"0.03333333333333333 minutes elapsed, 53 pages scrapped"
+motomag,scrap pages,started,2021-06-20 19:57:36.715138,
+motomag,scrap pages,started,2021-06-20 20:19:39.261562,
+motomag,scrap pages,completed,2021-06-20 20:21:29.854043,"1.8333333333333333 minutes elapsed, 127 pages scrapped"
