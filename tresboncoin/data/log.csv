@@ -330,3 +330,17 @@ moto-selection,scrap pages,completed,2021-06-20 19:57:36.576362,"0.0333333333333
 motomag,scrap pages,started,2021-06-20 19:57:36.715138,
 motomag,scrap pages,started,2021-06-20 20:19:39.261562,
 motomag,scrap pages,completed,2021-06-20 20:21:29.854043,"1.8333333333333333 minutes elapsed, 127 pages scrapped"
+moto-occasion,scrap pages,started,2021-06-20 21:43:57.390851,
+moto-occasion,scrap pages,completed,2021-06-20 21:45:10.590750,"1.2166666666666666 minutes elapsed, 147 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-20 21:45:10.628947,
+moto-occasion,scrap annonces,completed,2021-06-20 21:45:24.907091,"0.23333333333333334 minutes elapsed, 0 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-20 21:45:24.911864,
+moto-occasion,to dataframe,completed,2021-06-20 21:45:24.922637,0.0 minutes elapsed
+moto-selection,scrap pages,started,2021-06-20 21:45:25.026735,
+moto-selection,scrap pages,completed,2021-06-20 21:48:19.591850,"2.9 minutes elapsed, 244 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-20 21:48:19.599162,
+moto-selection,scrap annonces,completed,2021-06-20 21:51:08.165951,"2.8 minutes elapsed, 52 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-20 21:51:08.171597,
+moto-selection,scrap pages,completed,2021-06-20 21:51:10.577401,"0.03333333333333333 minutes elapsed, 53 pages scrapped"
+motomag,scrap pages,started,2021-06-20 21:51:10.719095,
+motomag,scrap pages,completed,2021-06-20 21:52:44.383926,"1.55 minutes elapsed, 127 pages scrapped"
