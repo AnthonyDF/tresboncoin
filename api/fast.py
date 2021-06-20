@@ -25,12 +25,20 @@ def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_
     model = get_model("model")
 
     # filtering inputs
-    if title_ == "0":
+    if title_ == "0" or title_ == "":
         title_ = None
-    if model_ == "0":
+    if model_ == "0" or model_ == "":
         model_ = None
-    if brand_ == "0":
+    if brand_ == "0" or brand_ == "":
         brand_ = None
+    if cc_ == "0" or cc_ == "":
+        0
+    if year_ == "0" or year_ == "":
+        0
+    if mileage_ == "0" or mileage_ == "":
+        0
+    if price_ == "0" or price_ == "":
+        0
 
     # Fuzzy match from input parameters
     X_input = pd.DataFrame({'uniq_id': [uniq_id_],

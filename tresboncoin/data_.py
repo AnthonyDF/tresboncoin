@@ -6,6 +6,7 @@ from tresboncoin.parameters import columns_to_keep
 from datetime import datetime
 from tresboncoin.fuzzy_match import fuzzy_match
 import pandas as pd
+import numpy as np
 import os
 from termcolor import colored
 import numpy as np
@@ -22,6 +23,9 @@ motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_
 motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-selection.csv"
 as_24_FR_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_FR.csv"
 as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_BE.csv"
+as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_BE.csv"
+lacentrale_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/lacentrale.csv"
+leboncoin_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/leboncoin.csv"
 
 
 def concat_df():
@@ -31,7 +35,12 @@ def concat_df():
             autoscout24
             moto-selection
             moto-occasion
+<<<<<<< HEAD:tresboncoin/data_.py
             motomag
+=======
+            lacentrale
+            leboncoin
+>>>>>>> master:tresboncoin/data.py
     '''
 
     # ebay brand list
@@ -69,7 +78,12 @@ def concat_df():
     data_motoselection = pd.read_csv(motoselection_csv)
     data_as_24_FR = pd.read_csv(as_24_FR_csv)
     data_as_24_BE = pd.read_csv(as_24_BE_csv)
+<<<<<<< HEAD:tresboncoin/data_.py
     data_motomag = pd.read_csv(motomag_csv)
+=======
+    data_lacentrale = pd.read_csv(lacentrale_csv)
+    data_leboncoin = pd.read_csv(leboncoin_csv)
+>>>>>>> master:tresboncoin/data.py
 
     # Cleaning datasets
     # MOTOPLANETE
@@ -103,10 +117,23 @@ def concat_df():
     data_as_24_BE["date_scrapped"] = datetime.now()
     data_as_24_BE.rename(columns={"model": "old_model"}, inplace=True)
 
+<<<<<<< HEAD:tresboncoin/data_.py
     # MOTOMAG
     data_motomag['date_scrapped'] = datetime.now()
     data_motomag['bike_type'] = np.nan
     data_motomag['engine_size'] = np.nan
+=======
+    # LACENTRALE
+    data_lacentrale["uniq_id"] = data_lacentrale["url"].apply(lambda x: "lacentrale-" + x.split("-")[-1].split(".")[0])
+    data_lacentrale["bike_type"] = [np.nan] * data_lacentrale["url"].shape[0]
+    data_lacentrale["date_scrapped"] = datetime.now()
+
+    # LEBONCOIN
+    data_leboncoin["uniq_id"] = data_leboncoin["url"].apply(lambda x: "leboncoin-" + x.split("/")[-1].split(".")[0])
+    data_leboncoin["bike_type"] = [np.nan] * data_leboncoin["url"].shape[0]
+    data_leboncoin["date_scrapped"] = datetime.now()
+
+>>>>>>> master:tresboncoin/data.py
 
     # Dataset concatenation
     data_motoplanete.columns = set_colums(data_motoplanete, concatenation_map, "motoplanete")
@@ -115,7 +142,12 @@ def concat_df():
     data_motoselection.columns = set_colums(data_motoselection, concatenation_map, "moto-selection")
     data_as_24_FR.columns = set_colums(data_as_24_FR, concatenation_map, "autoscout24")
     data_as_24_BE.columns = set_colums(data_as_24_BE, concatenation_map, "autoscout24_de")
+<<<<<<< HEAD:tresboncoin/data_.py
     data_motomag.columns = set_colums(data_motomag, concatenation_map, "motomag")
+=======
+    data_lacentrale.columns = set_colums(data_lacentrale, concatenation_map, "lacentrale")
+    data_leboncoin.columns = set_colums(data_leboncoin, concatenation_map, "leboncoin")
+>>>>>>> master:tresboncoin/data.py
 
     # Concatenation
     data = pd.concat([data_motoplanete[columns_to_keep],
@@ -123,9 +155,16 @@ def concat_df():
                       data_motooccasion[columns_to_keep],
                       data_motoselection[columns_to_keep],
                       data_as_24_FR[columns_to_keep],
+<<<<<<< HEAD:tresboncoin/data_.py
                       data_motomag[columns_to_keep]
                       # data_as_24_BE[columns_to_keep]
                       ], axis=0, ignore_index=True)
+=======
+                      #data_as_24_BE[columns_to_keep]
+                      data_lacentrale[columns_to_keep],
+                      data_leboncoin[columns_to_keep]
+                     ], axis=0, ignore_index=True)
+>>>>>>> master:tresboncoin/data.py
 
     data.to_csv(raw_data, index=False)
 
@@ -167,10 +206,14 @@ def clean_raw_data(df):
     df = df[~df["brand"].isnull()]
     df = df[~df["model"].isnull()]
     df = df[df["bike_year"] != "['']"]
-    df["bike_year"] = df["bike_year"].apply(lambda x: int(x))
+    df["bike_year"] = df["bike_year"].apply(lambda x: int(float(x)))
     df = df[(df["bike_year"] >= 1900) & (df["bike_year"] <= datetime.now().year)]
     df = df[(df["mileage"] >= 100) & (df["mileage"] <= 150000)]
     df = df[(df["price"] >= 100) & (df["price"] < 40000)]
+<<<<<<< HEAD:tresboncoin/data_.py
+=======
+    df = df[(df["engine_size"] >= 49) & (df["engine_size"] < 2100)]
+>>>>>>> master:tresboncoin/data.py
 
     # Clean same annonce with mutiple prices (keep lowest price)
     df.sort_values('price', ascending=False, inplace=True)
@@ -199,7 +242,7 @@ def clean_data(df):
     drop_category.append('unspecified category')
 
     # remove brands with low count of bikes
-    brand_count_threshold = 50
+    brand_count_threshold = 100
     groupby_brand = df.groupby('brand_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
     drop_brand = groupby_brand[groupby_brand.Count < brand_count_threshold].index.to_list()
     df = df[df.brand_db.isin(drop_brand) == False]
