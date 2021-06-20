@@ -1,6 +1,6 @@
-from scraping_pages import scraping_pages
-from scraping_annonces import scraping_annonces
-from scraping_to_dataframe import scraping_to_dataframe
+from data.motoplanete.scraping_pages import scraping_pages
+from data.motoplanete.scraping_annonces import scraping_annonces
+from data.motoplanete.scraping_to_dataframe import scraping_to_dataframe
 
 
 def scraping():

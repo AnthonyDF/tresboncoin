@@ -52,6 +52,19 @@ params_KNR = {"random_grid_search": grid_KNR,
 ######################################################
 # Parameters for datasets concatenation
 ######################################################
+<<<<<<< HEAD
+concatenation_map = pd.DataFrame(dict({"site_name": ["motoplanete", "moto-occasion", "autoscout24", "fulloccaz", "moto-selection", "autoscout24_BE", "motomag"],
+                                       "url": ["url", "url", "url", "url", "url", "url", "url"],
+                                       "uniq_id": ["uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id"],
+                                       "brand": ["Brand", "bike_brand", "Brand", "Brand", "bike_brand", "marque", "brand"],
+                                       "bike_year": ["vehicle release date", "bike_year", "annee", "vehicle release date", "bike_year", "annee", 'bike_year'],
+                                       "mileage": ["mileage", "bike_km", "mileage", "mileage", "bike_km", "mileage", 'mileage'],
+                                       "price": ["price", "price", "price", "price", "price", "price", 'price'],
+                                       "bike_type": ["vehicle type", "bike_type", "carrosserie", "vehicle type", "bike_type", "carrosserie", "bike_type"],
+                                       "model": ["Model", "bike_model", "Model", "Model", "bike_model", "model", "model"],
+                                       "engine_size": ["engine capacity [CC]", "bike_size", "cylindree", "engine capacity [CC]", "bike_size", "cylindree", "engine_size"],
+                                       "date_scrapped": ["date_scrapped", "scrap_date", "date_scrapped", "date_scrapped", "scrap_date", "date_scrapped", "date_scrapped"]}))
+=======
 concatenation_map = pd.DataFrame(dict({"site_name": ["motoplanete", "moto-occasion", "autoscout24", "fulloccaz", "moto-selection", "autoscout24_BE", "lacentrale", "leboncoin"],
                                        "url": ["url", "url", "url", "url", "url", "url", "url", "url"],
                                        "uniq_id": ["uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id"],
@@ -63,6 +76,7 @@ concatenation_map = pd.DataFrame(dict({"site_name": ["motoplanete", "moto-occasi
                                        "model": ["Model", "bike_model", "Model", "Model", "bike_model", "model", "model", "model"],
                                        "engine_size": ["engine capacity [CC]", "bike_size", "cylindree", "engine capacity [CC]", "bike_size", "cylindree", "engine_size", "engine_size"],
                                        "date_scrapped": ["date_scrapped", "scrap_date", "date_scrapped", "date_scrapped", "scrap_date", "date_scrapped", "date_scrapped", "date_scrapped"]}))
+>>>>>>> master
 #
 df_ids = dict({"motoplanete": 0,
                "moto-occasion": 1,
@@ -70,7 +84,11 @@ df_ids = dict({"motoplanete": 0,
                "fulloccaz": 3,
                "moto-selection": 4,
                "autoscout24_de": 5,
+<<<<<<< HEAD
+               'motomag': 6})
+=======
                "lacentrale": 6,
                "leboncoin": 7})
+>>>>>>> master
 #
 columns_to_keep = ["url", "uniq_id", "brand", "bike_year", "mileage", "bike_type", "price", "model", "engine_size", "date_scrapped"]

@@ -2,8 +2,8 @@
 import argparse
 import subprocess
 from termcolor import colored
-from tresboncoin.data import get_data
-from tresboncoin.data import clean_data
+from tresboncoin.data_ import get_data
+from tresboncoin.data_ import clean_data
 from tresboncoin.utils import custom_rmse
 from sklearn.metrics import make_scorer
 from tresboncoin.parameters import *
@@ -146,13 +146,10 @@ class Trainer():
     def mlflow_log_metric(self, key, value):
         self.mlflow_client.log_metric(self.mlflow_run.info.run_id, key, value)
 
-
-
     def save_model(self, model_name):
         """ Save the model into a .joblib format """
         joblib.dump(self.model, model_name + ".joblib")
         print(colored("Trained model saved locally under " + model_name + ".joblib", "green"))
-
 
 
 # terminal parameter definition

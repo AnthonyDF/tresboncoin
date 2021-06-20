@@ -19,10 +19,10 @@ def remove_punctuations(text):
 def fuzzy_match(new_data, moto_database):
 
     # CLEAN BRAND AND MODEL
-    new_data.dropna(subset=['model','brand'],inplace=True)
+    new_data.dropna(subset=['model', 'brand'], inplace=True)
     # lower and remove spaces
-    new_data.brand = new_data.brand.str.lower().str.replace(' ','')
-    new_data.model = new_data.model.str.lower().str.replace(' ','')
+    new_data.brand = new_data.brand.str.lower().str.replace(' ', '')
+    new_data.model = new_data.model.str.lower().str.replace(' ', '')
     # cremove punctuation
     new_data.brand = new_data.brand.apply(remove_punctuations)
     new_data.model = new_data.model.apply(remove_punctuations)
