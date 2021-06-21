@@ -26,6 +26,7 @@ as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outp
 as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_BE.csv"
 lacentrale_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/lacentrale.csv"
 leboncoin_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/leboncoin.csv"
+motovente_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motovente.csv"
 
 
 def concat_df():
@@ -35,12 +36,10 @@ def concat_df():
             autoscout24
             moto-selection
             moto-occasion
-<<<<<<< HEAD:tresboncoin/data_.py
             motomag
-=======
             lacentrale
             leboncoin
->>>>>>> master:tresboncoin/data.py
+            motovente
     '''
 
     # ebay brand list
@@ -81,6 +80,7 @@ def concat_df():
     data_motomag = pd.read_csv(motomag_csv)
     data_lacentrale = pd.read_csv(lacentrale_csv)
     data_leboncoin = pd.read_csv(leboncoin_csv)
+    data_motovente = pd.read_csv(motovente_csv)
 
     # Cleaning datasets
     # MOTOPLANETE
@@ -114,11 +114,6 @@ def concat_df():
     data_as_24_BE["date_scrapped"] = datetime.now()
     data_as_24_BE.rename(columns={"model": "old_model"}, inplace=True)
 
-    # MOTOMAG
-    data_motomag['date_scrapped'] = datetime.now()
-    data_motomag['bike_type'] = np.nan
-    data_motomag['engine_size'] = np.nan
-
     # LACENTRALE
     data_lacentrale["uniq_id"] = data_lacentrale["url"].apply(lambda x: "lacentrale-" + x.split("-")[-1].split(".")[0])
     data_lacentrale["bike_type"] = [np.nan] * data_lacentrale["url"].shape[0]
@@ -139,6 +134,7 @@ def concat_df():
     data_motomag.columns = set_colums(data_motomag, concatenation_map, "motomag")
     data_lacentrale.columns = set_colums(data_lacentrale, concatenation_map, "lacentrale")
     data_leboncoin.columns = set_colums(data_leboncoin, concatenation_map, "leboncoin")
+    data_motovente.columns = set_colums(data_motovente, concatenation_map, "leboncoin")
 
     # Concatenation
     data = pd.concat([data_motoplanete[columns_to_keep],
@@ -149,7 +145,8 @@ def concat_df():
                       data_motomag[columns_to_keep],
                       # data_as_24_BE[columns_to_keep]
                       data_lacentrale[columns_to_keep],
-                      data_leboncoin[columns_to_keep]
+                      data_leboncoin[columns_to_keep],
+                      data_motovente[columns_to_keep]
                       ], axis=0, ignore_index=True)
 
     data.to_csv(raw_data, index=False)
@@ -196,8 +193,7 @@ def clean_raw_data(df):
     df = df[(df["bike_year"] >= 1900) & (df["bike_year"] <= datetime.now().year)]
     df = df[(df["mileage"] >= 100) & (df["mileage"] <= 150000)]
     df = df[(df["price"] >= 100) & (df["price"] < 40000)]
-    # df = df[(df["engine_size"] >= 49) & (df["engine_size"] < 2100)] tempory removed to have mo rows to fuzzy match
-    # because I don't have engin size data from motomag (+3000 annonces)
+    df = df[(df["engine_size"] >= 49) & (df["engine_size"] < 2100)]
 
     # Clean same annonce with mutiple prices (keep lowest price)
     df.sort_values('price', ascending=False, inplace=True)
@@ -239,8 +235,9 @@ def clean_data(df):
 
     # feature engineering
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
+    # df['age'] = df.apply(lambda x: datetime.now().year - x.bike_year, axis=1)
 
-    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'engine_size_db',  'km/year', "price"]]
+    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price"]]
 
 
 if __name__ == '__main__':

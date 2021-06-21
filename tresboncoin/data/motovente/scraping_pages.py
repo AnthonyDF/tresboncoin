@@ -7,10 +7,9 @@ import pandas as pd
 import os
 
 
-PATH_TO_CSV = os.path.dirname(os.path.abspath(__file__)).replace('/moto_selection', '') + '/scraping_outputs/moto-selection.csv'
-PATH_TO_LOG = os.path.dirname(os.path.abspath(__file__)).replace('/moto_selection', '') + "/log.csv"
+PATH_TO_CSV = os.path.dirname(os.path.abspath(__file__)).replace('/motovente', '') + '/scraping_outputs/motovente.csv'
+PATH_TO_LOG = os.path.dirname(os.path.abspath(__file__)).replace('/motovente', '') + "/log.csv"
 PATH_TO_FOLDER = os.path.dirname(os.path.abspath(__file__))
-PATH_TO_IMG_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/img'
 PATH_TO_PAGES_FOLDER = os.path.dirname(os.path.abspath(__file__)) + ('/pages')
 PATH_TO_ANNONCES_FOLDER = os.path.dirname(os.path.abspath(__file__)) + ('/annonces')
 PATH_TO_INDEX = os.path.dirname(os.path.abspath(__file__)) + '/index.csv'
@@ -18,11 +17,11 @@ PATH_TO_INDEX = os.path.dirname(os.path.abspath(__file__)) + '/index.csv'
 
 def scraping_pages():
     try:
-        # Start time
+        # Start time of the pages scrapping
         start_time = datetime.now()
 
         # site to scrap
-        source = 'moto-selection'
+        source = 'motovente'
 
         # log update
         log_import = pd.read_csv(PATH_TO_LOG)
@@ -34,22 +33,15 @@ def scraping_pages():
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv(PATH_TO_LOG, index=False)
 
-        # Scrap the first page to find the max page number and save this page as html
-        url = 'http://www.moto-selection.com/moto-occasion/page-1.html'
-        response = requests.get(url)
-        file_name = source + "-" + '1' + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
+        # init scrap
+        page_number = 1
+        scrap = True
+        while scrap == True:
 
-        with open(PATH_TO_PAGES_FOLDER + f"/{file_name}.html", "w") as file:
-            file.write(response.text)
-            file.close()
+            print("motovente - page number:", page_number)
 
-        soup = BeautifulSoup(response.content, "html.parser")
-        max_page = int(soup.select('#announces_list > h2:nth-child(2) > span:nth-child(2)')[0].text.split(' / ')[-1])
-
-        page_number = 2
-        for page_number in range(2, max_page+1):
             # url to scrap
-            url = f'http://www.moto-selection.com/moto-occasion/page-{page_number}.html'
+            url = f'http://www.motovente.com/annonces-moto-{page_number}.html'
             response = requests.get(url)
             file_name = source + "-" + str(page_number) + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
 
@@ -57,8 +49,14 @@ def scraping_pages():
                 file.write(response.text)
                 file.close()
 
-            print("moto-selection - page number:", page_number)
-            # time.sleep(random.randint(2, 3))
+            # check if page is empty, if yes stop scrapping
+            soup = BeautifulSoup(response.content, "html.parser")
+            warning = soup.find("div", id="c").find('p')
+            if "Aucune annonce ne correspond à ces critères" in soup.find('div', id='c').text:
+                scrap = False
+
+            # time.sleep(random.randint(1, 2))
+            page_number += 1
 
         # End time
         end_time = datetime.now()
@@ -86,5 +84,5 @@ def scraping_pages():
         log.to_csv(PATH_TO_LOG, index=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     scraping_pages()

@@ -38,7 +38,7 @@ def scraping_pages():
         scrap = True
         while scrap == True:
 
-            print("page number:", page_number)
+            print("moto-occasion - page number:", page_number)
 
             # url to scrap
             url = f'http://moto-occasion.motorevue.com/motos?page={page_number}'
