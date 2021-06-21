@@ -28,6 +28,13 @@ lacentrale_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_ou
 leboncoin_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/leboncoin.csv"
 motovente_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motovente.csv"
 
+# when we will go read csv files in the gcp buckets, just change the path to csv files
+# by a path to the bucket , like below
+#
+# motoselection_csv = "gs://tresboncoin/moto-selection.csv"
+# fulloccaz_csv = "gs://tresboncoin/fulloccaz.csv"
+# ...
+
 
 def concat_df():
     ''' concatenate scrapped datasets from:
