@@ -311,6 +311,49 @@ def fuzzy_match_one(X_pred):
     return X_pred
 
 
+def fuzzy_match_model(new_data, moto_database):
+
+    # CLEAN TITLE
+    new_data = new_data.dropna(subset=['title'])
+    # lower and remove spaces
+    new_data.brand = new_data.brand.str.lower()
+    new_data.model = new_data.model.str.lower()
+    # remove punctuation
+    new_data.brand = new_data.brand.apply(remove_punctuations)
+    new_data.model = new_data.model.apply(remove_punctuations)
+
+    new_data = new_data.dropna(subset=['brand'])
+
+    # MATCH TITLE
+    def choices(year, brand, type_name):
+        choices = moto_database[(moto_database.brand_db==brand) & (moto_database.year_db == year)][type_name].unique().tolist()
+        return [str(x) for  x in choices]
+
+    # unpack results
+    def unpack_tuple_name(result):
+        try:
+            return result[0]
+        except:
+            return np.nan
+
+    def unpack_tuple_score(result):
+        try:
+            return result[1]
+        except:
+            return np.nan
+
+    def match_title(choices, to_match):
+        return process.extractOne(to_match, choices)
+
+    new_data['fuzzy_match'] = new_data.apply(lambda x: match_title(choices(x['bike_year'], x['brand'], 'model_submodel_db'), x['model']), axis=1)
+
+    new_data['fuzzy_score'] = new_data['fuzzy_match'].apply(unpack_tuple_score)
+    new_data['fuzzy_brand_model'] = new_data['fuzzy_match'].apply(unpack_tuple_name)
+    new_data.drop(columns=['fuzzy_match'], inplace=True)
+
+    return new_data
+
+
 if __name__ == '__main__':
     X_pred = pd.DataFrame(
         {'uniq_id': ['ERT34983'],
