@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 import os
 from termcolor import colored
-import numpy as np
 
 raw_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
 history_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
@@ -134,7 +133,7 @@ def concat_df():
     data_motomag.columns = set_colums(data_motomag, concatenation_map, "motomag")
     data_lacentrale.columns = set_colums(data_lacentrale, concatenation_map, "lacentrale")
     data_leboncoin.columns = set_colums(data_leboncoin, concatenation_map, "leboncoin")
-    data_motovente.columns = set_colums(data_motovente, concatenation_map, "leboncoin")
+    data_motovente.columns = set_colums(data_motovente, concatenation_map, "motovente")
 
     # Concatenation
     data = pd.concat([data_motoplanete[columns_to_keep],
@@ -152,8 +151,6 @@ def concat_df():
     data.to_csv(raw_data, index=False)
 
     print(colored("Concat dataset saved as master/master_data.csv. Shape: " + str(data.shape), "green"))
-
-    return data
 
 
 def get_raw_data():

@@ -47,7 +47,7 @@ params_KNR = {"random_grid_search": grid_KNR,
 ######################################################
 concatenation_map = pd.DataFrame(dict({"site_name": ["motoplanete", "moto-occasion", "autoscout24", "fulloccaz", "moto-selection", "autoscout24_BE", "lacentrale", "leboncoin", "motomag", "motovente"],
                                        "url": ["url", "url", "url", "url", "url", "url", "url", "url", "url", "url"],
-                                       "uniq_id": ["uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id"],
+                                       "uniq_id": ["uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniq_id", "uniqid"],
                                        "brand": ["Brand", "bike_brand", "Brand", "Brand", "bike_brand", "marque", "brand", "brand", "brand", "brand"],
                                        "bike_year": ["vehicle release date", "bike_year", "annee", "vehicle release date", "bike_year", "annee", "bike_year", "bike_year", "bike_year", "bike_year"],
                                        "mileage": ["mileage", "bike_km", "mileage", "mileage", "bike_km", "mileage", "mileage", "mileage", "mileage", "mileage"],
