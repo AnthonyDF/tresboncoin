@@ -29,7 +29,7 @@ import joblib
 
 
 # Update to change parameters to test
-params = params_KNR
+params = params_ETR
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
@@ -62,7 +62,7 @@ class Trainer():
 
         # applying encoder
         encoder = ColumnTransformer([
-            ('textual', pipe_multiclass, ["brand_db"])
+            ('textual', pipe_multiclass, ["brand_db", "category_db"])
         ], remainder='passthrough')
 
         # full preprocessor pipeline
@@ -83,7 +83,7 @@ class Trainer():
                                   self.y,
                                   scoring={"rmse": self.scorer, "r2": "r2"},
                                   cv=cv)
-        self.baseline_r2 = baseline['test_r2']#.mean()
+        self.baseline_r2 = baseline['test_r2'].mean()
         self.baseline_rmse = -baseline['test_rmse'].mean()
         print("Baseline " + type(self.params["model"]).__name__ + " model r2 score: " +
               str(self.baseline_r2))
@@ -176,6 +176,8 @@ if __name__ == "__main__":
     # define trainer
     trainer = Trainer(X, y)
     trainer.set_pipeline()
+
+    #print(100 * X.isnull().sum().sort_values(ascending=False)/len(X))
 
     # get baseline scores
     #trainer.cross_validate_baseline()

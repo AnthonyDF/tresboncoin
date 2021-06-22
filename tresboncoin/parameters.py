@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import RobustScaler
 from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import GradientBoostingRegressor
 
 
 # others
@@ -41,6 +42,21 @@ grid_KNR = {'model__weights': ['distance', 'uniform'],
 params_KNR = {"random_grid_search": grid_KNR,
               "model": KNeighborsRegressor(n_neighbors=3)}
 ######################################################
+
+
+######################################################
+# GradientBoostingRegressor model
+######################################################
+grid_GBR = {#'model__loss': ["ls", "lad", "huber", "quantile"],
+            'model__learning_rate': stats.loguniform(0.001, 10),
+            'model__n_estimators': stats.randint(1, 300),
+            "preprocessor__scaler": [StandardScaler(), RobustScaler(), MinMaxScaler()]
+           }
+#
+params_GBR = {"random_grid_search": grid_GBR,
+              "model": GradientBoostingRegressor()}
+######################################################
+
 
 ######################################################
 # Parameters for datasets concatenation
