@@ -63,7 +63,8 @@ def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_
                            "bike_year": [X_fuzzy_matched.iloc[0]["bike_year"]],
                            "mileage": [X_fuzzy_matched.iloc[0]["mileage"]],
                            "engine_size": [X_fuzzy_matched.iloc[0]["engine_size_db"]],
-                           "km/year": [km_per_year(X_fuzzy_matched.iloc[0]["mileage"], X_fuzzy_matched.iloc[0]["bike_year"])]
+                           "km/year": [km_per_year(X_fuzzy_matched.iloc[0]["mileage"], X_fuzzy_matched.iloc[0]["bike_year"])],
+                           "category_db": [X_fuzzy_matched.iloc[0]["category_db"]]
                            })
     print(X_pred)
 
