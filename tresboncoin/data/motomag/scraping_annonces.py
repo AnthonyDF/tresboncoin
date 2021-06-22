@@ -50,7 +50,6 @@ def scraping_annonces():
             for bike in bike_soup:
                 url_bike_ls = []
                 reference_ls = []
-                count_annonce += 1
 
                 bike_url = bike.find("a").get('href')
                 reference = bike_url.split("=")[-1]
@@ -62,9 +61,10 @@ def scraping_annonces():
                 price = bike.find('span').text.replace(' €', '')
 
                 # test if the bike with the same price is already in the databse
-                test_rows = df_import.loc[(df_import['uniq_id'].astype(str) == uniq_id) & (df_import['price'] == price)].shape[0]
+                test_rows = df_import.loc[(df_import['uniq_id'].astype(str) == str(uniq_id)) & (df_import['price'].astype(str) == str(price))].shape[0]
 
                 if test_rows == 0:
+                    count_annonce += 1
 
                     response = requests.get(bike_url)
                     file_name = source + "-" + reference + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")

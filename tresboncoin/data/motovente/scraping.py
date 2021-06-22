@@ -1,6 +1,6 @@
-from data.motovente.scraping_pages import scraping_pages
-from data.motovente.scraping_annonces import scraping_annonces
-from data.motovente.scraping_to_dataframe import scraping_to_dataframe
+from tresboncoin.data.motovente.scraping_pages import scraping_pages
+from tresboncoin.data.motovente.scraping_annonces import scraping_annonces
+from tresboncoin.data.motovente.scraping_to_dataframe import scraping_to_dataframe
 
 
 def scraping():

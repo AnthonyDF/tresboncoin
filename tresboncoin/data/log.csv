@@ -4,3 +4,85 @@ motomag,scrap pages,completed,2021-06-21 19:06:29.243589,"0.016666666666666666 m
 motomag,to dataframe,started,2021-06-21 19:07:01.589575,
 motomag,to dataframe,started,2021-06-21 19:09:19.112953,
 motomag,scrap pages,completed,2021-06-21 19:17:08.498163,"7.816666666666666 minutes elapsed, 3820 pages scrapped"
+moto-occasion,scrap pages,started,2021-06-22 09:47:28.647414,
+moto-selection,scrap pages,started,2021-06-22 09:48:04.172081,
+motomag,scrap pages,started,2021-06-22 09:48:46.522024,
+motovente,scrap pages,started,2021-06-22 09:49:19.587906,
+moto-occasion,scrap pages,completed,2021-06-22 09:49:46.907686,"2.3 minutes elapsed, 148 pages scrapped"
+moto-occasion,scrap annonces,started,2021-06-22 09:49:46.950958,
+moto-occasion,scrap annonces,completed,2021-06-22 09:50:05.813042,"0.3 minutes elapsed, 9 annonces scrapped"
+moto-occasion,to dataframe,started,2021-06-22 09:50:05.817685,
+moto-occasion,to dataframe,completed,2021-06-22 09:50:07.515857,0.016666666666666666 minutes elapsed
+moto-selection,scrap pages,completed,2021-06-22 09:51:48.602264,"3.7333333333333334 minutes elapsed, 245 pages scrapped"
+moto-selection,scrap annonces,started,2021-06-22 09:51:48.605892,
+motovente,scrap pages,completed,2021-06-22 09:52:36.480316,"3.2666666666666666 minutes elapsed, 363 pages scrapped"
+motovente,scrap annonces,started,2021-06-22 09:52:36.490707,
+motomag,scrap pages,completed,2021-06-22 09:52:53.326088,"4.1 minutes elapsed, 127 pages scrapped"
+motomag,scrap annonces,started,2021-06-22 09:52:53.330825,
+moto-selection,scrap annonces,completed,2021-06-22 09:55:03.957379,"3.25 minutes elapsed, 56 annonces scrapped"
+moto-selection,to dataframe,started,2021-06-22 09:55:03.962627,
+moto-selection,scrap pages,completed,2021-06-22 09:55:06.983081,"0.05 minutes elapsed, 57 pages scrapped"
+motovente,scrap annonces,completed,2021-06-22 10:21:38.765732,"29.033333333333335 minutes elapsed, 3604 annonces scrapped"
+motovente,to dataframe,started,2021-06-22 10:21:38.771655,
+motovente,scrap pages,completed,2021-06-22 10:25:13.304781,"3.566666666666667 minutes elapsed, 3604 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:44:49.512767,
+motovente,scrap pages,completed,2021-06-22 10:44:49.523511,"0.0 minutes elapsed, 0 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:47:55.846159,
+motovente,scrap pages,completed,2021-06-22 10:47:56.201270,"0.0 minutes elapsed, 10 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:48:04.673772,
+motovente,scrap pages,completed,2021-06-22 10:48:05.009713,"0.0 minutes elapsed, 10 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:48:47.269200,
+motovente,scrap pages,completed,2021-06-22 10:48:47.564477,"0.0 minutes elapsed, 10 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:49:53.951041,
+motovente,scrap pages,completed,2021-06-22 10:49:57.105044,"0.05 minutes elapsed, 100 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:51:10.915648,
+motovente,scrap pages,completed,2021-06-22 10:51:50.517274,"0.65 minutes elapsed, 1000 pages scrapped"
+motovente,to dataframe,started,2021-06-22 10:54:30.430178,
+motovente,scrap pages,completed,2021-06-22 11:00:36.292170,"6.083333333333333 minutes elapsed, 6074 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:06:13.368786,
+motovente,scrap pages,completed,2021-06-22 11:14:22.418386,"8.15 minutes elapsed, 7204 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:21:13.879049,
+motovente,scrap pages,completed,2021-06-22 11:21:14.887600,"0.016666666666666666 minutes elapsed, 10 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:24:20.698119,
+motovente,scrap pages,completed,2021-06-22 11:24:20.975420,"0.0 minutes elapsed, 10 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:25:51.815281,
+motovente,scrap pages,completed,2021-06-22 11:25:54.652138,"0.03333333333333333 minutes elapsed, 100 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:25:56.253556,
+motovente,scrap pages,completed,2021-06-22 11:25:59.430922,"0.05 minutes elapsed, 100 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:26:01.567966,
+motovente,scrap pages,completed,2021-06-22 11:26:04.992514,"0.05 minutes elapsed, 100 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:26:07.073492,
+motovente,scrap pages,completed,2021-06-22 11:26:10.628022,"0.05 minutes elapsed, 100 pages scrapped"
+motovente,to dataframe,started,2021-06-22 11:26:32.103238,
+motovente,scrap pages,completed,2021-06-22 11:38:03.409411,"11.516666666666667 minutes elapsed, 6794 pages scrapped"
+motovente,scrap pages,started,2021-06-22 11:40:38.115995,
+motovente,scrap pages,completed,2021-06-22 11:43:56.118409,"3.3 minutes elapsed, 363 pages scrapped"
+motovente,scrap annonces,started,2021-06-22 11:43:56.141350,
+motovente,scrap annonces,started,2021-06-22 11:50:11.951926,
+motovente,scrap annonces,started,2021-06-22 11:54:06.812990,
+motovente,scrap annonces,started,2021-06-22 11:54:22.218329,
+motovente,scrap annonces,started,2021-06-22 11:54:48.623994,
+motovente,scrap annonces,completed,2021-06-22 11:55:16.496944,"0.45 minutes elapsed, 1 annonces scrapped"
+motomag,scrap annonces,started,2021-06-22 12:02:27.728183,
+motomag,scrap annonces,started,2021-06-22 12:05:00.960722,
+motomag,to dataframe,started,2021-06-22 12:06:40.499281,
+motomag,scrap pages,completed,2021-06-22 12:15:06.110651,"8.416666666666666 minutes elapsed, 3372 pages scrapped"
+motomag,scrap annonces,started,2021-06-22 12:18:30.967212,
+motomag,to dataframe,started,2021-06-22 12:19:41.066085,
+motomag,scrap pages,completed,2021-06-22 12:19:44.766242,"0.05 minutes elapsed, 25 pages scrapped"
+motomag,scrap annonces,started,2021-06-22 12:19:49.520105,
+motomag,to dataframe,started,2021-06-22 12:24:02.884647,
+motomag,scrap pages,completed,2021-06-22 12:24:20.341648,"0.2833333333333333 minutes elapsed, 105 pages scrapped"
+motomag,scrap annonces,started,2021-06-22 12:25:00.850668,
+motomag,scrap annonces,completed,2021-06-22 12:37:16.366858,"12.25 minutes elapsed, 306 annonces scrapped"
+motomag,to dataframe,started,2021-06-22 12:38:32.866434,
+motomag,scrap pages,completed,2021-06-22 12:38:37.593882,"0.06666666666666667 minutes elapsed, 50 pages scrapped"
+motomag,to dataframe,started,2021-06-22 12:39:30.224542,
+motomag,scrap pages,completed,2021-06-22 12:55:40.570856,"16.166666666666668 minutes elapsed, 7640 pages scrapped"
+motomag,to dataframe,started,2021-06-22 12:58:19.944443,
+motomag,scrap pages,completed,2021-06-22 12:58:19.959211,"0.0 minutes elapsed, 0 pages scrapped"
+motomag,scrap pages,started,2021-06-22 12:58:32.651724,
+motomag,scrap annonces,started,2021-06-22 12:58:56.094714,
+motomag,scrap annonces,completed,2021-06-22 12:58:57.164466,"0.016666666666666666 minutes elapsed, 0 annonces scrapped"
+motomag,to dataframe,started,2021-06-22 12:59:05.306812,
+motomag,scrap pages,completed,2021-06-22 12:59:05.321707,"0.0 minutes elapsed, 0 pages scrapped"

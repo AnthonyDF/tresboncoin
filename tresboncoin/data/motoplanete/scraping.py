@@ -1,6 +1,6 @@
-from data.motoplanete.scraping_pages import scraping_pages
-from data.motoplanete.scraping_annonces import scraping_annonces
-from data.motoplanete.scraping_to_dataframe import scraping_to_dataframe
+from tresboncoin.data.motoplanete.scraping_pages import scraping_pages
+from tresboncoin.data.motoplanete.scraping_annonces import scraping_annonces
+from tresboncoin.data.motoplanete.scraping_to_dataframe import scraping_to_dataframe
 
 
 def scraping():

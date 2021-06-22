@@ -134,5 +134,6 @@ def scraping_to_dataframe():
         log = log_import.append(log_new, ignore_index=True)
         log.to_csv(PATH_TO_LOG, index=False)
 
+
 if __name__ == '__main__':
     scraping_to_dataframe()
