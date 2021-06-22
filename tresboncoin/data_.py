@@ -213,13 +213,13 @@ def clean_data(df):
     df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'engine_size_db', 'mileage', 'bike_year'], inplace=True)
 
     # remove categories with low count of bikes
-    category_count_threshold = 200
+    category_count_threshold = 100
     groupby_category = df.groupby('category_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
     drop_category = groupby_category[groupby_category .Count < category_count_threshold].index.to_list()
     drop_category.append('unspecified category')
 
     # remove brands with low count of bikes
-    brand_count_threshold = 200
+    brand_count_threshold = 100
     groupby_brand = df.groupby('brand_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
     drop_brand = groupby_brand[groupby_brand.Count < brand_count_threshold].index.to_list()
     df = df[df.brand_db.isin(drop_brand) == False]
