@@ -216,7 +216,7 @@ def clean_data(df):
     df = df[~df["brand_db"].isnull()]
     df = df[~df["model_db"].isnull()]
     df = df[~df["category_db"].isnull()]
-    # df = df[~df["engine_size"].isnull()]
+    df = df[~df["engine_size"].isnull()]
     df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'engine_size_db', 'mileage', 'bike_year'], inplace=True)
 
     # remove categories with low count of bikes
@@ -241,7 +241,7 @@ def clean_data(df):
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
     # df['age'] = df.apply(lambda x: datetime.now().year - x.bike_year, axis=1)
 
-    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price"]]
+    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price", "category_db"]]
 
 
 if __name__ == '__main__':
