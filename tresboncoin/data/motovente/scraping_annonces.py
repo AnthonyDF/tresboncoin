@@ -62,7 +62,7 @@ def scraping_annonces():
             price = int(bike.find('div', class_='z5').text.split('€')[0])
 
             # test if the bike with the same price is already in the databse
-            test_rows = df_import.loc[(df_import['reference'] == reference) & (df_import['price'] == price)].shape[0]
+            test_rows = df_import.loc[(df_import['reference'].astype(str) == str(reference)) & (df_import['price'].astype(str) == str(price))].shape[0]
 
             if test_rows == 0:
                 response = requests.get(url_bike)
@@ -86,7 +86,7 @@ def scraping_annonces():
 
                 #time.sleep(random.randint(1, 2))
                 count += 1
-        print("motovente - annonce number:", count)
+                print("motovente - annonce number:", count)
 
         # delete html file
         os.remove(PATH_TO_PAGES_FOLDER+"/"+filename)

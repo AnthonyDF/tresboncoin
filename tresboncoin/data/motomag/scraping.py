@@ -1,6 +1,6 @@
-from data.motomag.scraping_pages import scraping_pages
-from data.motomag.scraping_annonces import scraping_annonces
-from data.motomag.scraping_to_dataframe import scraping_to_dataframe
+from tresboncoin.data.motomag.scraping_pages import scraping_pages
+from tresboncoin.data.motomag.scraping_annonces import scraping_annonces
+from tresboncoin.data.motomag.scraping_to_dataframe import scraping_to_dataframe
 
 
 def scraping():
