@@ -2,7 +2,9 @@ from fastapi import FastAPI
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
 from tresboncoin.utils import get_model
-from tresboncoin.fuzzy_match import fuzzy_match_one
+from tresboncoin.data_ import concat_df, get_raw_data, get_data, append
+from tresboncoin.data_ import get_new_data, clean_raw_data, get_motorcycle_db
+from tresboncoin.fuzzy_match import fuzzy_match_one, fuzzy_match
 from tresboncoin.utils import km_per_year
 
 
@@ -139,3 +141,17 @@ def predict_price_old(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, ti
             "engine_size_db": X_fuzzy_matched["engine_size_db"].iloc[0],
             "brand_db": X_fuzzy_matched["brand_db"].iloc[0],
             "model_db": X_fuzzy_matched["model_db"].iloc[0]}
+
+@app.get("/process_data")
+def process_data():
+    concat_df()
+    new_data = get_new_data(clean_raw_data(get_raw_data()), get_data())
+    print("New data to be matched. Shape:" + str(new_data.shape))
+    if not new_data.empty:
+        print('Fuzzy match in progress, wait...')
+        new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
+        print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
+        history = append(new_data_matched, get_data())
+        print("New dataframe avaialble. Shape:" + str(history.shape))
+    else:
+        print('No new data to match')

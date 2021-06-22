@@ -27,6 +27,13 @@ lacentrale_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_ou
 leboncoin_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/leboncoin.csv"
 motovente_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motovente.csv"
 
+# when we will go read csv files in the gcp buckets, just change the path to csv files
+# by a path to the bucket , like below
+#
+# motoselection_csv = "gs://tresboncoin/moto-selection.csv"
+# fulloccaz_csv = "gs://tresboncoin/fulloccaz.csv"
+# ...
+
 
 def concat_df():
     ''' concatenate scrapped datasets from:
@@ -213,13 +220,13 @@ def clean_data(df):
     df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'engine_size_db', 'mileage', 'bike_year'], inplace=True)
 
     # remove categories with low count of bikes
-    category_count_threshold = 100
+    category_count_threshold = 200
     groupby_category = df.groupby('category_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
     drop_category = groupby_category[groupby_category .Count < category_count_threshold].index.to_list()
     drop_category.append('unspecified category')
 
     # remove brands with low count of bikes
-    brand_count_threshold = 100
+    brand_count_threshold = 200
     groupby_brand = df.groupby('brand_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
     drop_brand = groupby_brand[groupby_brand.Count < brand_count_threshold].index.to_list()
     df = df[df.brand_db.isin(drop_brand) == False]
