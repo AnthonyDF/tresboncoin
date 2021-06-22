@@ -29,7 +29,7 @@ import joblib
 
 
 # Update to change parameters to test
-params = params_ETR
+params = params_KNR
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
