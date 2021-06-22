@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 import os
 from termcolor import colored
-import numpy as np
 
 raw_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
 history_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
