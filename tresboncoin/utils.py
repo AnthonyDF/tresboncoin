@@ -8,10 +8,10 @@ from datetime import datetime
 from tresboncoin.parameters import df_ids
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
-
+PATH_TO_GC_MODEL = "gs://tresboncoin/model.joblib"
 
 def get_model(model):
-    return joblib.load(os.path.join(PATH_TO_LOCAL_MODEL, model + ".joblib"))
+    return joblib.load(PATH_TO_GC_MODEL)
 
 
 def custom_rmse(y_true, y_pred):
