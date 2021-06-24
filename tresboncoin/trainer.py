@@ -29,7 +29,7 @@ import joblib
 
 
 # Update to change parameters to test
-params = params_KNR
+params = params_ETR
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
@@ -49,6 +49,7 @@ class Trainer():
         self.baseline_r2 = None
         self.baseline_rmse = None
         self.optimized_r2 = None
+        self.optimized_rmse = None
         self.experiment_name = EXPERIMENT_NAME
 
 
@@ -102,15 +103,15 @@ class Trainer():
 
         self.model = RandomizedSearchCV(self.pipeline,
                                         self.params["random_grid_search"],
-                                        scoring="r2",
+                                        scoring=self.scorer,
                                         n_iter=30,
                                         cv=3,
                                         n_jobs=-1,
                                         verbose=1)
         self.model.fit(self.X, self.y)
-        self.optimized_r2 = self.model.best_score_
-        print("Tuned " + type(self.params["model"]).__name__ + " model best r2: " +
-              str(round(self.optimized_r2*100, 3)) + "%")
+        self.optimized_rmse = -self.model.best_score_
+        print("Tuned " + type(self.params["model"]).__name__ + " model best rmse: " +
+              str(round(self.optimized_rmse, 1)))
 #
         # ### PRINT BEST PARAMETERS
         print("\n####################################\nBest parameters:")
@@ -119,7 +120,7 @@ class Trainer():
         print("####################################\n")
 #
         # ### MLFLOW RECORDS
-        self.mlflow_log_metric("Optimized r2", self.optimized_r2)
+        self.mlflow_log_metric("Optimized rmse", self.optimized_rmse)
         for k, v in self.model.best_params_.items():
             self.mlflow_log_param(k, v)
 
@@ -177,13 +178,11 @@ if __name__ == "__main__":
     trainer = Trainer(X, y)
     trainer.set_pipeline()
 
-    #print(100 * X.isnull().sum().sort_values(ascending=False)/len(X))
-
     # get baseline scores
     #trainer.cross_validate_baseline()
 
     trainer.run()
-#
+
     # saving trained model and moving it to models folder
     trainer.save_model(model_name=results.modelname)
     subprocess.run(["mv", results.modelname + ".joblib", PATH_TO_LOCAL_MODEL])
