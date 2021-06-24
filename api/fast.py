@@ -5,7 +5,7 @@ from tresboncoin.utils import get_model
 from tresboncoin.data_ import concat_df, get_raw_data, get_data, append
 from tresboncoin.data_ import get_new_data, clean_raw_data, get_motorcycle_db
 from tresboncoin.fuzzy_match import fuzzy_match_one, fuzzy_match
-from tresboncoin.utils import km_per_year
+from tresboncoin.utils import km_per_year, get_model_cloud_storage
 
 
 app = FastAPI()
@@ -24,7 +24,8 @@ def index():
 
 @app.get("/predict_price")
 def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_):
-    model = get_model("model")
+    #model = get_model("model")
+    model = get_model_cloud_storage()
 
     # filtering inputs
     if title_ == "0" or title_ == "":
