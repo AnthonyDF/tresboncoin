@@ -87,9 +87,10 @@ def scraping_annonces():
                     time.sleep(random.randint(2, 3))
                     count += 1
 
+                    print("moto-selection - annonce number:", count)
+
             # delete html file
             os.remove(PATH_TO_PAGES_FOLDER + "/" + filename)
-            print("moto-selection - annonce number:", count)
 
         # End time
         end_time = datetime.now()
