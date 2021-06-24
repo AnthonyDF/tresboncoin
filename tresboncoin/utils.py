@@ -6,12 +6,42 @@ import pandas as pd
 from termcolor import colored
 from datetime import datetime
 from tresboncoin.parameters import df_ids
+from google.cloud import storage
+import joblib
+from io import BytesIO
+import subprocess
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
-PATH_TO_GC_MODEL = "gs://tresboncoin/model.joblib"
+
 
 def get_model(model):
-    return joblib.load(PATH_TO_GC_MODEL)
+    return joblib.load(PATH_TO_LOCAL_MODEL)
+
+
+def get_model_cloud_storage():
+
+    """ loading joblib file from google cloud storage """
+
+    if os.path.isfile(os.path.join(PATH_TO_LOCAL_MODEL, "local_model.joblib")) is False:
+
+        storage_client = storage.Client()
+        bucket_name="tresboncoin"
+        model_bucket='model.joblib'
+
+        bucket = storage_client.get_bucket(bucket_name)
+
+        #select bucket file
+        blob = bucket.blob(model_bucket)
+
+        #download blob into an in-memory file object
+        model_file = BytesIO()
+        blob.download_to_filename("local_model")
+
+        # moving joblib into container localy
+        subprocess.run(["mv", "local_model", "models/local_model.joblib"])
+
+    #load into joblib
+    return joblib.load(os.path.join(PATH_TO_LOCAL_MODEL, "local_model.joblib"))
 
 
 def custom_rmse(y_true, y_pred):
