@@ -194,9 +194,9 @@ def clean_raw_data(df):
     df = df[~df["model"].isnull()]
     df = df[df["bike_year"] != "['']"]
     df["bike_year"] = df["bike_year"].apply(lambda x: int(float(x)))
-    df = df[(df["bike_year"] >= 1900) & (df["bike_year"] <= datetime.now().year)]
+    df = df[(df["bike_year"] >= 1985) & (df["bike_year"] <= datetime.now().year)]
     df = df[(df["mileage"] >= 100) & (df["mileage"] <= 150000)]
-    df = df[(df["price"] >= 100) & (df["price"] < 40000)]
+    df = df[(df["price"] >= 100) & (df["price"] < 27000)]
     df = df[(df["engine_size"] >= 49) & (df["engine_size"] < 2100)]
 
     # Clean same annonce with mutiple prices (keep lowest price)
@@ -213,35 +213,29 @@ def append(new_data_matched, history_data):
 
 def clean_data(df):
     ''' return clean dataframe '''
-    df = df[~df["brand_db"].isnull()]
-    df = df[~df["model_db"].isnull()]
+
+    # data size before
+    print("Data size before cleaning: " + str(df.shape))
+
+    # cleaning
+    df = df.drop_duplicates()
+    df = df[(df["bike_year"]>=(-df["bike_year"].std()*3 + df["bike_year"].mean())) & (df["bike_year"]<=2022)]
+    df = df[(df["mileage"]>=1000) & (df["mileage"]<=(df["mileage"].mean() + 3*df["mileage"].std()))]
+    df = df[(df["price"]>=1000) & (df["price"]<(df["price"].mean() + 4*df["price"].std()))]
+    df = df[(df["engine_size"]>=49) & (df["engine_size"]<(df["engine_size"].mean() + 3*df["engine_size"].std()))]
     df = df[~df["category_db"].isnull()]
-    df = df[~df["engine_size"].isnull()]
-    df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'engine_size_db', 'mileage', 'bike_year'], inplace=True)
-
-    # remove categories with low count of bikes
-    category_count_threshold = 200
-    groupby_category = df.groupby('category_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
-    drop_category = groupby_category[groupby_category .Count < category_count_threshold].index.to_list()
-    drop_category.append('unspecified category')
-
-    # remove brands with low count of bikes
-    brand_count_threshold = 200
-    groupby_brand = df.groupby('brand_db').agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
-    drop_brand = groupby_brand[groupby_brand.Count < brand_count_threshold].index.to_list()
-    df = df[df.brand_db.isin(drop_brand) == False]
-
-    # remove models with low count of bikes
-    # model_count_threshold = 1
-    # groupby_model = df.groupby(['model_db']).agg(Mean=('price', 'mean'), Std=('price', 'std'), Count=('price', 'count'))
-    # drop_model = groupby_model[groupby_model.Count < model_count_threshold].index.to_list()
-    # df = df[df.model_db.isin(drop_model) == False]
+    df = df[df["brand_db"].isin(list(pd.DataFrame(df["brand_db"].value_counts())[0:50].index))]
 
     # feature engineering
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
-    # df['age'] = df.apply(lambda x: datetime.now().year - x.bike_year, axis=1)
 
-    return df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price", "category_db"]]
+    df = df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price", "category_db"]]
+    df.dropna(inplace=True)
+
+    # data size after
+    print("Data size after cleaning: " + str(df.shape))
+
+    return df
 
 
 if __name__ == '__main__':
