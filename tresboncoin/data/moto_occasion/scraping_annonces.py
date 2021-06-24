@@ -46,51 +46,54 @@ def scraping_annonces():
             # find the url for bike and download as html file
             for bike in soup.find_all("li", class_="list-items__item"):
 
-                # initialization for the dataframe
-                url_bike_ls = []
-                reference_ls = []
+                try:
+                    # initialization for the dataframe
+                    url_bike_ls = []
+                    reference_ls = []
 
-                # generate the bike url and reference
-                link = bike.find("a", class_="list-items__link").get('href')
-                url_site = 'http://moto-occasion.motorevue.com'
-                url_bike = url_site + link
-                reference = url_bike.split("/")[-1].replace('.html', '')
+                    # generate the bike url and reference
+                    link = bike.find("a", class_="list-items__link").get('href')
+                    url_site = 'http://moto-occasion.motorevue.com'
+                    url_bike = url_site + link
+                    reference = url_bike.split("/")[-1].replace('.html', '')
 
-                reference_ls.append(reference)
-                url_bike_ls.append(url_bike)
+                    reference_ls.append(reference)
+                    url_bike_ls.append(url_bike)
 
-                # find the price of the bike from the feed
-                price_soup = bike.find('div', class_='media-body').find('p', class_='list-items__price').find('span', class_='currency-price-wrap')
-                price = price_soup.text.replace("€", "").replace("TTC", "").replace("\t","").replace(" ", "")
-                price = float("".join(price.split()).replace(",", ".").replace('PrixNC','0'))
+                    # find the price of the bike from the feed
+                    price_soup = bike.find('div', class_='media-body').find('p', class_='list-items__price').find('span', class_='currency-price-wrap')
+                    price = price_soup.text.replace("€", "").replace("TTC", "").replace("\t","").replace(" ", "")
+                    price = float("".join(price.split()).replace(",", ".").replace('PrixNC','0'))
 
-                # test if the bike with the same price is already in the databse
-                test_rows = df_import.loc[(df_import['reference'] == reference) & (df_import['price'] == price)].shape[0]
+                    # test if the bike with the same price is already in the databse
+                    test_rows = df_import.loc[(df_import['reference'] == reference) & (df_import['price'] == price)].shape[0]
 
-                if test_rows == 0:
-                    response = requests.get(url_bike)
-                    file_name = source + "-" + reference + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
+                    if test_rows == 0:
+                        response = requests.get(url_bike)
+                        file_name = source + "-" + reference + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
 
-                    with open(PATH_TO_ANNONCES_FOLDER + f"/{file_name}.html", "w") as file:
-                        file.write(response.text)
-                        file.close()
+                        with open(PATH_TO_ANNONCES_FOLDER + f"/{file_name}.html", "w") as file:
+                            file.write(response.text)
+                            file.close()
 
-                    # create index dataframe
-                    df = pd.DataFrame(list(zip(reference_ls, url_bike_ls)), columns=['reference', 'url'])
+                        # create index dataframe
+                        df = pd.DataFrame(list(zip(reference_ls, url_bike_ls)), columns=['reference', 'url'])
 
-                    # import index history
-                    history = pd.read_csv(PATH_TO_INDEX)
+                        # import index history
+                        history = pd.read_csv(PATH_TO_INDEX)
 
-                    # concatenate new and history
-                    final_df = history.append(df, ignore_index=True)
+                        # concatenate new and history
+                        final_df = history.append(df, ignore_index=True)
 
-                    # export to csv
-                    final_df.to_csv(PATH_TO_INDEX, index=False)
+                        # export to csv
+                        final_df.to_csv(PATH_TO_INDEX, index=False)
 
-                    #time.sleep(random.randint(1, 2))
-                    count += 1
+                        #time.sleep(random.randint(1, 2))
+                        count += 1
 
-                    print("moto-occasion - annonce number:", count)
+                        print("moto-occasion - annonce number:", count)
+                except:
+                    pass
 
             # delete html file
             os.remove(PATH_TO_PAGES_FOLDER+"/"+filename)
