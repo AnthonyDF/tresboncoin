@@ -5,7 +5,12 @@ from tresboncoin.data_ import concat_df, get_raw_data, get_data, append, clean_d
 from tresboncoin.data_ import get_new_data, clean_raw_data, get_motorcycle_db
 from tresboncoin.fuzzy_match import fuzzy_match_one, fuzzy_match
 from tresboncoin.utils import km_per_year, get_model_cloud_storage
+from tresboncoin.trainer import Trainer
+from google.cloud import storage
+import subprocess
+import os
 
+PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 app = FastAPI()
 
@@ -103,6 +108,36 @@ def process_data():
         print('No new data to match')
         data = pd.read_csv("gs://tresboncoin/master_with_fuzzy_and_cleaning.csv")
         return {"Fuzzy match csv file size (number of lines)": int(data.shape[0])}
+
+@app.get("/train_model")
+def train_model():
+
+    # get data
+    data_train = get_data()
+
+    # clean data
+    data_train = clean_data(data_train)
+
+    # set X and y
+    X = data_train.drop(["price"], axis=1)
+    y = data_train["price"]
+
+    # define trainer
+    trainer = Trainer(X, y)
+    trainer.set_pipeline()
+    trainer.run()
+
+    # saving trained model and moving it to Google Cloud Storage
+    trainer.save_model(model_name="model")
+    subprocess.run(["mv", "model.joblib", PATH_TO_LOCAL_MODEL])
+
+    # upload content to bucket
+    client = storage.Client()
+    bucket = client.bucket("tresboncoin")
+    blob = bucket.blob("model.joblib")
+    blob.upload_from_filename(os.path.join(PATH_TO_LOCAL_MODEL, "model.joblib"))
+
+    return None
 
 
 @app.get("/get_stats")
