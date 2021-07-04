@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
-from tresboncoin.utils import get_model
-from tresboncoin.data_ import concat_df, get_raw_data, get_data, append
+from tresboncoin.data_ import concat_df, get_raw_data, get_data, append, clean_data
 from tresboncoin.data_ import get_new_data, clean_raw_data, get_motorcycle_db
 from tresboncoin.fuzzy_match import fuzzy_match_one, fuzzy_match
 from tresboncoin.utils import km_per_year, get_model_cloud_storage
@@ -98,10 +97,24 @@ def process_data():
         new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
         print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
         history = append(new_data_matched, get_data())
-        print("New dataframe avaialble. Shape:" + str(history.shape))
+        print("New dataframe available. Shape:" + str(history.shape))
         return {"Fuzzy match csv file size (number of lines)": int(history.shape[0])}
     else:
         print('No new data to match')
         data = pd.read_csv("gs://tresboncoin/master_with_fuzzy_and_cleaning.csv")
         return {"Fuzzy match csv file size (number of lines)": int(data.shape[0])}
+
+
+@app.get("/get_stats")
+def get_stats():
+
+    # get production model rmse
+    model = get_model_cloud_storage()
+
+    # get number of lines after cleaning for model training
+    data_train = get_data()
+    data_train = clean_data(data_train)
+
+    return {"model rmse": -round(model.best_score_, 0),
+            "Number of lines after cleaning": data_train.shape[0]}
 
