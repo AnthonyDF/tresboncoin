@@ -14,10 +14,6 @@ import subprocess
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
-def get_model(model):
-    return joblib.load(PATH_TO_LOCAL_MODEL)
-
-
 def get_model_cloud_storage():
 
     """ loading joblib file from google cloud storage """

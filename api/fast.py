@@ -24,7 +24,6 @@ def index():
 
 @app.get("/predict_price")
 def predict_price(uniq_id_, brand_, cc_, year_, mileage_, price_, model_, title_):
-    #model = get_model("model")
     model = get_model_cloud_storage()
 
     # filtering inputs
@@ -100,5 +99,9 @@ def process_data():
         print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
         history = append(new_data_matched, get_data())
         print("New dataframe avaialble. Shape:" + str(history.shape))
+        return {"Fuzzy match csv file size (number of lines)": int(history.shape[0])}
     else:
         print('No new data to match')
+        data = pd.read_csv("gs://tresboncoin/master_with_fuzzy_and_cleaning.csv")
+        return {"Fuzzy match csv file size (number of lines)": int(data.shape[0])}
+

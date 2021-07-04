@@ -9,30 +9,39 @@ import pandas as pd
 import numpy as np
 import os
 from termcolor import colored
+from google.cloud import storage
 
-raw_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
-history_data = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
+# Raw data file path
+raw_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
+raw_data = "gs://tresboncoin/master_data.csv"
+
+# History data file path
+history_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
+history_data = "gs://tresboncoin/master_with_fuzzy_and_cleaning.csv"
+
+# reference database file path
 moto_database = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
 ebay_db = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/ebay_db.csv"
-#
-motoplanete_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motoplanete.csv"
-motomag_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motomag.csv"
-fulloccaz_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/fulloccaz.csv"
-motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-occasion.csv"
-motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-selection.csv"
+
+# scraped csv files path
 as_24_FR_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_FR.csv"
-as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_BE.csv"
 as_24_BE_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/as_24_BE.csv"
 lacentrale_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/lacentrale.csv"
 leboncoin_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/leboncoin.csv"
-motovente_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motovente.csv"
+motoplanete_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motoplanete.csv"
 
-# when we will go read csv files in the gcp buckets, just change the path to csv files
-# by a path to the bucket , like below
-#
-# motoselection_csv = "gs://tresboncoin/moto-selection.csv"
-# fulloccaz_csv = "gs://tresboncoin/fulloccaz.csv"
-# ...
+# automated scraped csv file path
+#motomag_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motomag.csv"
+#fulloccaz_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/fulloccaz.csv"
+#motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-occasion.csv"
+#motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-selection.csv"
+#motovente_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motovente.csv"
+motomag_csv = "gs://tresboncoin/motomag.csv"
+fulloccaz_csv = "gs://tresboncoin/fulloccaz.csv"
+motooccasion_csv = "gs://tresboncoin/moto-occasion.csv"
+motoselection_csv = "gs://tresboncoin/moto-selection.csv"
+motovente_csv = "gs://tresboncoin/motovente.csv"
+
 
 
 def concat_df():
@@ -155,9 +164,16 @@ def concat_df():
                       data_motovente[columns_to_keep]
                       ], axis=0, ignore_index=True)
 
-    data.to_csv(raw_data, index=False)
-
+    # Saving to local directory
+    data.to_csv(raw_data_local, index=False)
     print(colored("Concat dataset saved as master/master_data.csv. Shape: " + str(data.shape), "green"))
+
+    # Saving to Google Cloud Storage as a backup
+    client = storage.Client()
+    bucket = client.bucket("tresboncoin")
+    blob = bucket.blob("master_data.csv")
+    blob.upload_from_filename(raw_data_local)
+    print(colored("master_data.csv sent to Google Cloud Storage. Shape: " + str(data.shape), "green"))
 
 
 def get_raw_data():
@@ -207,7 +223,17 @@ def clean_raw_data(df):
 
 def append(new_data_matched, history_data):
     new_history = history_data.append(new_data_matched)
-    new_history.to_csv(os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv", index=False)
+
+    # saving to local directory
+    new_history.to_csv(history_data_local, index=False)
+    print(colored("Fuzzy matched dataset saved as master/master_with_fuzzy_and_cleaning.csv. Shape: " + str(new_history.shape), "green"))
+
+    # Saving to Google Cloud Storage as a backup
+    client = storage.Client()
+    bucket = client.bucket("tresboncoin")
+    blob = bucket.blob("master_with_fuzzy_and_cleaning.csv")
+    blob.upload_from_filename(history_data_local)
+    print(colored("master_with_fuzzy_and_cleaning.csv sent to Google Cloud Storage. Shape: " + str(new_history.shape), "green"))
     return new_history
 
 
