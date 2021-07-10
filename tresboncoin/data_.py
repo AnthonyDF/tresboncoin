@@ -13,11 +13,11 @@ from google.cloud import storage
 
 # Raw data file path
 raw_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
-raw_data = "gs://tresboncoin/master_data.csv"
+raw_data = "gs://tresboncoin/tresboncoin/data/master/master_data.csv"
 
 # History data file path
 history_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
-history_data = "gs://tresboncoin/master_with_fuzzy_and_cleaning.csv"
+history_data = "gs://tresboncoin/tresboncoin/data/master/master_with_fuzzy_and_cleaning.csv"
 
 # reference database file path
 moto_database = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
@@ -36,11 +36,11 @@ motoplanete_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_o
 #motooccasion_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-occasion.csv"
 #motoselection_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/moto-selection.csv"
 #motovente_csv = os.path.dirname(os.path.abspath(__file__)) + "/data/scraping_outputs/motovente.csv"
-motomag_csv = "gs://tresboncoin/motomag.csv"
-fulloccaz_csv = "gs://tresboncoin/fulloccaz.csv"
-motooccasion_csv = "gs://tresboncoin/moto-occasion.csv"
-motoselection_csv = "gs://tresboncoin/moto-selection.csv"
-motovente_csv = "gs://tresboncoin/motovente.csv"
+motomag_csv = "gs://tresboncoin/tresboncoin/data/scraping_outputs/motomag.csv"
+fulloccaz_csv = "gs://tresboncoin/tresboncoin/data/scraping_outputs/fulloccaz.csv"
+motooccasion_csv = "gs://tresboncoin/tresboncoin/data/scraping_outputs/moto-occasion.csv"
+motoselection_csv = "gs://tresboncoin/tresboncoin/data/scraping_outputs/moto-selection.csv"
+motovente_csv = "gs://tresboncoin/tresboncoin/data/scraping_outputs/motovente.csv"
 
 
 
@@ -106,8 +106,8 @@ def concat_df():
     data_motoplanete["uniq_id"] = data_motoplanete["unique id"].apply(lambda x: "motoplanete-" + str(x))
 
     # FULLOCCAZ
+    data_fulloccaz["vehicle release date"] = pd.to_datetime(data_fulloccaz["vehicle release date"], errors = 'coerce')
     data_fulloccaz = data_fulloccaz[~data_fulloccaz["vehicle release date"].isnull()]
-    data_fulloccaz["vehicle release date"] = pd.to_datetime(data_fulloccaz["vehicle release date"])
     data_fulloccaz["vehicle release date"] = data_fulloccaz["vehicle release date"].apply(lambda x: int(x.strftime("%Y")))
     data_fulloccaz["vehicle brand"] = data_fulloccaz["vehicle brand"].apply(lambda x: str(x).lower())
     data_fulloccaz = set_brand_and_model(data_fulloccaz, "vehicle brand", r=full_brand_list)
@@ -171,9 +171,9 @@ def concat_df():
     # Saving to Google Cloud Storage as a backup
     client = storage.Client()
     bucket = client.bucket("tresboncoin")
-    blob = bucket.blob("master_data.csv")
+    blob = bucket.blob("tresboncoin/data/master/master_data.csv")
     blob.upload_from_filename(raw_data_local)
-    print(colored("master_data.csv sent to Google Cloud Storage. Shape: " + str(data.shape), "green"))
+    print(colored("master_data.csv backup is on Google Cloud Storage. Shape: " + str(data.shape), "green"))
 
 
 def get_raw_data():
@@ -185,7 +185,7 @@ def get_raw_data():
 
 def get_data():
     '''returns training set DataFrames'''
-    return pd.read_csv(history_data)
+    return pd.read_csv(history_data_local)
 
 
 def get_motorcycle_db():
@@ -231,9 +231,9 @@ def append(new_data_matched, history_data):
     # Saving to Google Cloud Storage as a backup
     client = storage.Client()
     bucket = client.bucket("tresboncoin")
-    blob = bucket.blob("master_with_fuzzy_and_cleaning.csv")
+    blob = bucket.blob("tresboncoin/data/master/master_with_fuzzy_and_cleaning.csv")
     blob.upload_from_filename(history_data_local)
-    print(colored("master_with_fuzzy_and_cleaning.csv sent to Google Cloud Storage. Shape: " + str(new_history.shape), "green"))
+    print(colored("master_with_fuzzy_and_cleaning.csv backup is on Google Cloud Storage. Shape: " + str(new_history.shape), "green"))
     return new_history
 
 

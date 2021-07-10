@@ -6,65 +6,15 @@ import pandas as pd
 from termcolor import colored
 from datetime import datetime
 from tresboncoin.parameters import df_ids
-from google.cloud import storage
-import joblib
-from io import BytesIO
-import subprocess
+
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
-def get_model_cloud_storage():
+def get_model():
 
-    """ loading joblib file from google cloud storage """
-
-    if os.path.isfile(os.path.join(PATH_TO_LOCAL_MODEL, "local_model.joblib")) is True:
-
-        # checking if model located on google cloud storage has changed
-        # if yes, we update the model to be called by the API
-        storage_client = storage.Client()
-        bucket_name="tresboncoin"
-        model_bucket='model.joblib'
-        bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.get_blob(model_bucket)
-        #
-        if blob.size != os.path.getsize(os.path.join(PATH_TO_LOCAL_MODEL, "local_model.joblib")):
-            print("Model changed, updating ... ")
-            storage_client = storage.Client()
-            bucket_name="tresboncoin"
-            model_bucket='model.joblib'
-
-            bucket = storage_client.get_bucket(bucket_name)
-
-            #select bucket file
-            blob = bucket.blob(model_bucket)
-
-            #download blob into an in-memory file object
-            model_file = BytesIO()
-            blob.download_to_filename("local_model")
-
-            # moving joblib into container localy
-            subprocess.run(["mv", "local_model", "models/local_model.joblib"])
-    else:
-        print("No model found, downloading from GCS ... ")
-        storage_client = storage.Client()
-        bucket_name="tresboncoin"
-        model_bucket='model.joblib'
-
-        bucket = storage_client.get_bucket(bucket_name)
-
-        #select bucket file
-        blob = bucket.blob(model_bucket)
-
-        #download blob into an in-memory file object
-        model_file = BytesIO()
-        blob.download_to_filename("local_model")
-
-        # moving joblib into container localy
-        subprocess.run(["mv", "local_model", "models/local_model.joblib"])
-
-    #load into joblib
-    return joblib.load(os.path.join(PATH_TO_LOCAL_MODEL, "local_model.joblib"))
+    """ loading joblib file """
+    return joblib.load(os.path.join(PATH_TO_LOCAL_MODEL, "model.joblib"))
 
 
 def custom_rmse(y_true, y_pred):
