@@ -2,8 +2,10 @@
 import argparse
 import subprocess
 from termcolor import colored
-from tresboncoin.data_ import get_data
-from tresboncoin.data_ import clean_data
+from tresboncoin.data_ import get_data, concat_df, clean_raw_data
+from tresboncoin.data_ import get_motorcycle_db, append
+from tresboncoin.data_ import clean_data, get_new_data, get_raw_data
+from tresboncoin.fuzzy_match import fuzzy_match
 from tresboncoin.utils import custom_rmse
 from sklearn.metrics import make_scorer
 from tresboncoin.parameters import *
@@ -19,10 +21,6 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import cross_validate
 from sklearn.preprocessing import RobustScaler
 
-# mlflow
-from memoized_property import memoized_property
-from mlflow.tracking import MlflowClient
-import mlflow
 
 # joblib
 import joblib
@@ -91,12 +89,6 @@ class Trainer():
         print("Baseline " + type(self.params["model"]).__name__ + " model rmse score: " +
               str(self.baseline_rmse))
 
-        # ### MLFLOW RECORDS
-        self.mlflow_log_metric("Baseline r2", self.baseline_r2)
-        self.mlflow_log_metric("Baseline rmse", self.baseline_rmse)
-        self.mlflow_log_param("Model", type(self.params["model"]).__name__)
-
-
 
     def run(self):
         """ looking for best parameters for the model and training """
@@ -104,10 +96,10 @@ class Trainer():
         self.model = RandomizedSearchCV(self.pipeline,
                                         self.params["random_grid_search"],
                                         scoring=self.scorer,
-                                        n_iter=30,
+                                        n_iter=1,
                                         cv=3,
                                         n_jobs=-1,
-                                        verbose=1)
+                                        verbose=2)
         self.model.fit(self.X, self.y)
         self.optimized_rmse = -self.model.best_score_
         print("Tuned " + type(self.params["model"]).__name__ + " model best rmse: " +
@@ -118,34 +110,7 @@ class Trainer():
         for k, v in self.model.best_params_.items():
             print(k, colored(v, "green"))
         print("####################################\n")
-#
-        # ### MLFLOW RECORDS
-        self.mlflow_log_metric("Optimized rmse", self.optimized_rmse)
-        for k, v in self.model.best_params_.items():
-            self.mlflow_log_param(k, v)
 
-
-    @memoized_property
-    def mlflow_client(self):
-        mlflow.set_tracking_uri(CUSTOMURI)
-        return MlflowClient()
-
-    @memoized_property
-    def mlflow_experiment_id(self):
-        try:
-            return self.mlflow_client.create_experiment(self.experiment_name)
-        except BaseException:
-            return self.mlflow_client.get_experiment_by_name(self.experiment_name).experiment_id
-
-    @memoized_property
-    def mlflow_run(self):
-        return self.mlflow_client.create_run(self.mlflow_experiment_id)
-
-    def mlflow_log_param(self, key, value):
-        self.mlflow_client.log_param(self.mlflow_run.info.run_id, key, value)
-
-    def mlflow_log_metric(self, key, value):
-        self.mlflow_client.log_metric(self.mlflow_run.info.run_id, key, value)
 
     def save_model(self, model_name):
         """ Save the model into a .joblib format """
@@ -163,6 +128,21 @@ parser.add_argument('-m', action="store",
 if __name__ == "__main__":
     # getting optionnal arguments otherwise default
     results = parser.parse_args()
+
+    # concatenate scraping outputs
+    concat_df()
+
+    # fuzzy match
+    new_data = get_new_data(clean_raw_data(get_raw_data()), get_data())
+    print("New data to be matched. Shape:" + str(new_data.shape))
+    if not new_data.empty:
+        print('Fuzzy match in progress, wait...')
+        new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
+        print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
+        history = append(new_data_matched, get_data())
+        print("New dataframe avaialble. Shape:" + str(history.shape))
+    else:
+        print('No new data to match')
 
     # get data
     data_train = get_data()
