@@ -6,6 +6,7 @@ import pandas as pd
 from termcolor import colored
 from datetime import datetime
 from tresboncoin.parameters import df_ids
+import pytz
 
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
@@ -15,6 +16,19 @@ def get_model():
 
     """ loading joblib file """
     return joblib.load(os.path.join(PATH_TO_LOCAL_MODEL, "model.joblib"))
+
+
+def get_last_time_modified(file_path):
+    """ return last time a file was modified """
+
+    # file timestamp
+    file_timestamp = datetime.fromtimestamp(os.path.getmtime(file_path))
+
+    # set timezones
+    machine_TZ = pytz.timezone("UTC")
+    france_TZ = pytz.timezone("Europe/Paris")
+
+    return machine_TZ.localize(file_timestamp).astimezone(france_TZ).strftime("%d/%m/%Y - %Hh%M")
 
 
 def custom_rmse(y_true, y_pred):

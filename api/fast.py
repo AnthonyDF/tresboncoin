@@ -4,7 +4,7 @@ from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 from tresboncoin.data_ import get_data, clean_data
 from tresboncoin.fuzzy_match import fuzzy_match_one
-from tresboncoin.utils import km_per_year, get_model
+from tresboncoin.utils import km_per_year, get_model, get_last_time_modified
 import os
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
@@ -102,7 +102,7 @@ def get_stats():
     # get model params
     stats = dict()
 
-    stats["last training"] = datetime.now().strftime("%d / %m / %Y")
+    stats["last training"] = get_last_time_modified(PATH_TO_LOCAL_MODEL + "model.joblib")
     stats['model'] = str(model.estimator["model"])
 
     for k, v in model.best_params_.items():
