@@ -121,3 +121,151 @@ motomag,scrap annonces,started,2021-06-24 10:28:03.892091,
 motomag,scrap annonces,completed,2021-06-24 10:29:37.753478,"1.55 minutes elapsed, 27 annonces scrapped"
 motomag,to dataframe,started,2021-06-24 10:29:37.757973,
 motomag,scrap pages,completed,2021-06-24 10:29:39.735764,"0.016666666666666666 minutes elapsed, 26 pages scrapped"
+motomag,scrap pages,started,2021-07-14 11:10:51.267483,
+motomag,scrap pages,completed,2021-07-14 11:14:16.429946,"3.4166666666666665 minutes elapsed, 132 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:14:32.496492,
+motomag,scrap annonces,started,2021-07-14 11:14:34.601121,
+motomag,scrap annonces,started,2021-07-14 11:14:36.751956,
+motomag,scrap annonces,started,2021-07-14 11:14:38.589661,
+motomag,scrap annonces,started,2021-07-14 11:14:40.541606,
+motomag,scrap annonces,started,2021-07-14 11:14:42.074476,
+motomag,scrap annonces,started,2021-07-14 11:14:44.032288,
+motomag,scrap annonces,started,2021-07-14 11:14:49.445234,
+motomag,scrap annonces,started,2021-07-14 11:14:51.255261,
+motomag,scrap annonces,started,2021-07-14 11:14:54.057125,
+motomag,scrap annonces,started,2021-07-14 11:14:55.591416,
+motomag,scrap annonces,started,2021-07-14 11:14:58.973834,
+motomag,scrap annonces,started,2021-07-14 11:15:00.820341,
+motomag,scrap annonces,started,2021-07-14 11:15:02.761175,
+motomag,scrap annonces,started,2021-07-14 11:15:04.393352,
+motomag,scrap annonces,started,2021-07-14 11:15:06.616564,
+motomag,scrap annonces,started,2021-07-14 11:15:08.295613,
+motomag,scrap annonces,started,2021-07-14 11:15:09.838075,
+motomag,scrap annonces,started,2021-07-14 11:15:11.466518,
+motomag,scrap annonces,started,2021-07-14 11:15:13.204182,
+motomag,scrap annonces,started,2021-07-14 11:15:14.952793,
+motomag,scrap annonces,started,2021-07-14 11:15:16.997152,
+motomag,scrap annonces,started,2021-07-14 11:15:18.444258,
+motomag,scrap annonces,started,2021-07-14 11:15:19.964912,
+motomag,scrap annonces,started,2021-07-14 11:15:22.286470,
+motomag,scrap annonces,completed,2021-07-14 11:15:23.490011,"0.8333333333333334 minutes elapsed, 24 annonces scrapped"
+motomag,scrap pages,started,2021-07-14 11:17:37.280612,
+motomag,scrap pages,completed,2021-07-14 11:18:39.856135,"1.0333333333333334 minutes elapsed, 132 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:27.305771,
+motomag,scrap annonces,started,2021-07-14 11:20:29.056898,
+motomag,scrap annonces,started,2021-07-14 11:20:29.360211,
+motomag,scrap annonces,started,2021-07-14 11:20:31.625041,
+motomag,scrap annonces,started,2021-07-14 11:20:32.746438,
+motomag,scrap annonces,started,2021-07-14 11:20:33.511718,
+motomag,scrap annonces,started,2021-07-14 11:20:33.815454,
+motomag,scrap annonces,started,2021-07-14 11:20:34.613722,
+motomag,scrap annonces,started,2021-07-14 11:20:35.002669,
+motomag,scrap annonces,started,2021-07-14 11:20:36.219917,
+motomag,scrap annonces,started,2021-07-14 11:20:37.578960,
+motomag,scrap annonces,started,2021-07-14 11:20:38.015680,
+motomag,scrap annonces,started,2021-07-14 11:20:38.323570,
+motomag,scrap annonces,started,2021-07-14 11:20:38.744906,
+motomag,scrap annonces,started,2021-07-14 11:20:39.084361,
+motomag,scrap annonces,started,2021-07-14 11:20:39.363840,
+motomag,scrap annonces,started,2021-07-14 11:20:40.892359,
+motomag,scrap annonces,started,2021-07-14 11:20:41.198106,
+motomag,scrap annonces,started,2021-07-14 11:20:41.583860,
+motomag,scrap annonces,started,2021-07-14 11:20:44.169033,
+motomag,scrap pages,completed,2021-07-14 11:20:44.300293,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:45.916026,
+motomag,scrap pages,completed,2021-07-14 11:20:46.041905,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:47.677213,
+motomag,scrap pages,completed,2021-07-14 11:20:47.801144,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:49.697778,
+motomag,scrap pages,completed,2021-07-14 11:20:49.824433,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:51.450001,
+motomag,scrap pages,completed,2021-07-14 11:20:51.573498,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:53.178655,
+motomag,scrap pages,completed,2021-07-14 11:20:53.306367,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:54.823203,
+motomag,scrap pages,completed,2021-07-14 11:20:54.976739,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:56.426553,
+motomag,scrap pages,completed,2021-07-14 11:20:56.550288,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:58.168291,
+motomag,scrap pages,completed,2021-07-14 11:20:58.298238,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:20:59.836008,
+motomag,scrap pages,completed,2021-07-14 11:20:59.962862,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:01.546563,
+motomag,scrap pages,completed,2021-07-14 11:21:01.675447,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:03.310653,
+motomag,scrap pages,completed,2021-07-14 11:21:03.434660,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:04.952501,
+motomag,scrap pages,completed,2021-07-14 11:21:05.078409,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:06.592905,
+motomag,scrap pages,completed,2021-07-14 11:21:06.725537,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:08.233013,
+motomag,scrap pages,completed,2021-07-14 11:21:08.360741,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:09.772153,
+motomag,scrap pages,completed,2021-07-14 11:21:09.890005,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:11.507842,
+motomag,scrap pages,completed,2021-07-14 11:21:11.660393,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:13.453722,
+motomag,scrap pages,completed,2021-07-14 11:21:13.580316,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:15.405907,
+motomag,scrap pages,completed,2021-07-14 11:21:15.532184,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:17.138724,
+motomag,scrap pages,completed,2021-07-14 11:21:17.267158,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:19.426047,
+motomag,scrap pages,completed,2021-07-14 11:21:19.555225,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:21.236289,
+motomag,scrap pages,completed,2021-07-14 11:21:21.362133,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:23.081214,
+motomag,scrap pages,completed,2021-07-14 11:21:23.208703,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:24.819023,
+motomag,scrap pages,completed,2021-07-14 11:21:24.946269,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:26.562047,
+motomag,scrap pages,completed,2021-07-14 11:21:26.690979,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:28.200182,
+motomag,scrap pages,completed,2021-07-14 11:21:28.327282,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:30.060643,
+motomag,scrap pages,completed,2021-07-14 11:21:30.215901,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:31.856164,
+motomag,scrap pages,completed,2021-07-14 11:21:31.984625,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:33.729574,
+motomag,scrap pages,completed,2021-07-14 11:21:33.855994,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:35.365427,
+motomag,scrap pages,completed,2021-07-14 11:21:35.488720,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:37.069852,
+motomag,scrap pages,completed,2021-07-14 11:21:37.197587,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:38.846198,
+motomag,scrap pages,completed,2021-07-14 11:21:38.971852,"0.0 minutes elapsed, 1 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:21:39.285015,
+motomag,scrap annonces,started,2021-07-14 11:21:39.764638,
+motomag,scrap annonces,started,2021-07-14 11:21:40.386975,
+motomag,scrap annonces,started,2021-07-14 11:21:40.891804,
+motomag,scrap annonces,started,2021-07-14 11:21:41.689174,
+motomag,scrap annonces,started,2021-07-14 11:21:42.065703,
+motomag,scrap annonces,completed,2021-07-14 11:21:43.340497,"1.2666666666666666 minutes elapsed, 56 annonces scrapped"
+motomag,scrap pages,started,2021-07-14 11:23:24.425149,
+motomag,scrap pages,completed,2021-07-14 11:26:48.782207,"3.4 minutes elapsed, 132 pages scrapped"
+motomag,scrap annonces,started,2021-07-14 11:26:48.788213,
+motomag,scrap annonces,started,2021-07-14 11:26:50.555382,
+motomag,scrap annonces,started,2021-07-14 11:26:52.075008,
+motomag,scrap annonces,started,2021-07-14 11:26:54.005786,
+motomag,scrap annonces,started,2021-07-14 11:26:55.675010,
+motomag,scrap annonces,started,2021-07-14 11:26:58.852595,
+motomag,scrap annonces,started,2021-07-14 11:27:00.438578,
+motomag,scrap annonces,started,2021-07-14 11:27:04.002347,
+motomag,scrap annonces,started,2021-07-14 11:27:06.225567,
+motomag,scrap annonces,started,2021-07-14 11:27:07.863578,
+motomag,scrap annonces,started,2021-07-14 11:27:09.426373,
+motomag,scrap annonces,started,2021-07-14 11:27:11.957366,
+motomag,scrap annonces,started,2021-07-14 11:27:13.497564,
+motomag,scrap annonces,started,2021-07-14 11:27:15.341157,
+motomag,scrap annonces,started,2021-07-14 11:27:16.875620,
+motomag,scrap annonces,started,2021-07-14 11:27:18.410635,
+motomag,scrap annonces,started,2021-07-14 11:27:20.153424,
+motomag,scrap annonces,started,2021-07-14 11:27:23.222912,
+motomag,scrap annonces,started,2021-07-14 11:27:25.169365,
+motomag,scrap annonces,started,2021-07-14 11:27:26.900137,
+motomag,scrap annonces,started,2021-07-14 11:27:28.856326,
+motomag,scrap annonces,started,2021-07-14 11:27:30.757061,
+motomag,scrap annonces,started,2021-07-14 11:27:32.644448,
+motomag,scrap annonces,started,2021-07-14 11:27:35.102009,
+motomag,scrap annonces,started,2021-07-14 11:27:36.638343,
+motomag,scrap annonces,completed,2021-07-14 11:27:39.033543,"0.8333333333333334 minutes elapsed, 24 annonces scrapped"

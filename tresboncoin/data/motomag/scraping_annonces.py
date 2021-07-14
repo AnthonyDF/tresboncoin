@@ -3,10 +3,8 @@ from bs4 import BeautifulSoup
 import os
 import codecs
 from datetime import datetime
-import time
-import random
 import pandas as pd
-import os
+import re
 
 
 PATH_TO_CSV = os.path.dirname(os.path.abspath(__file__)).replace('/motomag', '') + '/scraping_outputs/motomag.csv'
@@ -16,6 +14,102 @@ PATH_TO_IMG_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/img'
 PATH_TO_PAGES_FOLDER = os.path.dirname(os.path.abspath(__file__)) + ('/pages')
 PATH_TO_ANNONCES_FOLDER = os.path.dirname(os.path.abspath(__file__)) + ('/annonces')
 PATH_TO_INDEX = os.path.dirname(os.path.abspath(__file__)) + '/index.csv'
+
+
+def scraping_to_dataframe(res, code, ref):
+    try:
+        source = 'motomag'
+        # Start time
+        start_time = datetime.now()
+
+        # log update
+        log_import = pd.read_csv(PATH_TO_LOG)
+        log_new = pd.DataFrame({'source': [source],
+                                'step': ['scrap annonces'],
+                                'status': ['started'],
+                                'time': [datetime.now()],
+                                'details': [""]})
+        log = log_import.append(log_new, ignore_index=True)
+        log.to_csv(PATH_TO_LOG, index=False)
+
+        count = 0
+
+        reference = int(ref)
+        uniq_id = source + "-" + str(ref)
+
+        # initialize list for dataframe
+        data = {'uniq_id': [],
+                'reference': [],
+                'brand': [],
+                'model': [],
+                'price': [],
+                'bike_year': [],
+                'bike_type': [],
+                'engine_size': [],
+                'mileage': [],
+                'source': [],
+                'scraped_date': [],
+                'url': [],
+                'age': [],
+                'code_annonce': [code]}
+
+        model_soup = BeautifulSoup(res.content, "html.parser")
+
+        try:
+            count += 1
+            engine_size = int(model_soup.find('div', class_='f17').text.split('cm3')[0])
+            mileage = int(model_soup.find('div', class_='f17').text.split('cm3')[1].split(' km')[0])
+            bike_type = model_soup.select('h1.f14')[0].text
+            brand = model_soup.select('h1.fPtNaB:nth-child(2)')[0].text.split(' - ')[0].lower()
+            model = model_soup.select('h1.fPtNaB:nth-child(2)')[0].text.split(' - ')[1].lower()
+            price = model_soup.find(itemprop='prix').text.replace(' €', '')
+            year = model_soup.find('div', class_='f17').text.split('Année du modèle : ')[1]
+            bike_year = re.match(r'\d{4}', year).group(0)
+            data['uniq_id'].append(uniq_id)
+            data['reference'].append(reference)
+            data['brand'].append(brand)
+            data['model'].append(model)
+            data['price'].append(price)
+            data['bike_year'].append(bike_year)
+            data['bike_type'].append(bike_type)
+            data['mileage'].append(mileage)
+            data['engine_size'].append(engine_size)
+            data["age"].append(int(datetime.now().strftime("%Y")) - int(bike_year))
+            data['url'].append("https://www.motomag.com/spip.php?page=pamoto&id_annonce=" + str(reference))
+            data['source'].append(source)
+            data['scraped_date'].append(datetime.now())
+            df = pd.DataFrame(data)
+            # loading existing csv
+            data_hist = pd.read_csv(PATH_TO_CSV)
+            # merge dataframes
+            new_csv = pd.concat([data_hist, df], axis=0)
+            # export to csv
+            new_csv.to_csv(PATH_TO_CSV, index=False)
+            print("Motomag line added. New Shape: " + str(new_csv.shape[0]))
+        except:
+            print("error encountered in file: " + filename)
+
+        # End time
+        end_time = datetime.now()
+        td = end_time - start_time
+
+        # log update
+        log_import = pd.read_csv(PATH_TO_LOG)
+        log_new = pd.DataFrame({'source': [source],
+                                'step': ['scrap pages'],
+                                'status': ['completed'],
+                                'time': [datetime.now()],
+                                'details': [f"{td.seconds/60} minutes elapsed, {count} pages scrapped"]})
+        log = log_import.append(log_new, ignore_index=True)
+        log.to_csv(PATH_TO_LOG, index=False)
+
+        # remove duplicates
+        df = pd.read_csv(PATH_TO_CSV)
+        df.drop_duplicates(subset=['reference', 'price'], inplace=True)
+        df.to_csv(PATH_TO_CSV, index=False)
+
+    except (ValueError, TypeError, NameError, KeyError, RuntimeWarning) as err:
+        print("error occured")
 
 
 def scraping_annonces():
@@ -48,50 +142,23 @@ def scraping_annonces():
             bike_soup = soup.find_all(class_="col-md-6 mt10")
 
             for bike in bike_soup:
-                url_bike_ls = []
-                reference_ls = []
 
                 bike_url = bike.find("a").get('href')
                 reference = bike_url.split("=")[-1]
-                uniq_id = source + '-' + bike_url.split("=")[-1]
-
-                reference_ls.append(uniq_id)
-                url_bike_ls.append(bike_url)
-
-                price = bike.find('span').text.replace(' €', '')
+                # uniq_id = source + '-' + bike_url.split("=")[-1]
+                moto_carac = bike.select("div[class*='article-txt pa5']")
+                code_annonce = moto_carac[0].text.replace("\n","").replace(" ", "")
+                # price = bike.find('span').text.replace(' €', '')
 
                 # test if the bike with the same price is already in the databse
-                test_rows = df_import.loc[(df_import['uniq_id'].astype(str) == str(uniq_id)) & (df_import['price'].astype(str) == str(price))].shape[0]
-
-                if test_rows == 0:
+                if code_annonce not in list(df_import["code_annonce"]):
                     count_annonce += 1
 
                     response = requests.get(bike_url)
-                    file_name = source + "-" + reference + "-" + start_time.strftime("%Y-%m-%d_%Hh%M")
+                    scraping_to_dataframe(response, code_annonce, reference)
 
-                    with open(PATH_TO_ANNONCES_FOLDER + f"/{file_name}.html", "w") as file:
-                        file.write(response.text)
-                        file.close()
-
-                    # create index dataframe
-                    df = pd.DataFrame(list(zip(reference_ls, url_bike_ls)), columns=['uniq_id', 'url'])
-
-                    # import index history
-                    history = pd.read_csv(PATH_TO_INDEX)
-
-                    # concatenate new and history
-                    final_df = history.append(df, ignore_index=True)
-                    # final_df = df
-
-                    # drop duplicates
-                    final_df.drop_duplicates(inplace=True)
-
-                    # export to csv
-                    final_df.to_csv(PATH_TO_INDEX, index=False)
-
-                    print("motomag - annonce number:", count_annonce)
-
-                    # time.sleep(random.randint(2, 3))
+                else:
+                    print("Announce already in dataset.")
 
             # delete html file
             os.remove(PATH_TO_PAGES_FOLDER + "/" + filename)
