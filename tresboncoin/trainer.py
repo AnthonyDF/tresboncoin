@@ -6,7 +6,7 @@ from tresboncoin.data_ import get_data, concat_df, clean_raw_data
 from tresboncoin.data_ import get_motorcycle_db, append
 from tresboncoin.data_ import clean_data, get_new_data, get_raw_data
 from tresboncoin.fuzzy_match import fuzzy_match
-from tresboncoin.utils import custom_rmse
+from tresboncoin.utils import custom_rmse, log_best_params
 from sklearn.metrics import make_scorer
 from tresboncoin.parameters import *
 import os
@@ -166,3 +166,11 @@ if __name__ == "__main__":
     # saving trained model and moving it to models folder
     trainer.save_model(model_name=results.modelname)
     subprocess.run(["mv", results.modelname + ".joblib", PATH_TO_LOCAL_MODEL])
+
+    # saving parameter logs
+    try:
+        log_best_params(trainer.model)
+        print("model parameters saved in parameterlog.csv")
+    except Exception as e:
+        print("failed to save model parameters in parameterlog.csv")
+        print(e.message)

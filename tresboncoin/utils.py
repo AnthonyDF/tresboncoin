@@ -10,6 +10,7 @@ import pytz
 
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
+PATH_TO_PARAM_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "parameterlog.csv")
 
 
 def get_model():
@@ -77,6 +78,35 @@ def set_colums(df_, dict_, sitename_):
         else:
             fd_new_columns.append(k)
     return fd_new_columns
+
+
+def log_best_params(model):
+
+    # loading parameters log file
+    logfile = pd.read_csv(PATH_TO_PARAM_LOG)
+
+    # parameters
+    params = dict()
+
+    # save the date
+    params["date"] = [get_last_time_modified(PATH_TO_LOCAL_MODEL + "model.joblib")]
+
+    # save estimator
+    params["estimator"] = [str(model.estimator["model"])]
+
+    # save parameters
+    for k, v in model.best_params_.items():
+        params[k] = [v]
+
+    # save score
+    params["rmse"] = [model.best_score_]
+
+    # concat
+    newlog = pd.concat([logfile, pd.DataFrame(params)], axis=0)
+
+    # saving to logfile
+    newlog.to_csv(PATH_TO_PARAM_LOG, index=False)
+    return
 
 
 if __name__ == "__main__":

@@ -103,10 +103,11 @@ def get_stats():
     stats = dict()
 
     stats["last training"] = get_last_time_modified(PATH_TO_LOCAL_MODEL + "model.joblib")
-    stats['model'] = str(model.estimator["model"])
-
-    for k, v in model.best_params_.items():
-        stats[k] = v
+    stats['model'] = str(model.best_estimator_["model"]).split("(")[0]
+    for parameter in str(model.best_estimator_["model"]).split("(")[1][:-1].replace(" ", "").replace("\n", "").split(","):
+        param = parameter.split("=")
+        stats[param[0]] = str(param[1])
+    stats["scaler"] = str(model.best_estimator_["preprocessor"]["scaler"]).split("(")[0]
 
     # adding rmse and number of lines infos
     stats['model rmse'] = -round(model.best_score_, 0)
