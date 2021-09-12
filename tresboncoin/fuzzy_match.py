@@ -17,24 +17,31 @@ def remove_punctuations(text):
 
 
 def fuzzy_match(new_data, moto_database):
+    """
+    fuzzy_match brand and model for history and new data
+    """
 
     # CLEAN BRAND AND MODEL
     new_data.dropna(subset=['model', 'brand'], inplace=True)
     # lower and remove spaces
-    new_data.brand = new_data.brand.str.lower().str.replace(' ', '')
-    new_data.model = new_data.model.str.lower().str.replace(' ', '')
-    # cremove punctuation
+    new_data.brand = new_data.brand.str.lower()
+    new_data.model = new_data.model.str.lower()
+    # remove punctuation
     new_data.brand = new_data.brand.apply(remove_punctuations)
     new_data.model = new_data.model.apply(remove_punctuations)
 
+    # Clean Year
+    new_data.bike_year = new_data.bike_year.astype(int)
+
     # MATCH BRAND NAME
     def match_brand(choices, to_match):
-        return process.extractOne(to_match, choices)
+        return process.extractOne(to_match, choices, score_cutoff=80)
 
-    new_data['fuzzy_brand_result'] = new_data.apply(lambda x: match_brand(
+    new_data['fuzzy_brand_result'] =  new_data.apply(
+        lambda x: match_brand(
         [str(x) for x in moto_database.brand_db.unique().tolist()],
         x['brand']),
-        axis=1)
+    axis=1)
 
     # unpack results
     def unpack_tuple_name(result):
@@ -49,194 +56,125 @@ def fuzzy_match(new_data, moto_database):
         except:
             return np.nan
 
-    new_data['fuzzy_score'] = new_data['fuzzy_brand_result'].apply(unpack_tuple_score)
     new_data['fuzzy_brand'] = new_data['fuzzy_brand_result'].apply(unpack_tuple_name)
+    new_data['fuzzy_brand_score'] = new_data['fuzzy_brand_result'].apply(unpack_tuple_score)
+
     new_data.drop(columns=['fuzzy_brand_result'], inplace=True)
     new_data.dropna(subset=['fuzzy_brand'], inplace=True)
 
     # MATCH MODEL
     # list of models, submodel...
-    def choices(brand, type_name):
-        choices = moto_database[moto_database.brand_db==brand][type_name].unique().tolist()
-        return [str(x) for  x in choices]
+    def choices(brand, year, type_name):
+        choices = moto_database[
+            (moto_database.brand_db == str(brand)) & (moto_database.year_db == int(year))][type_name].unique().tolist()
+        return [str(x) for x in choices]
 
     def match_model(choices, to_match):
-        return process.extractOne(to_match, choices)
+        return process.extractOne(str(to_match), choices, score_cutoff=86)
 
+    # fuzzy match model
     new_data['fuzzy_result_model'] = new_data.apply(lambda x:
                                                   match_model(
-                                                      choices(x['fuzzy_brand'], 'model_db'),
+                                                      choices(x['fuzzy_brand'], x['bike_year'], 'model_db'),
                                                       x['model']),
                                                   axis=1)
-
-    new_data['fuzzy_result_submodel'] = new_data.apply(lambda x:
-                                                     match_model(
-                                                         choices(x['fuzzy_brand'], 'model_submodel_db'),
-                                                         x['model']),
-                                                     axis=1)
-
-    new_data['fuzzy_result_submodel_inv']= new_data.apply(lambda x:
-                                                     match_model(
-                                                         choices(x['fuzzy_brand'],'model_submodel_inv_db'),
-                                                         x['model']),
-                                                     axis=1)
-
-    new_data['fuzzy_result_model_inv']= new_data.apply(lambda x:
-                                                     match_model(
-                                                         choices(x['fuzzy_brand'],'model_inv_db'),
-                                                         x['model']),
-                                                     axis=1)
-
-    new_data['fuzzy_result_model_size']= new_data.apply(lambda x:
-                                                     match_model(
-                                                         choices(x['fuzzy_brand'],'model_size_db'),
-                                                         x['model']),
-                                                     axis=1)
-
-    new_data['fuzzy_result_model_size_inv']= new_data.apply(lambda x:
-                                                     match_model(
-                                                         choices(x['fuzzy_brand'],'model_size_inv_db'),
-                                                         x['model']),
-                                                     axis=1)
 
     new_data['fuzzy_model'] = new_data['fuzzy_result_model'].apply(unpack_tuple_name)
     new_data['fuzzy_model_score'] = new_data['fuzzy_result_model'].apply(unpack_tuple_score)
     new_data.drop(columns='fuzzy_result_model', inplace=True)
 
-    new_data['fuzzy_model_inv'] = new_data['fuzzy_result_model_inv'].apply(unpack_tuple_name)
-    new_data['fuzzy_model_inv_score'] = new_data['fuzzy_result_model_inv'].apply(unpack_tuple_score)
-    new_data.drop(columns='fuzzy_result_model_inv', inplace=True)
+    # fuzzy match submodel
+    new_data['fuzzy_result_submodel']= new_data.apply(lambda x:
+                                                     match_model(
+                                                         choices(x['fuzzy_brand'], x['bike_year'],'submodel_db'),
+                                                         x['model']),
+                                                     axis=1)
 
     new_data['fuzzy_submodel'] = new_data['fuzzy_result_submodel'].apply(unpack_tuple_name)
     new_data['fuzzy_submodel_score'] = new_data['fuzzy_result_submodel'].apply(unpack_tuple_score)
     new_data.drop(columns='fuzzy_result_submodel', inplace=True)
 
-    new_data['fuzzy_submodel_inv'] = new_data['fuzzy_result_submodel_inv'].apply(unpack_tuple_name)
-    new_data['fuzzy_submodel_inv_score'] = new_data['fuzzy_result_submodel_inv'].apply(unpack_tuple_score)
-    new_data.drop(columns='fuzzy_result_submodel_inv', inplace=True)
-
-    new_data['fuzzy_model_size'] = new_data['fuzzy_result_model_size'].apply(unpack_tuple_name)
-    new_data['fuzzy_model_size_score'] = new_data['fuzzy_result_model_size'].apply(unpack_tuple_score)
-    new_data.drop(columns='fuzzy_result_model_size', inplace=True)
-
-    new_data['fuzzy_model_size_inv'] = new_data['fuzzy_result_model_size_inv'].apply(unpack_tuple_name)
-    new_data['fuzzy_model_size_inv_score'] = new_data['fuzzy_result_model_size_inv'].apply(unpack_tuple_score)
-    new_data.drop(columns='fuzzy_result_model_size_inv', inplace=True)
+    # choose the best fuzzy match
 
     def is_best(fuzzy_model_score,
-                fuzzy_model_inv_score,
-                fuzzy_submodel_score,
-                fuzzy_submodel_inv_score,
-                fuzzy_model_size_score,
-                fuzzy_model_size_inv_score):
+            fuzzy_submodel_score):
 
         '''
         function to define the best fuzzy matching score
         '''
         scores = [float(fuzzy_model_score),
-                  float(fuzzy_model_inv_score),
-                  float(fuzzy_submodel_score),
-                  float(fuzzy_submodel_inv_score),
-                  float(fuzzy_model_size_score),
-                  float(fuzzy_model_size_inv_score)]
+                  float(fuzzy_submodel_score)]
 
         max_score = max(scores)
         max_score_postion = scores.index(max_score)
-
         return max_score_postion
 
+    def best_score(fuzzy_model_score,
+            fuzzy_submodel_score):
+
+        '''
+        function to define the best fuzzy matching score
+        '''
+        scores = [float(fuzzy_model_score),
+                  float(fuzzy_submodel_score)]
+
+        return max(scores)
+
     new_data['fuzzy_model_score'] = new_data['fuzzy_model_score'].fillna(0)
-    new_data['fuzzy_model_inv_score'] = new_data['fuzzy_model_inv_score'].fillna(0)
     new_data['fuzzy_submodel_score'] = new_data['fuzzy_submodel_score'].fillna(0)
-    new_data['fuzzy_submodel_inv_score'] = new_data['fuzzy_submodel_inv_score'].fillna(0)
-    new_data['fuzzy_model_size_score'] = new_data['fuzzy_model_size_score'].fillna(0)
-    new_data['fuzzy_model_size_inv_score'] = new_data['fuzzy_model_size_inv_score'].fillna(0)
 
     new_data['is_best'] = new_data.apply(
         lambda x: is_best(
             x['fuzzy_model_score'],
-            x['fuzzy_model_inv_score'],
-            x['fuzzy_submodel_score'],
-            x['fuzzy_submodel_inv_score'],
-            x['fuzzy_model_size_score'],
-            x['fuzzy_model_size_inv_score'],),
+            x['fuzzy_submodel_score']),
+        axis=1)
+
+    new_data['score'] = new_data.apply(
+        lambda x: best_score(
+            x['fuzzy_model_score'],
+            x['fuzzy_submodel_score']),
         axis=1)
 
     new_data.dropna(subset=['is_best'], inplace=True)
 
-    data_model = new_data.copy()[new_data.is_best==0]
-    data_model_inv = new_data.copy()[new_data.is_best==1]
-    data_submodel = new_data.copy()[new_data.is_best==2]
-    data_submodel_inv = new_data.copy()[new_data.is_best==3]
-    data_model_size = new_data.copy()[new_data.is_best==4]
-    data_model_size_inv = new_data.copy()[new_data.is_best==5]
+    data_model = new_data.copy()[new_data.is_best == 0]
+    data_submodel = new_data.copy()[new_data.is_best == 1]
 
     moto_database_model = moto_database.copy()
-    moto_database_model.drop_duplicates(subset=['brand_db','model_db'],inplace=True)
-    moto_database_model_inv = moto_database.copy()
-    moto_database_model_inv.drop_duplicates(subset=['brand_db','model_inv_db'],inplace=True)
+    moto_database_model.drop_duplicates(subset=['brand_db', 'model_db', 'year_db'],inplace=True)
     moto_database_submodel = moto_database.copy()
-    moto_database_submodel.drop_duplicates(subset=['brand_db','model_submodel_db'],inplace=True)
-    moto_database_submodel_inv = moto_database.copy()
-    moto_database_submodel_inv.drop_duplicates(subset=['brand_db','model_submodel_inv_db'],inplace=True)
-    moto_database_model_size = moto_database.copy()
-    moto_database_model_size.drop_duplicates(subset=['brand_db','model_size_db'],inplace=True)
-    moto_database_model_size_inv = moto_database.copy()
-    moto_database_model_size_inv.drop_duplicates(subset=['brand_db','model_size_inv_db'],inplace=True)
+    moto_database_submodel.drop_duplicates(subset=['brand_db', 'submodel_db', 'year_db'],inplace=True)
 
     data_model = data_model.merge(
         moto_database_model,
         how='left',
-        left_on=['fuzzy_brand', 'fuzzy_model'],
-        right_on=['brand_db', 'model_db'])
-
-    data_model_inv = data_model_inv.merge(
-        moto_database_model_inv,
-        how='left',
-        left_on=['fuzzy_brand', 'fuzzy_model_inv'],
-        right_on=['brand_db', 'model_inv_db'])
+        left_on=['fuzzy_brand', 'fuzzy_model', 'bike_year'],
+        right_on=['brand_db', 'model_db', 'year_db'])
 
     data_submodel = data_submodel.merge(
         moto_database_submodel,
         how='left',
-        left_on=['fuzzy_brand', 'fuzzy_submodel'],
-        right_on=['brand_db', 'model_submodel_db'])
+        left_on=['fuzzy_brand', 'fuzzy_submodel', 'bike_year'],
+        right_on=['brand_db', 'submodel_db', 'year_db'])
 
-    data_submodel_inv = data_submodel_inv.merge(
-        moto_database_submodel_inv,
-        how='left',
-        left_on=['fuzzy_brand', 'fuzzy_submodel_inv'],
-        right_on=['brand_db', 'model_submodel_inv_db'])
-
-    data_model_size = data_model_size.merge(
-        moto_database_model_size,
-        how='left',
-        left_on=['fuzzy_brand', 'fuzzy_model_size'],
-        right_on=['brand_db', 'model_size_db'])
-
-    data_model_size_inv = data_model_size_inv.merge(
-        moto_database_model_size_inv,
-        how='left',
-        left_on=['fuzzy_brand', 'fuzzy_model_size_inv'],
-        right_on=['brand_db', 'model_size_inv_db'])
-
-    new_data = data_model.append(data_model_inv)
-    new_data = new_data.append(data_submodel)
-    new_data = new_data.append(data_submodel_inv)
-    new_data = new_data.append(data_model_size)
-    new_data = new_data.append(data_model_size_inv)
-    # new_data.reset_index(drop=True)
+    new_data = data_model.append(data_submodel)
 
     new_data.drop(
     columns=[
-        'fuzzy_brand', 'fuzzy_score',
-        'fuzzy_model', 'fuzzy_model_score', 'fuzzy_model_inv','fuzzy_model_inv_score',
-        'fuzzy_model_size', 'fuzzy_model_size_score', 'fuzzy_model_size_inv','fuzzy_model_size_inv_score',
-        'fuzzy_submodel', 'fuzzy_submodel_score', 'fuzzy_submodel_inv', 'fuzzy_submodel_inv_score',
-        'is_best','model_submodel_inv_db', 'model_inv_db', 'model_size_db', 'model_size_inv_db'],
+        'fuzzy_brand', 'fuzzy_brand_score',
+        'fuzzy_model', 'fuzzy_model_score',
+        'fuzzy_submodel', 'fuzzy_submodel_score',
+        'is_best'],
     inplace=True)
 
-    return new_data
+    new_data = new_data[['url', 'uniq_id', 'brand', 'brand_db', 'model', 'model_db', 'submodel_db', 'score', 'bike_year', 'date_scrapped', 'mileage', 'bike_type', 'price',
+            'engine_size',   'year_db', 'category_db', 'engine_type_db',
+           'engine_size_db', 'power_db', 'torque_db', 'compression_db',
+           'bore_x_stroke_db', 'fuel_system_db', 'cooling_system_db',
+           'shaft_drive_db', 'wheels_db', 'dry_weight_db',
+           'power_weight_ratio_db']]
+
+    return new_data[new_data.score > 0]
 
 
 def fuzzy_match_one(X_pred):
