@@ -110,9 +110,9 @@ def append(new_data_matched, history_data, write_method='local'):
 
 if __name__ == '__main__':
     # settings
-    read_method = 'gs'  # or 'gs' or 'local'
-    write_method = 'both'  # or 'both' or 'local'
-    fuzzy_match_method = 'new'  # 'new' or 'all'
+    read_method = 'local'  # or 'gs' or 'local'
+    write_method = 'local'  # or 'both' or 'local'
+    fuzzy_match_method = 'all'  # 'new' or 'all'
 
     # concatenate scraping outputs
     concat_df(read_method=read_method, write_method=write_method)
