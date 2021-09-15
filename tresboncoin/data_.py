@@ -16,7 +16,7 @@ raw_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/mast
 raw_data = "gs://tresboncoin/tresboncoin/data/master/master_data.csv"
 
 # History data file path
-history_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
+# history_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_with_fuzzy_and_cleaning.csv"
 history_data = "gs://tresboncoin/tresboncoin/data/master/master_with_fuzzy_and_cleaning.csv"
 
 # reference database file path
@@ -185,7 +185,7 @@ def get_raw_data():
 
 def get_data():
     '''returns training set DataFrames'''
-    return pd.read_csv(history_data_local)
+    return pd.read_csv(history_data)
 
 
 def get_motorcycle_db():
@@ -225,14 +225,14 @@ def append(new_data_matched, history_data):
     new_history = history_data.append(new_data_matched)
 
     # saving to local directory
-    new_history.to_csv(history_data_local, index=False)
+    new_history.to_csv(history_data, index=False)
     print(colored("Fuzzy matched dataset saved as master/master_with_fuzzy_and_cleaning.csv. Shape: " + str(new_history.shape), "green"))
 
     # Saving to Google Cloud Storage as a backup
     client = storage.Client()
     bucket = client.bucket("tresboncoin")
     blob = bucket.blob("tresboncoin/data/master/master_with_fuzzy_and_cleaning.csv")
-    blob.upload_from_filename(history_data_local)
+    blob.upload_from_filename(history_data)
     print(colored("master_with_fuzzy_and_cleaning.csv backup is on Google Cloud Storage. Shape: " + str(new_history.shape), "green"))
     return new_history
 
