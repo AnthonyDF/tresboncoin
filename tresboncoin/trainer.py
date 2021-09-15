@@ -2,7 +2,7 @@
 import argparse
 import subprocess
 from termcolor import colored
-from tresboncoin.data_ import get_data, concat_df, clean_raw_data
+from tresboncoin.data_ import get_history_data, concat_df, clean_raw_data
 from tresboncoin.data_ import get_motorcycle_db, append
 from tresboncoin.data_ import clean_data, get_new_data, get_raw_data
 from tresboncoin.fuzzy_match import fuzzy_match
@@ -133,19 +133,19 @@ if __name__ == "__main__":
     concat_df()
 
     # fuzzy match
-    new_data = get_new_data(clean_raw_data(get_raw_data()), get_data())
+    new_data = get_new_data(clean_raw_data(get_raw_data()), get_history_data())
     print("New data to be matched. Shape:" + str(new_data.shape))
     if not new_data.empty:
         print('Fuzzy match in progress, wait...')
         new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
         print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
-        history = append(new_data_matched, get_data())
+        history = append(new_data_matched, get_history_data())
         print("New dataframe avaialble. Shape:" + str(history.shape))
     else:
         print('No new data to match')
 
     # get data
-    data_train = get_data()
+    data_train = get_history_data()
 
     # clean data
     data_train = clean_data(data_train)

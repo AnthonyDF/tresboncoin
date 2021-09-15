@@ -1,5 +1,5 @@
 from scraper import scraper
-from data_ import concat_df, get_data, get_new_data, get_raw_data
+from data_ import concat_df, get_history_data, get_new_data, get_raw_data
 from data_ import clean_raw_data, clean_data, append, get_motorcycle_db
 from fuzzy_match import fuzzy_match
 import argparse
@@ -18,17 +18,17 @@ def main():
     concat_df()
 
     # fuzzy match
-    new_data = get_new_data(clean_raw_data(get_raw_data()), get_data())
+    new_data = get_new_data(clean_raw_data(get_raw_data()), get_history_data())
     print("New data to be matched. Shape:" + str(new_data.shape))
     if not new_data.empty:
         print('Fuzzy match in progress, wait...')
         new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
         print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
-        history = append(new_data_matched, get_data())
+        history = append(new_data_matched, get_history_data())
         print("New dataframe avaialble. Shape:" + str(history.shape))
     else:
         print('No new data to match')
-    df_train = get_data()
+    df_train = get_history_data()
     df_train = clean_data(df_train)
     print("Train dataframe loaded. Shape:" + str(df_train.shape))
     print("Train dataframe columns:" + str(list(df_train.columns)))
@@ -45,7 +45,7 @@ def main():
     results = parser.parse_args()
 
     # get data
-    data_train = get_data()
+    data_train = get_history_data()
 
     # clean data
     data_train = clean_data(data_train)
