@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import pandas as pd
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
-from tresboncoin.data_ import get_data, clean_data
+from tresboncoin.data_ import get_history_data, clean_data
 from tresboncoin.fuzzy_match import fuzzy_match_one
 from tresboncoin.utils import km_per_year, get_model, get_last_time_modified
 import os
@@ -96,7 +96,7 @@ def get_stats():
     model = get_model()
 
     # get number of lines after cleaning for model training
-    data_train = get_data()
+    data_train = get_history_data()
     data_train = clean_data(data_train)
 
     # get model params
