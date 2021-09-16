@@ -131,6 +131,9 @@ def clean_data_before_ml(df):
     # feature engineering
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
 
+    # remove duplicates
+    df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'mileage', 'bike_year'], inplace=True)
+
     df = df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price", "category_db"]]
     df.dropna(inplace=True)
 
