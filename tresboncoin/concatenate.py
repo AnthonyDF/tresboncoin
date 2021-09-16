@@ -3,7 +3,6 @@ from tresboncoin.utils import set_brand_and_model
 from tresboncoin.utils import set_colums
 from tresboncoin.parameters import concatenation_map
 from tresboncoin.parameters import columns_to_keep
-from tresboncoin.fuzzy_match import fuzzy_match
 
 from datetime import datetime
 import pandas as pd
@@ -113,15 +112,37 @@ def concat_df(write_method='local', read_method='local'):
 
     # loading datasets
     data_motoplanete = pd.read_csv(motoplanete_csv_local)
+    print('motoplanete', data_motoplanete.shape)
     data_fulloccaz = pd.read_csv(fulloccaz_csv)
+    print('fulloccaz', data_fulloccaz.shape)
     data_motooccasion = pd.read_csv(motooccasion_csv)
+    print('motooccasion', data_motooccasion.shape)
     data_motoselection = pd.read_csv(motoselection_csv)
+    print('motoselection', data_motoselection.shape)
     data_as_24_FR = pd.read_csv(as_24_FR_csv_local)
+    print('as_24_FR', data_as_24_FR.shape)
     data_as_24_BE = pd.read_csv(as_24_BE_csv_local)
+    print('as_24_BE', data_as_24_BE.shape)
     data_motomag = pd.read_csv(motomag_csv)
+    print('motomag', data_motomag.shape)
     data_lacentrale = pd.read_csv(lacentrale_csv_local)
+    print('lacentrale', data_lacentrale.shape)
     data_leboncoin = pd.read_csv(leboncoin_csv_local)
+    print('leboncoin', data_leboncoin.shape)
     data_motovente = pd.read_csv(motovente_csv)
+    print('motovente', data_motovente.shape)
+
+    print('Sum of all rows',
+          (data_motoplanete.shape[0] +
+           data_fulloccaz.shape[0] +
+           data_motooccasion.shape[0] +
+           data_motoselection.shape[0] +
+           data_as_24_FR.shape[0] +
+           data_as_24_BE.shape[0] +
+           data_motomag.shape[0] +
+           data_lacentrale.shape[0] +
+           data_leboncoin.shape[0] +
+           data_motovente.shape[0]))
 
     # Cleaning datasets
     # MOTOPLANETE

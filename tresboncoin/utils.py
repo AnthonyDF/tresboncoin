@@ -7,13 +7,12 @@ from termcolor import colored
 from datetime import datetime
 from tresboncoin.parameters import df_ids
 import pytz
-
+import string
 
 PATH_TO_LOCAL_MODEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/models/"
 
 
 def get_model():
-
     """ loading joblib file """
     return joblib.load(os.path.join(PATH_TO_LOCAL_MODEL, "model.joblib"))
 
@@ -42,7 +41,6 @@ def km_per_year(km, bike_year):
 
 
 def set_brand_and_model(df, feature_name, r=None):
-
     # init var
     brand_list = [np.nan] * df.shape[0]
     model_list = [np.nan] * df.shape[0]
@@ -79,6 +77,15 @@ def set_colums(df_, dict_, sitename_):
     return fd_new_columns
 
 
+def remove_punctuations(text):
+    """
+    remove punctuation in a string
+    """
+    for punctuation in string.punctuation:
+        text = text.replace(punctuation, '')
+    return text
+
+
 if __name__ == "__main__":
 
     model_ = get_model(model="model")
@@ -88,4 +95,3 @@ if __name__ == "__main__":
     for k, v in model_.best_params_.items():
         print(k, colored(v, "green"))
     print("\n")
-

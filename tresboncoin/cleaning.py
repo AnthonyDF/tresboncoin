@@ -1,10 +1,11 @@
 from tresboncoin.utils import km_per_year
 from tresboncoin.utils import set_brand_and_model
 from tresboncoin.utils import set_colums
+from tresboncoin.utils import remove_punctuations
 from tresboncoin.parameters import concatenation_map
 from tresboncoin.parameters import columns_to_keep
 from tresboncoin.concatenate import concat_df
-from tresboncoin.fuzzy_match import fuzzy_match
+from tresboncoin.concatenate import concat_df
 
 from datetime import datetime
 import pandas as pd
@@ -41,23 +42,57 @@ def clean_concatenated_data(write_method='local', read_method='local'):
 
     print("Data size before cleaning: " + str(df.shape))
 
-    ''' return clean dataframe '''
+    # return clean dataframe
+    # brand
+    print('- count of rows with empty brand: ', df[df["brand"].isnull()].shape[0])
     df = df[~df["brand"].isnull()]
+
+    # model
+    print('- count of rows with empty model: ', df[df["model"].isnull()].shape[0])
     df = df[~df["model"].isnull()]
+
+    # engine size
+    print('- count of rows with empty engine_size: ', df[df["engine_size"].isnull()].shape[0])
+    df = df[~df["engine_size"].isnull()]
+    print('- count of rows with engine_size out of range',
+          df[~((df["engine_size"] >= 49) & (df["engine_size"] < 2100))].isnull().shape[0])
+    df = df[(df["engine_size"] >= 49) & (df["engine_size"] < 2100)]
+
+    # bike year
+    print('- count of rows bike_year not a number: ', df[df["bike_year"] == "['']"].shape[0])
     df = df[df["bike_year"] != "['']"]
+    print('- count of rows with empty bike_year: ', df[df["bike_year"].isnull()].shape[0])
+    df = df[~df["bike_year"].isnull()]
     df["bike_year"] = df["bike_year"].apply(lambda x: int(float(x)))
     df["bike_year"] = df["bike_year"].astype(int)
     df = df[(df["bike_year"] >= 1985) & (df["bike_year"] <= datetime.now().year)]
-    df = df[(df["mileage"] >= 100) & (df["mileage"] <= 150000)]
-    df = df[(df["price"] >= 100) & (df["price"] < 40000)]
-    df = df[(df["engine_size"] >= 49) & (df["engine_size"] < 2100)]
 
-    # Clean same annonce with multiple prices (keep lowest price)
+    # mileage
+    print('- count of rows with mileage out of range: ',
+          df[~((df["mileage"] >= 100) & (df["mileage"] <= 150000))].isnull().shape[0])
+    df = df[((df["mileage"] >= 100) & (df["mileage"] <= 150000))]
+
+    # price
+    print('- count of rows with price out of range: ',
+          df[~((df["price"] >= 100) & (df["price"] < 40000))].isnull().shape[0])
+    df = df[(df["price"] >= 100) & (df["price"] < 40000)]
+
+    # Clean same bike with multiple prices (keep lowest price)
+    shape_before_duplicates = df.shape[0]
     df.sort_values('price', ascending=False, inplace=True)
     df.drop_duplicates(subset=['uniq_id'], keep='first', inplace=True)
     df.drop_duplicates(subset=['brand', 'model', 'bike_year', 'mileage'], keep='first', inplace=True)
+    print('- count of duplicates removed: ', shape_before_duplicates - df.shape[0])
 
     print("Data size after cleaning: " + str(df.shape))
+
+    # lower and remove spaces
+    df.brand = df.brand.str.lower()
+    df.model = df.model.str.lower()
+    df.bike_type = df.bike_type.str.lower()
+    # remove punctuation
+    df.brand = df.brand.apply(remove_punctuations)
+    df.model = df.model.apply(remove_punctuations)
 
     if write_method == 'local':
         # Saving to local directory
@@ -106,5 +141,7 @@ def clean_data_before_ml(df):
 
 
 if __name__ == '__main__':
+    # concatenate scraping outputs
+    concat_df(read_method='local', write_method='local')
     # concatenate scraping outputs
     clean_concatenated_data(read_method='local', write_method='local')

@@ -4,7 +4,14 @@ from rapidfuzz import process
 import numpy as np
 import os
 
+from tresboncoin.concatenate import concat_df
+from tresboncoin.cleaning import clean_concatenated_data
+
 moto_database = os.path.dirname(os.path.abspath(__file__)) + "/data/master_vehicule_list/bikez.csv"
+
+# Raw data file path
+raw_data_local = os.path.dirname(os.path.abspath(__file__)) + "/data/master/master_data.csv"
+raw_data_gs = "gs://tresboncoin/tresboncoin/data/master/master_data.csv"
 
 
 def remove_punctuations(text):
@@ -16,22 +23,10 @@ def remove_punctuations(text):
     return text
 
 
-def fuzzy_match(new_data, moto_database):
+def fuzzy_match_brand(new_data, moto_database):
     """
-    fuzzy_match brand and model for history and new data
+    fuzzy_match brand for history or new data
     """
-
-    # CLEAN BRAND AND MODEL
-    new_data.dropna(subset=['model', 'brand'], inplace=True)
-    # lower and remove spaces
-    new_data.brand = new_data.brand.str.lower()
-    new_data.model = new_data.model.str.lower()
-    # remove punctuation
-    new_data.brand = new_data.brand.apply(remove_punctuations)
-    new_data.model = new_data.model.apply(remove_punctuations)
-
-    # Clean Year
-    new_data.bike_year = new_data.bike_year.astype(int)
 
     # MATCH BRAND NAME
     def match_brand(choices, to_match):
@@ -59,8 +54,32 @@ def fuzzy_match(new_data, moto_database):
     new_data['fuzzy_brand'] = new_data['fuzzy_brand_result'].apply(unpack_tuple_name)
     new_data['fuzzy_brand_score'] = new_data['fuzzy_brand_result'].apply(unpack_tuple_score)
 
-    new_data.drop(columns=['fuzzy_brand_result'], inplace=True)
+    print('list of unmatched brands (not found in database): ', new_data[new_data.fuzzy_brand.isnull()].brand.unique())
+
+    shape_before_drop = new_data.shape[0]
     new_data.dropna(subset=['fuzzy_brand'], inplace=True)
+    print('count of unmatched rows for the brand: ', shape_before_drop - new_data.shape[0])
+
+    return new_data
+
+
+def fuzzy_match_model(new_data, moto_database):
+    """
+    fuzzy_match brand and model for history and new data
+    """
+
+    # unpack results
+    def unpack_tuple_name(result):
+        try:
+            return result[0]
+        except:
+            return np.nan
+
+    def unpack_tuple_score(result):
+        try:
+            return result[1]
+        except:
+            return np.nan
 
     # MATCH MODEL
     # list of models, submodel...
@@ -68,12 +87,12 @@ def fuzzy_match(new_data, moto_database):
         choices = moto_database[
             (moto_database.brand_db == str(brand))
             & (moto_database.year_db == int(year))
-            & ((moto_database.engine_size_db <= engine_size + 75)
-               & (moto_database.engine_size_db >= engine_size - 75))][type_name].unique().tolist()
+            & ((moto_database.engine_size_db <= engine_size + 100)
+               & (moto_database.engine_size_db >= engine_size - 100))][type_name].unique().tolist()
         return [str(x) for x in choices]
 
     def match_model(choices, to_match):
-        return process.extractOne(str(to_match), choices, score_cutoff=86)
+        return process.extractOne(str(to_match), choices, score_cutoff=75)
 
     # fuzzy match model
     new_data['fuzzy_result_model'] = new_data.apply(lambda x:
@@ -89,15 +108,25 @@ def fuzzy_match(new_data, moto_database):
 
     # fuzzy match submodel
     new_data['fuzzy_result_submodel'] = new_data.apply(lambda x:
-                                                    match_model(
-                                                        choices(x['fuzzy_brand'], x['bike_year'], x['engine_size'],
-                                                                'submodel_db'),
-                                                        x['model']),
-                                                    axis=1)
+                                                       match_model(
+                                                           choices(x['fuzzy_brand'], x['bike_year'], x['engine_size'],
+                                                                   'submodel_db'),
+                                                           x['model']),
+                                                       axis=1)
 
     new_data['fuzzy_submodel'] = new_data['fuzzy_result_submodel'].apply(unpack_tuple_name)
     new_data['fuzzy_submodel_score'] = new_data['fuzzy_result_submodel'].apply(unpack_tuple_score)
     new_data.drop(columns='fuzzy_result_submodel', inplace=True)
+
+    print('list of unmatched model (not found in database): ')
+    print(new_data[(new_data.fuzzy_model.isnull()) &
+                   (new_data.fuzzy_submodel.isnull())][['brand', 'model', 'bike_year', 'engine_size']].drop_duplicates()
+          )
+
+    shape_before_drop = new_data.shape[0]
+    new_data = new_data[~((new_data.fuzzy_model.isnull()) & (new_data.fuzzy_submodel.isnull()))]
+
+    print('count of unmatched rows for the model: ', shape_before_drop - new_data.shape[0])
 
     # choose the best fuzzy match
 
@@ -125,8 +154,8 @@ def fuzzy_match(new_data, moto_database):
 
         return max(scores)
 
-    new_data['fuzzy_model_score'] = new_data['fuzzy_model_score'].fillna(0)
-    new_data['fuzzy_submodel_score'] = new_data['fuzzy_submodel_score'].fillna(0)
+    new_data['fuzzy_model_score'].fillna(0, inplace=True)
+    new_data['fuzzy_submodel_score'].fillna(0, inplace=True)
 
     new_data['is_best'] = new_data.apply(
         lambda x: is_best(
@@ -203,7 +232,7 @@ def fuzzy_match_one(X_pred):
         X_pred.model = X_pred.model.apply(remove_punctuations)
 
     def create_title_is_missing(brand, model, title):
-        if title == None:
+        if title is None:
             return brand + " " + model
         return title
 
@@ -260,7 +289,7 @@ def fuzzy_match_one(X_pred):
     return X_pred
 
 
-def fuzzy_match_model(new_data, moto_database):
+def fuzzy_match_model_(new_data, moto_database):
     # CLEAN TITLE
     new_data = new_data.dropna(subset=['title'])
     # lower and remove spaces
@@ -305,14 +334,15 @@ def fuzzy_match_model(new_data, moto_database):
 
 
 if __name__ == '__main__':
-    X_pred = pd.DataFrame(
-        {'uniq_id': ['ERT34983'],
-         'brand': [None],
-         'model': [None],
-         'title': ['Doucati Monster'],
-         'price': [4500],
-         'mileage': [5002],
-         'bike_year': [2010],
-         'engine_size': [None]})
-
-    print(fuzzy_match_one(X_pred))
+    # concatenate scraping outputs
+    concat_df(read_method='local', write_method='local')
+    # concatenate scraping outputs
+    clean_concatenated_data(read_method='local', write_method='local')
+    # data to match
+    new_data = pd.read_csv(raw_data_local)
+    # fuzzy match brand
+    new_data_matched_brand = fuzzy_match_brand(new_data, pd.read_csv(moto_database))
+    print('brand matched file size: ', new_data_matched_brand.shape)
+    # fuzzy match model
+    new_data_matched_model = fuzzy_match_model(new_data_matched_brand, pd.read_csv(moto_database))
+    print('model matched file size: ', new_data_matched_model.shape)

@@ -6,11 +6,12 @@ from tresboncoin.parameters import columns_to_keep
 from tresboncoin.concatenate import concat_df
 from tresboncoin.cleaning import clean_concatenated_data
 from tresboncoin.cleaning import clean_data_before_ml
-from tresboncoin.fuzzy_match import fuzzy_match
+from tresboncoin.fuzzy_match import fuzzy_match_model, fuzzy_match_brand
 
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import string
 import os
 from termcolor import colored
 
@@ -88,7 +89,8 @@ def append(new_data_matched, history_data, write_method='local'):
         # saving to local directory
         new_history.to_csv(history_data_local, index=False)
         print(colored(
-            "Fuzzy matched dataset saved as master/master_with_fuzzy_and_cleaning.csv. Shape: " + str(new_history.shape),
+            "Fuzzy matched dataset saved as master/master_with_fuzzy_and_cleaning.csv. Shape: " + str(
+                new_history.shape),
             "green"))
     else:
         # saving to local directory
@@ -103,16 +105,18 @@ def append(new_data_matched, history_data, write_method='local'):
         bucket = client.bucket("tresboncoin")
         blob = bucket.blob("tresboncoin/data/master/master_with_fuzzy_and_cleaning.csv")
         blob.upload_from_filename(history_data_local)
-        print(colored("master_with_fuzzy_and_cleaning.csv backup is on Google Cloud Storage. Shape: " + str(new_history.shape), "green"))
+        print(colored(
+            "master_with_fuzzy_and_cleaning.csv backup is on Google Cloud Storage. Shape: " + str(new_history.shape),
+            "green"))
 
     return new_history
 
 
 if __name__ == '__main__':
     # settings
-    read_method = 'local'  # or 'gs' or 'local'
-    write_method = 'local'  # or 'both' or 'local'
-    fuzzy_match_method = 'all'  # 'new' or 'all'
+    read_method = 'gs'  # or 'gs' or 'local'
+    write_method = 'both'  # or 'both' or 'local'
+    fuzzy_match_method = 'new'  # 'new' or 'all'
 
     # concatenate scraping outputs
     concat_df(read_method=read_method, write_method=write_method)
@@ -125,7 +129,8 @@ if __name__ == '__main__':
         new_data = get_raw_data(read_method=read_method)
         print("New data to be matched. Shape:" + str(new_data.shape))
         print('Fuzzy match in progress, wait...')
-        new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
+        new_data_matched_brand = fuzzy_match_brand(new_data, get_motorcycle_db())
+        new_data_matched = fuzzy_match_model(new_data_matched_brand, get_motorcycle_db())
         print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
         # saving
         new_history = new_data_matched
@@ -159,7 +164,8 @@ if __name__ == '__main__':
         print("New data to be matched. Shape:" + str(new_data.shape))
         if not new_data.empty:
             print('Fuzzy match in progress, wait...')
-            new_data_matched = fuzzy_match(new_data, get_motorcycle_db())
+            new_data_matched_brand = fuzzy_match_brand(new_data, get_motorcycle_db())
+            new_data_matched = fuzzy_match_model(new_data_matched_brand, get_motorcycle_db())
             print("Fuzzy match completed. Shape:" + str(new_data_matched.shape))
             history = append(new_data_matched, get_history_data(read_method=read_method))
             print("New dataframe available. Shape:" + str(history.shape))
