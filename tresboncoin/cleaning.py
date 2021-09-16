@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 import os
 from termcolor import colored
+import re
 
 from google.cloud import storage
 
@@ -131,10 +132,16 @@ def clean_data_before_ml(df):
     # feature engineering
     df['km/year'] = df.apply(lambda x: km_per_year(x['mileage'], x['bike_year']), axis=1)
 
+    def return_bike_age(string_, bike_year):
+        year = int(re.search(r'\d{4}', string_).group())
+        return int(year - bike_year)
+
+    df['bike_age'] = df.apply(lambda x: return_bike_age(x.date_scrapped, x.bike_year), axis=1)
+
     # remove duplicates
     df.drop_duplicates(subset=['model_db', 'brand_db', 'price', 'mileage', 'bike_year'], inplace=True)
 
-    df = df[['brand_db', 'bike_year', 'mileage', 'engine_size', 'km/year', "price", "category_db"]]
+    df = df[['brand_db', 'model_db', 'bike_year', "category_db", 'engine_size_db', 'mileage', 'km/year', 'bike_age', "price"]]
     df.dropna(inplace=True)
 
     # data size after
